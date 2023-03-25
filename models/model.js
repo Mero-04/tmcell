@@ -46,6 +46,7 @@ const News = sequelize.define("news", {
     },
     title: { type: DataTypes.STRING, allowNull: false },
     description: { type: DataTypes.TEXT, allowNull: false },
+    news_img: { type: DataTypes.STRING, allowNull: false },
 });
 
 const Internet = sequelize.define("internet", {
@@ -58,7 +59,9 @@ const Internet = sequelize.define("internet", {
     title: { type: DataTypes.STRING, allowNull: false },
     volume: { type: DataTypes.INTEGER, allowNull: false },
     price: { type: DataTypes.INTEGER, allowNull: false },
-    connectUSSD: { type: DataTypes.INTEGER, allowNull: false },
+    description: { type: DataTypes.STRING, allowNull: false },
+    connectUSSD: { type: DataTypes.STRING, allowNull: false },
+    internet_img: { type: DataTypes.STRING, allowNull: false },
 });
 
 
@@ -67,8 +70,16 @@ Admin.findOrCreate({ where: { email: "admin@gmail.com", password: "$2b$10$.2s8SL
 Roles.hasMany(Worker)
 Worker.belongsTo(Roles)
 
+Worker.hasMany(Internet)
+Internet.belongsTo(Worker)
+
+Worker.hasMany(News)
+News.belongsTo(Worker)
+
 module.exports = {
     Admin,
     Worker,
-    Roles
+    Roles,
+    Internet,
+    News
 };

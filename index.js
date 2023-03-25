@@ -18,9 +18,14 @@ app.use('/', express.static('public'))
 
 const AuthRouter = require("./routes/auth.router")
 const WorkerRouter = require("./routes/worker.router")
+const InternetRouter = require("./routes/internet.router")
+const NewsRouter = require("./routes/news.router")
+
 
 app.use("/api/v1/auth", AuthRouter);
 app.use("/api/v1/worker", WorkerRouter);
+app.use("/api/v1/internet", InternetRouter);
+app.use("/api/v1/news", NewsRouter);
 
 
 
