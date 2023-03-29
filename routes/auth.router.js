@@ -17,7 +17,7 @@ router.post("/rootman", async (req, res) => {
                     res.json({ error: "Ulanyjynyň nomeri ýa-da açar sözi nädogry" })
                 } else {
                     const accessToken = sign(
-                        { id: admin.id, email: admin.email, role: admin.role },
+                        { id: admin.id, role: admin.role },
                         "importantsecret"
                     );
                     res.json({ token: accessToken });
@@ -39,7 +39,7 @@ router.post("/login", async (req, res) => {
                     res.json({ error: "Ulanyjynyň nomeri ýa-da açar sözi nädogry" })
                 } else {
                     const accessToken = sign(
-                        { id: worker.id, email: worker.email, role: worker.role },
+                        { id: worker.id, role: worker.role },
                         "importantsecret"
                     );
                     res.json({ token: accessToken });

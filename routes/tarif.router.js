@@ -1,7 +1,7 @@
 const express = require('express');
 const { isAdmin } = require('../middlewares/authMiddleware');
 const router = express.Router();
-const { Internet } = require("../models/model");
+const { Tarif } = require("../models/model");
 const imageUpload = require("../helpers/image-upload")
 const multer = require("multer");
 const upload = multer({ dest: "./public/img" });
@@ -15,68 +15,62 @@ router.get("/", isAdmin, async (req, res) => {
     const limit = page * size;
     var before = offset > 0 ? page - 1 : 1;
     var next = page + 1;
-    await Internet.findAndCountAll({
+    await Tarif.findAndCountAll({
         limit,
         offset
     })
-        .then((internets) => {
+        .then((tarifs) => {
             res.json({
-                internets: internets.rows,
+                tarifs: tarifs.rows,
                 pagination: {
                     before: before,
                     next: next,
                     page: page,
-                    total: internets.count,
-                    pages: Math.ceil(internets.count / size)
+                    total: tarifs.count,
+                    pages: Math.ceil(tarifs.count / size)
                 }
             })
         })
 })
 
-router.post("/create", isAdmin, imageUpload.upload.single("internet_img"), async (req, res) => {
-    await Internet.create({
+router.post("/create", isAdmin, imageUpload.upload.single("tarif_img"), async (req, res) => {
+    await Tarif.create({
         title: req.body.title,
-        volume: req.body.volume,
-        price: req.body.price,
         description: req.body.description,
-        connect_USSD: req.body.connect_USSD,
-        internet_img: req.file.filename
+        tarif_img: req.file.filename
     }).then(() => {
         res.json({
             success: true,
-            message: "Internet nyrhnamasy ustinlikli gosuldy"
+            message: "Nyrhnama ustinlikli gosuldy"
         })
     })
 });
 
-router.get("/edit/:internetId", isAdmin, async (req, res) => {
-    await Internet.findOne({
-        where: { id: req.params.internetId }
-    }).then((internet) => {
+router.get("/edit/:tarifId", isAdmin, async (req, res) => {
+    await Tarif.findOne({
+        where: { id: req.params.tarifId }
+    }).then((tarif) => {
         res.json({
-            internet: internet
+            tarif: tarif
         })
     })
 });
 
-router.post("/edit/:internetId", isAdmin, imageUpload.upload.single("internet_img"), async (req, res) => {
-    let img = req.body.internet_img;
+router.post("/edit/:tarifId", isAdmin, imageUpload.upload.single("tarif_img"), async (req, res) => {
+    let img = req.body.tarif_img;
     if (req.file) {
         img = req.file.filename;
 
-        fs.unlink("/public/img/internet/" + req.body.internet_img, err => {
+        fs.unlink("/public/img/tarif/" + req.body.tarif_img, err => {
             console.log(err);
         })
     }
-    await Internet.update({
+    await Tarif.update({
         title: req.body.title,
-        volume: req.body.volume,
-        price: req.body.price,
         description: req.body.description,
-        connect_USSD: req.body.connect_USSD,
         img:img
     },
-        { where: { id: req.params.internetId } })
+        { where: { id: req.params.tarifId } })
         .then(() => {
             res.json({
                 success: true,
@@ -85,14 +79,14 @@ router.post("/edit/:internetId", isAdmin, imageUpload.upload.single("internet_im
         })
 });
 
-router.delete("/delete/:internetId", isAdmin, async (req, res) => {
-    await Internet.findOne({ where: { id: req.params.internetId } })
-        .then((internet) => {
-            if (internet) {
-                fs.unlink("./public/img/internet/" + news.internet_img, err => {
+router.delete("/delete/:tarifId", isAdmin, async (req, res) => {
+    await Tarif.findOne({ where: { id: req.params.tarifId } })
+        .then((tarif) => {
+            if (tarif) {
+                fs.unlink("./public/img/tarif/" + tarif.tarif_img, err => {
                     console.log(err);
                 })
-                internet.destroy()
+                tarif.destroy()
                 return res.json({
                     success: true,
                     message: "Ustunlikli pozuldy"

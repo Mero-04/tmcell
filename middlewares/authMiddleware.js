@@ -25,7 +25,7 @@ const isTariff = (req, res, next) => {
     const validToken = verify(accessToken, "importantsecret");
     req.user = validToken;
     if (validToken) {
-      if (req.user.roleId !== "1") {
+      if (req.user.role !== "Nyrhnama") {
         return res.status(403).json({ error: "Sizin hic hili hukugynyz yok!!" });
       }
       return next();
@@ -42,7 +42,7 @@ const isNews = (req, res, next) => {
     const validToken = verify(accessToken, "importantsecret");
     req.user = validToken;
     if (validToken) {
-      if (req.user.roleId !== "2") {
+      if (req.user.role !== "Tazelik") {
         return res.status(403).json({ error: "Sizin hic hili hukugynyz yok!!" });
       }
       return next();
@@ -59,7 +59,7 @@ const isInternet = (req, res, next) => {
     const validToken = verify(accessToken, "importantsecret");
     req.user = validToken;
     if (validToken) {
-      if (req.user.roleId !== "3") {
+      if (req.user.role !== "Internet") {
         return res.status(403).json({ error: "Sizin hic hili hukugynyz yok!!" });
       }
       return next();
@@ -76,7 +76,7 @@ const isService = (req, res, next) => {
     const validToken = verify(accessToken, "importantsecret");
     req.user = validToken;
     if (validToken) {
-      if (req.user.roleId !== "4") {
+      if (req.user.role !== "Hyzmat") {
         return res.status(403).json({ error: "Sizin hic hili hukugynyz yok!!" });
       }
       return next();
@@ -93,7 +93,7 @@ const isAddress = (req, res, next) => {
     const validToken = verify(accessToken, "importantsecret");
     req.user = validToken;
     if (validToken) {
-      if (req.user.roleId !== "5") {
+      if (req.user.role !== "Address") {
         return res.status(403).json({ error: "Sizin hic hili hukugynyz yok!!" });
       }
       return next();

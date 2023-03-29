@@ -1,7 +1,7 @@
 const express = require('express');
 const { isAdmin } = require('../middlewares/authMiddleware');
 const router = express.Router();
-const { Internet } = require("../models/model");
+const { Korporatiw } = require("../models/model");
 const imageUpload = require("../helpers/image-upload")
 const multer = require("multer");
 const upload = multer({ dest: "./public/img" });
@@ -15,68 +15,62 @@ router.get("/", isAdmin, async (req, res) => {
     const limit = page * size;
     var before = offset > 0 ? page - 1 : 1;
     var next = page + 1;
-    await Internet.findAndCountAll({
+    await Korporatiw.findAndCountAll({
         limit,
         offset
     })
-        .then((internets) => {
+        .then((korporatiws) => {
             res.json({
-                internets: internets.rows,
+                korporatiws: korporatiws.rows,
                 pagination: {
                     before: before,
                     next: next,
                     page: page,
-                    total: internets.count,
-                    pages: Math.ceil(internets.count / size)
+                    total: korporatiws.count,
+                    pages: Math.ceil(korporatiws.count / size)
                 }
             })
         })
 })
 
-router.post("/create", isAdmin, imageUpload.upload.single("internet_img"), async (req, res) => {
-    await Internet.create({
+router.post("/create", isAdmin, imageUpload.upload.single("korporatiw_img"), async (req, res) => {
+    await Korporatiw.create({
         title: req.body.title,
-        volume: req.body.volume,
-        price: req.body.price,
         description: req.body.description,
-        connect_USSD: req.body.connect_USSD,
-        internet_img: req.file.filename
+        korporatiw_img: req.file.filename
     }).then(() => {
         res.json({
             success: true,
-            message: "Internet nyrhnamasy ustinlikli gosuldy"
+            message: "Korporatiw nyrhnama ustinlikli gosuldy"
         })
     })
 });
 
-router.get("/edit/:internetId", isAdmin, async (req, res) => {
-    await Internet.findOne({
-        where: { id: req.params.internetId }
-    }).then((internet) => {
+router.get("/edit/:korporatiwId", isAdmin, async (req, res) => {
+    await Korporatiw.findOne({
+        where: { id: req.params.korporatiwId }
+    }).then((korporatiw) => {
         res.json({
-            internet: internet
+            korporatiw: korporatiw
         })
     })
 });
 
-router.post("/edit/:internetId", isAdmin, imageUpload.upload.single("internet_img"), async (req, res) => {
-    let img = req.body.internet_img;
+router.post("/edit/:korporatiwId", isAdmin, imageUpload.upload.single("korporatiw_img"), async (req, res) => {
+    let img = req.body.korporatiw_img;
     if (req.file) {
         img = req.file.filename;
 
-        fs.unlink("/public/img/internet/" + req.body.internet_img, err => {
+        fs.unlink("/public/img/korporatiw/" + req.body.korporatiw_img, err => {
             console.log(err);
         })
     }
-    await Internet.update({
+    await Korporatiw.update({
         title: req.body.title,
-        volume: req.body.volume,
-        price: req.body.price,
         description: req.body.description,
-        connect_USSD: req.body.connect_USSD,
         img:img
     },
-        { where: { id: req.params.internetId } })
+        { where: { id: req.params.korporatiwId } })
         .then(() => {
             res.json({
                 success: true,
@@ -85,14 +79,14 @@ router.post("/edit/:internetId", isAdmin, imageUpload.upload.single("internet_im
         })
 });
 
-router.delete("/delete/:internetId", isAdmin, async (req, res) => {
-    await Internet.findOne({ where: { id: req.params.internetId } })
-        .then((internet) => {
-            if (internet) {
-                fs.unlink("./public/img/internet/" + news.internet_img, err => {
+router.delete("/delete/:korporatiwId", isAdmin, async (req, res) => {
+    await Korporatiw.findOne({ where: { id: req.params.korporatiwId } })
+        .then((korporatiw) => {
+            if (korporatiw) {
+                fs.unlink("./public/img/korporatiw/" + korporatiw.korporatiw_img, err => {
                     console.log(err);
                 })
-                internet.destroy()
+                korporatiw.destroy()
                 return res.json({
                     success: true,
                     message: "Ustunlikli pozuldy"

@@ -11,6 +11,15 @@ const storage = multer.diskStorage({
         else if (file.fieldname === "internet_img") {
             cb(null, './public/img/internet/');
         }
+        else if (file.fieldname === "tarif_img") {
+            cb(null, './public/img/tarif/');
+        }
+        else if (file.fieldname === "service_img") {
+            cb(null, './public/img/service/');
+        }
+        else if (file.fieldname === "korporatiw_img") {
+            cb(null, './public/img/korporatiw/');
+        }
      },
     filename: function(req, file, cb){
         cb(null, path.parse(file.originalname).name + "_" + Date.now() + path.extname(file.originalname));

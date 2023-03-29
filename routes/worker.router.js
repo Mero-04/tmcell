@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const { Worker, Roles } = require("../models/model");
+const { Worker } = require("../models/model");
 const { isAdmin } = require("../middlewares/authMiddleware");
 
 router.get("/", isAdmin, async (req, res) => {
@@ -13,8 +13,7 @@ router.get("/", isAdmin, async (req, res) => {
     var next = page + 1;
     await Worker.findAndCountAll({
         limit,
-        offset,
-        include: { model: Roles, attributes: ['id', 'name'] }
+        offset
     })
         .then((worker) => {
             res.json({
@@ -30,14 +29,6 @@ router.get("/", isAdmin, async (req, res) => {
         })
 });
 
-router.get("/create", isAdmin, async (req, res) => {
-    await Roles.findAll().then((roles) => {
-        res.json({
-            roles: roles
-        })
-    })
-});
-
 router.post("/create", isAdmin, async (req, res) => {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(req.body.password, salt);
@@ -45,9 +36,9 @@ router.post("/create", isAdmin, async (req, res) => {
     await Worker.create({
         name: req.body.name,
         email: req.body.email,
-        phoneNum: req.body.phoneNum,
+        phone_num: req.body.phone_num,
         password: hash,
-        roleId: req.body.roleId
+        role: req.body.role
     }).then(() => {
         res.json({
             success: true,
@@ -59,14 +50,10 @@ router.post("/create", isAdmin, async (req, res) => {
 router.get("/edit/:workerId", isAdmin, async (req, res) => {
     await Worker.findOne({
         where: { id: req.params.workerId }
-    }).then(async (worker) => {
-        await Roles.findAll({ attributes: ['id', 'name'] })
-            .then((roles) => {
-                res.json({
-                    worker: worker,
-                    roles: roles
-                })
-            })
+    }).then((worker) => {
+        res.json({
+            worker: worker
+        })
     })
 });
 
@@ -77,9 +64,9 @@ router.post("/edit/:workerId", isAdmin, async (req, res) => {
     await Worker.update({
         name: req.body.name,
         email: req.body.email,
-        phoneNum: req.body.phoneNum,
+        phone_num: req.body.phone_num,
         password: hash,
-        roleId: req.body.roleId,
+        role: req.body.role,
         checked: req.body.checked
     },
         { where: { id: req.params.workerId } })
@@ -99,7 +86,7 @@ router.delete("/delete/:workerId", isAdmin, async (req, res) => {
                 res.json({
                     success: true,
                     message: "Ustunlikli pozuldy"
-                }) 
+                })
             } res.json({
                 success: false,
                 message: "Tapylmady"
