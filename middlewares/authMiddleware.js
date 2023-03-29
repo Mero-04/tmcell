@@ -24,6 +24,7 @@ const isTariff = (req, res, next) => {
   try {
     const validToken = verify(accessToken, "importantsecret");
     req.user = validToken;
+    console.log(req.user)
     if (validToken) {
       if (req.user.role !== "Nyrhnama") {
         return res.status(403).json({ error: "Sizin hic hili hukugynyz yok!!" });

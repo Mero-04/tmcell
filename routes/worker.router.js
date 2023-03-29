@@ -41,8 +41,7 @@ router.post("/create", isAdmin, async (req, res) => {
         role: req.body.role
     }).then(() => {
         res.json({
-            success: true,
-            message: "Isgar ustinlikli gosuldy"
+            success: "Isgar ustinlikli gosuldy"
         })
     })
 });
@@ -72,8 +71,7 @@ router.post("/edit/:workerId", isAdmin, async (req, res) => {
         { where: { id: req.params.workerId } })
         .then(() => {
             res.json({
-                success: true,
-                message: "Ustunlikli uytgedildi"
+                success: "Ustunlikli uytgedildi"
             })
         })
 });
@@ -84,12 +82,10 @@ router.delete("/delete/:workerId", isAdmin, async (req, res) => {
             if (worker) {
                 worker.destroy()
                 res.json({
-                    success: true,
-                    message: "Ustunlikli pozuldy"
+                    success: "Ustunlikli pozuldy"
                 })
             } res.json({
-                success: false,
-                message: "Tapylmady"
+                error: "Tapylmady"
             })
         })
 });

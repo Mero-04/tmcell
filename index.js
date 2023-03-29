@@ -24,6 +24,7 @@ const ServiceRouter = require("./routes/service.router")
 const RegionRouter = require("./routes/region.router")
 const AddressRouter = require("./routes/address.router")
 const TarifRouter = require("./routes/tarif.router")
+const CategoryRouter = require("./routes/category.router")
 
 
 app.use("/api/v1/auth", AuthRouter);
@@ -34,6 +35,7 @@ app.use("/api/v1/service", ServiceRouter);
 app.use("/api/v1/region", RegionRouter);
 app.use("/api/v1/address", AddressRouter);
 app.use("/api/v1/tarif", TarifRouter);
+app.use("/api/v1/category", CategoryRouter);
 
 
 
