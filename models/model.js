@@ -24,8 +24,7 @@ const Worker = sequelize.define("worker", {
     email: { type: DataTypes.STRING, allowNull: false },
     password: { type: DataTypes.STRING, allowNull: false },
     phone_num: { type: DataTypes.STRING, allowNull: false },
-    role: { type: DataTypes.ENUM('Nyrhnama', 'Internet', 'Address', 'Tazelik', 'Hyzmat'), allowNull: true },
-    checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
+    role: { type: DataTypes.ENUM('Nyrhnama', 'Internet', 'Address', 'Tazelik', 'Hyzmat'), allowNull: true }
 });
 
 const Category = sequelize.define("category", {
@@ -49,6 +48,7 @@ const News = sequelize.define("news", {
     title: { type: DataTypes.STRING, allowNull: false },
     description: { type: DataTypes.TEXT, allowNull: false },
     news_img: { type: DataTypes.STRING, allowNull: false },
+    checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
 
 const Internet = sequelize.define("internet", {
@@ -62,7 +62,8 @@ const Internet = sequelize.define("internet", {
     volume: { type: DataTypes.INTEGER, allowNull: false },
     price: { type: DataTypes.INTEGER, allowNull: false },
     description: { type: DataTypes.TEXT, allowNull: false },
-    connect_USSD: { type: DataTypes.STRING, allowNull: false }
+    connect_USSD: { type: DataTypes.STRING, allowNull: false },
+    checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
 
 const Service = sequelize.define("service", {
@@ -75,7 +76,8 @@ const Service = sequelize.define("service", {
     title: { type: DataTypes.STRING, allowNull: false },
     description: { type: DataTypes.TEXT, allowNull: false },
     service_img: { type: DataTypes.STRING, allowNull: false },
-    icon: { type: DataTypes.STRING, allowNull: false }
+    icon: { type: DataTypes.STRING, allowNull: false },
+    checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
 
 const Region = sequelize.define("region", {
@@ -86,7 +88,6 @@ const Region = sequelize.define("region", {
         allowNull: true
     },
     name: { type: DataTypes.STRING, allowNull: false }
-
 });
 
 const Address = sequelize.define("address", {
@@ -100,6 +101,7 @@ const Address = sequelize.define("address", {
     phone_num: { type: DataTypes.STRING, allowNull: false },
     open_time: { type: DataTypes.STRING, allowNull: false },
     close_time: { type: DataTypes.STRING, allowNull: false },
+    checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
 
 const Tarif = sequelize.define("tarif", {
@@ -112,6 +114,9 @@ const Tarif = sequelize.define("tarif", {
     title: { type: DataTypes.STRING, allowNull: false },
     description: { type: DataTypes.TEXT, allowNull: false },
     tarif_img: { type: DataTypes.STRING, allowNull: false },
+    price: { type: DataTypes.STRING, allowNull: false },
+    status: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "1" },
+    checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
 
 const Korporatiw = sequelize.define("korporatiw", {
@@ -123,7 +128,8 @@ const Korporatiw = sequelize.define("korporatiw", {
     },
     title: { type: DataTypes.STRING, allowNull: false },
     description: { type: DataTypes.TEXT, allowNull: false },
-    icon: { type: DataTypes.STRING, allowNull: false }
+    icon: { type: DataTypes.STRING, allowNull: false },
+    checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
 
 Admin.findOrCreate({ where: { email: "admin@gmail.com", password: "$2b$10$.2s8SLEln9Dnql5sPuvtfec93qtcKyvMAqDY8zeLg8IcndoHNtXWS", role: "Admin" } })

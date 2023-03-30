@@ -37,6 +37,7 @@ router.post("/create", isAdmin, imageUpload.upload.single("tarif_img"), async (r
     await Tarif.create({
         title: req.body.title,
         description: req.body.description,
+        price: req.body.price,
         tarif_img: req.file.filename
     }).then(() => {
         res.json({
@@ -67,6 +68,8 @@ router.post("/edit/:tarifId", isAdmin, imageUpload.upload.single("tarif_img"), a
     await Tarif.update({
         title: req.body.title,
         description: req.body.description,
+        price: req.body.price,
+        checked: req.body.checked,
         img: img
     },
         { where: { id: req.params.tarifId } })
@@ -129,6 +132,7 @@ router.post("/worker/create", isTariff, imageUpload.upload.single("tarif_img"), 
     await Tarif.create({
         title: req.body.title,
         description: req.body.description,
+        price: req.body.price,
         tarif_img: req.file.filename,
         workerId: req.user.id
     }).then(() => {
@@ -163,6 +167,7 @@ router.post("/worker/edit/:tarifId", isTariff, imageUpload.upload.single("tarif_
     await Tarif.update({
         title: req.body.title,
         description: req.body.description,
+        price: req.body.price,
         img: img,
         workerId: req.user.id
     },

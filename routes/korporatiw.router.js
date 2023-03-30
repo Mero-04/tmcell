@@ -56,6 +56,7 @@ router.post("/edit/:korporatiwId", isAdmin, async (req, res) => {
     await Korporatiw.update({
         title: req.body.title,
         description: req.body.description,
+        checked: req.body.checked,
         icon: req.body.icon,
         img: img
     },

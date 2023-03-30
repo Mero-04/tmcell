@@ -67,6 +67,7 @@ router.post("/edit/:addressId", isAdmin, async (req, res) => {
         phone_num: req.body.phone_num,
         open_time: req.body.open_time,
         close_time: req.body.close_time,
+        checked: req.body.checked,
         regionId: req.body.regionId,
     },
         { where: { id: req.params.addressId } })

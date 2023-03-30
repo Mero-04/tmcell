@@ -69,6 +69,7 @@ router.post("/edit/:serviceId", isAdmin, imageUpload.upload.single("service_img"
         title: req.body.title,
         description: req.body.description,
         icon: req.body.icon,
+        checked: req.body.checked,
         img: img
     },
         { where: { id: req.params.serviceId } })

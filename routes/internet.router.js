@@ -59,6 +59,7 @@ router.post("/edit/:internetId", isAdmin, async (req, res) => {
         volume: req.body.volume,
         price: req.body.price,
         description: req.body.description,
+        checked: req.body.checked,
         connect_USSD: req.body.connect_USSD
     },
         { where: { id: req.params.internetId } })

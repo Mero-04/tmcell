@@ -77,6 +77,7 @@ router.post("/edit/:newsId", isAdmin, imageUpload.upload.single("news_img"), asy
         title: req.body.title,
         description: req.body.description,
         img: img,
+        checked: req.body.checked,
         categoryId: req.body.categoryId
     },
         { where: { id: req.params.newsId } })
