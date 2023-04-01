@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const { Tarif, Address, Region, Category, Internet, Service, Korporatiw, News } = require("../models/model")
+const { Tarif, Address, Region, Category, Internet, Service, Korporatiw, News, Contact } = require("../models/model")
 
 
 //tarif_nyrhnama

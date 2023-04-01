@@ -132,6 +132,21 @@ const Korporatiw = sequelize.define("korporatiw", {
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
 
+const Contact = sequelize.define("contact", {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: true
+    },
+    name: { type: DataTypes.STRING, allowNull: false },
+    email: { type: DataTypes.STRING, allowNull: false },
+    subject: { type: DataTypes.STRING, allowNull: false },
+    comment: { type: DataTypes.STRING, allowNull: false },
+    checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
+
+});
+
 Admin.findOrCreate({ where: { email: "admin@gmail.com", password: "$2b$10$.2s8SLEln9Dnql5sPuvtfec93qtcKyvMAqDY8zeLg8IcndoHNtXWS", role: "Admin" } })
 
 Worker.hasMany(Internet, { onDelete: "cascade", onUpdate: "cascade" })
@@ -168,5 +183,6 @@ module.exports = {
     Region,
     Address,
     Tarif,
-    Korporatiw
+    Korporatiw,
+    Contact
 };

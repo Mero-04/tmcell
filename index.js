@@ -11,8 +11,8 @@ const sequelize = require('./data/db');
 
 app.use(express.json());
 app.use(express.json({ limit: "50mb" }))
-app.use(express.urlencoded({limit: "50mb", extended: true, parameterLimit: 50000}))
-app.use(cors());
+app.use(express.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 }))
+// app.use(cors());
 app.use('/', express.static('public'))
 
 const HomeRouter = require("./routes/home.router")
@@ -25,6 +25,8 @@ const RegionRouter = require("./routes/region.router")
 const AddressRouter = require("./routes/address.router")
 const TarifRouter = require("./routes/tarif.router")
 const CategoryRouter = require("./routes/category.router")
+const ContactRouter = require("./routes/contact.router")
+const KorporatiwRouter = require("./routes/korporatiw.router")
 
 
 app.use("/api/v1/home", HomeRouter);
@@ -37,6 +39,8 @@ app.use("/api/v1/region", RegionRouter);
 app.use("/api/v1/address", AddressRouter);
 app.use("/api/v1/tarif", TarifRouter);
 app.use("/api/v1/category", CategoryRouter);
+app.use("/api/v1/contact", ContactRouter);
+app.use("/api/v1/korporatiw", KorporatiwRouter);
 
 
 //serv
