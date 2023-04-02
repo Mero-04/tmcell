@@ -41,6 +41,12 @@ router.get("/create", isAdmin, async (req, res) => {
 });
 
 router.post("/create", isAdmin, imageUpload.upload.single("news_img"), async (req, res) => {
+    let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'news', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
+    await sharp(req.file.path).jpeg({
+        quality: 30,
+        chromaSubsampling: '4:4:4'
+    }).toFile(compresedImage)
+
     await News.create({
         title: req.body.title,
         description: req.body.description,
@@ -67,11 +73,18 @@ router.get("/edit/:newsId", isAdmin, async (req, res) => {
 router.post("/edit/:newsId", isAdmin, imageUpload.upload.single("news_img"), async (req, res) => {
     let img = req.body.news_img;
     if (req.file) {
-        img = req.file.filename;
-
-        fs.unlink("/public/img/news/" + req.body.news_img, err => {
+        fs.unlink("/public/img/news/" + img, err => {
             console.log(err);
         })
+        fs.unlink("/public/compress/news/" + img, err => {
+            console.log(err);
+        })
+        img = req.file.filename;
+        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'news', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
+        await sharp(req.file.path).jpeg({
+            quality: 30,
+            chromaSubsampling: '4:4:4'
+        }).toFile(compresedImage)
     }
     await News.update({
         title: req.body.title,
@@ -92,9 +105,8 @@ router.delete("/delete/:newsId", isAdmin, async (req, res) => {
     await News.findOne({ where: { id: req.params.newsId } })
         .then((news) => {
             if (news) {
-                fs.unlink("./public/img/news/" + news.news_img, err => {
-                    console.log(err);
-                })
+                fs.unlink("./public/img/news/" + news.news_img, err => { })
+                fs.unlink("./public/compress/news/" +  news.news_img, err => { })
                 news.destroy()
                 return res.json({
                     success: "Ustunlikli pozuldy"
@@ -144,6 +156,12 @@ router.get("/worker/create", isAdmin, async (req, res) => {
 });
 
 router.post("/worker/create", isNews, imageUpload.upload.single("news_img"), async (req, res) => {
+    let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'news', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
+    await sharp(req.file.path).jpeg({
+        quality: 30,
+        chromaSubsampling: '4:4:4'
+    }).toFile(compresedImage)
+
     await News.create({
         title: req.body.title,
         description: req.body.description,
@@ -173,11 +191,18 @@ router.get("/worker/edit/:newsId", isNews, async (req, res) => {
 router.post("/worker/edit/:newsId", isNews, imageUpload.upload.single("news_img"), async (req, res) => {
     let img = req.body.news_img;
     if (req.file) {
-        img = req.file.filename;
-
-        fs.unlink("/public/img/news/" + req.body.news_img, err => {
+         fs.unlink("/public/img/news/" + img, err => {
             console.log(err);
         })
+        fs.unlink("/public/compress/news/" + img, err => {
+            console.log(err);
+        })
+        img = req.file.filename;
+        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'news', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
+        await sharp(req.file.path).jpeg({
+            quality: 30,
+            chromaSubsampling: '4:4:4'
+        }).toFile(compresedImage)
     }
     await News.update({
         title: req.body.title,
@@ -203,9 +228,8 @@ router.delete("/worker/delete/:newsId", isNews, async (req, res) => {
     await News.findOne({ where: { id: req.params.newsId } })
         .then((news) => {
             if (news) {
-                fs.unlink("./public/img/news/" + news.news_img, err => {
-                    console.log(err);
-                })
+                fs.unlink("./public/img/news/" + news.news_img, err => { })
+                fs.unlink("./public/compress/news/" +  news.news_img, err => { })
                 news.destroy()
                 return res.json({
                     success: "Ustunlikli pozuldy"

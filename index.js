@@ -27,6 +27,8 @@ const TarifRouter = require("./routes/tarif.router")
 const CategoryRouter = require("./routes/category.router")
 const ContactRouter = require("./routes/contact.router")
 const KorporatiwRouter = require("./routes/korporatiw.router")
+const ProgramRouter = require("./routes/program.router")
+const BannerRouter = require("./routes/banner.router")
 
 
 app.use("/api/v1/home", HomeRouter);
@@ -41,6 +43,8 @@ app.use("/api/v1/tarif", TarifRouter);
 app.use("/api/v1/category", CategoryRouter);
 app.use("/api/v1/contact", ContactRouter);
 app.use("/api/v1/korporatiw", KorporatiwRouter);
+app.use("/api/v1/program", ProgramRouter);
+app.use("/api/v1/banner", BannerRouter);
 
 
 //serv

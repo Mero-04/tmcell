@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const { Tarif, Address, Region, Category, Internet, Service, Korporatiw, News, Contact } = require("../models/model")
+const { Tarif, Address, Region, Category, Internet, Service, Korporatiw, News, Contact, Program, Banner } = require("../models/model")
 
 
 //tarif_nyrhnama
@@ -138,5 +138,33 @@ router.get("/news/:newsId", async (req, res) => {
 });
 ///News
 
+
+//Program
+router.get("/program", async (req, res) => {
+    await Program.findAll({ where: { checked: "1" } }).then((programs) => {
+        res.json({ programs: programs })
+    })
+});
+
+router.get("/program/:programId", async (req, res) => {
+    await Program.findAll({
+        where: {
+            id: req.params.programId,
+            checked: "1"
+        }
+    }).then((program) => {
+        res.json({ program: program })
+    })
+});
+//Program
+
+
+//Banner
+router.get("/banner", async (req, res) => {
+    await Banner.findAll({ where: { checked: "1" } }).then((banners) => {
+        res.json({ banners: banners })
+    })
+});
+//Banner
 
 module.exports = router;

@@ -6,6 +6,8 @@ const imageUpload = require("../helpers/image-upload")
 const multer = require("multer");
 const upload = multer({ dest: "./public/img" });
 const fs = require('fs')
+const sharp = require("sharp");
+const path = require("path")
 
 //superADMIN start
 router.get("/", isAdmin, async (req, res) => {
@@ -34,6 +36,12 @@ router.get("/", isAdmin, async (req, res) => {
 })
 
 router.post("/create", isAdmin, imageUpload.upload.single("service_img"), async (req, res) => {
+    let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'service', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
+    await sharp(req.file.path).jpeg({
+        quality: 30,
+        chromaSubsampling: '4:4:4'
+    }).toFile(compresedImage)
+
     await Service.create({
         title: req.body.title,
         description: req.body.description,
@@ -59,12 +67,20 @@ router.get("/edit/:serviceId", isAdmin, async (req, res) => {
 router.post("/edit/:serviceId", isAdmin, imageUpload.upload.single("service_img"), async (req, res) => {
     let img = req.body.service_img;
     if (req.file) {
-        img = req.file.filename;
-
-        fs.unlink("/public/img/service/" + req.body.service_img, err => {
+        fs.unlink("/public/img/service/" + img, err => {
             console.log(err);
         })
+        fs.unlink("/public/compress/service/" + img, err => {
+            console.log(err);
+        })
+        img = req.file.filename;
+        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'service', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
+        await sharp(req.file.path).jpeg({
+            quality: 30,
+            chromaSubsampling: '4:4:4'
+        }).toFile(compresedImage)
     }
+
     await Service.update({
         title: req.body.title,
         description: req.body.description,
@@ -84,9 +100,8 @@ router.delete("/delete/:serviceId", isAdmin, async (req, res) => {
     await Service.findOne({ where: { id: req.params.serviceId } })
         .then((service) => {
             if (service) {
-                fs.unlink("./public/img/service/" + service.service_img, err => {
-                    console.log(err);
-                })
+                fs.unlink("./public/img/service/" + service.service_img, err => { })
+                fs.unlink("./public/compress/service/" + service.service_img, err => { })
                 service.destroy()
                 return res.json({
                     success: "Ustunlikli pozuldy"
@@ -130,6 +145,12 @@ router.get("/worker", isService, async (req, res) => {
 })
 
 router.post("/worker/create", isService, imageUpload.upload.single("service_img"), async (req, res) => {
+    let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'service', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
+    await sharp(req.file.path).jpeg({
+        quality: 30,
+        chromaSubsampling: '4:4:4'
+    }).toFile(compresedImage)
+
     await Service.create({
         title: req.body.title,
         description: req.body.description,
@@ -160,11 +181,20 @@ router.post("/worker/edit/:serviceId", isService, imageUpload.upload.single("ser
     let img = req.body.service_img;
     if (req.file) {
         img = req.file.filename;
-
-        fs.unlink("/public/img/service/" + req.body.service_img, err => {
+        fs.unlink("/public/img/service/" + img, err => {
             console.log(err);
         })
+        fs.unlink("/public/compress/service/" + img, err => {
+            console.log(err);
+        })
+
+        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'service', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
+        await sharp(req.file.path).jpeg({
+            quality: 30,
+            chromaSubsampling: '4:4:4'
+        }).toFile(compresedImage)
     }
+
     await Service.update({
         title: req.body.title,
         description: req.body.description,
@@ -194,9 +224,8 @@ router.delete("/worker/delete/:serviceId", isService, async (req, res) => {
     })
         .then((service) => {
             if (service) {
-                fs.unlink("./public/img/service/" + service.service_img, err => {
-                    console.log(err);
-                })
+                fs.unlink("./public/img/service/" + service.service_img, err => { })
+                fs.unlink("./public/compress/service/" + service.service_img, err => { })
                 service.destroy()
                 return res.json({
                     success: "Ustunlikli pozuldy"

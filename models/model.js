@@ -24,7 +24,7 @@ const Worker = sequelize.define("worker", {
     email: { type: DataTypes.STRING, allowNull: false },
     password: { type: DataTypes.STRING, allowNull: false },
     phone_num: { type: DataTypes.STRING, allowNull: false },
-    role: { type: DataTypes.ENUM('Nyrhnama', 'Internet', 'Address', 'Tazelik', 'Hyzmat'), allowNull: true }
+    role: { type: DataTypes.ENUM('Nyrhnama', 'Internet', 'Address', 'Tazelik', 'Hyzmat','Program'), allowNull: true }
 });
 
 const Category = sequelize.define("category", {
@@ -147,6 +147,34 @@ const Contact = sequelize.define("contact", {
 
 });
 
+const Program = sequelize.define("program", {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: true
+    },
+    title: { type: DataTypes.STRING, allowNull: false },
+    description: { type: DataTypes.TEXT, allowNull: false },
+    program_img: { type: DataTypes.STRING, allowNull: false },
+    app_store: { type: DataTypes.STRING, allowNull: false },
+    play_store: { type: DataTypes.STRING, allowNull: false },
+    QR: { type: DataTypes.STRING, allowNull: true },
+    checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
+});
+
+const Banner = sequelize.define("banner", {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: true
+    },
+    link: { type: DataTypes.STRING, allowNull: false },
+    banner_img: { type: DataTypes.STRING, allowNull: false },
+    checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
+});
+
 Admin.findOrCreate({ where: { email: "admin@gmail.com", password: "$2b$10$.2s8SLEln9Dnql5sPuvtfec93qtcKyvMAqDY8zeLg8IcndoHNtXWS", role: "Admin" } })
 
 Worker.hasMany(Internet, { onDelete: "cascade", onUpdate: "cascade" })
@@ -184,5 +212,7 @@ module.exports = {
     Address,
     Tarif,
     Korporatiw,
-    Contact
+    Contact,
+    Program,
+    Banner
 };

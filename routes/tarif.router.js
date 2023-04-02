@@ -6,6 +6,8 @@ const imageUpload = require("../helpers/image-upload")
 const multer = require("multer");
 const upload = multer({ dest: "./public/img" });
 const fs = require('fs')
+const sharp = require("sharp");
+const path = require("path")
 
 //superADMIN start
 router.get("/", isAdmin, async (req, res) => {
@@ -34,6 +36,12 @@ router.get("/", isAdmin, async (req, res) => {
 })
 
 router.post("/create", isAdmin, imageUpload.upload.single("tarif_img"), async (req, res) => {
+    let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'tarif', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
+    await sharp(req.file.path).jpeg({
+        quality: 30,
+        chromaSubsampling: '4:4:4'
+    }).toFile(compresedImage)
+
     await Tarif.create({
         title: req.body.title,
         description: req.body.description,
@@ -60,11 +68,20 @@ router.post("/edit/:tarifId", isAdmin, imageUpload.upload.single("tarif_img"), a
     let img = req.body.tarif_img;
     if (req.file) {
         img = req.file.filename;
-
-        fs.unlink("/public/img/tarif/" + req.body.tarif_img, err => {
+        fs.unlink("/public/img/tarif/" + img, err => {
             console.log(err);
         })
+        fs.unlink("/public/compress/tarif/" + img, err => {
+            console.log(err);
+        })
+
+        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'tarif', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
+        await sharp(req.file.path).jpeg({
+            quality: 30,
+            chromaSubsampling: '4:4:4'
+        }).toFile(compresedImage)
     }
+
     await Tarif.update({
         title: req.body.title,
         description: req.body.description,
@@ -84,9 +101,8 @@ router.delete("/delete/:tarifId", isAdmin, async (req, res) => {
     await Tarif.findOne({ where: { id: req.params.tarifId } })
         .then((tarif) => {
             if (tarif) {
-                fs.unlink("./public/img/tarif/" + tarif.tarif_img, err => {
-                    console.log(err);
-                })
+                fs.unlink("./public/img/tarif/" + tarif.tarif_img, err => { })
+                fs.unlink("./public/compress/tarif/" + tarif.tarif_img, err => { })
                 tarif.destroy()
                 return res.json({
                     success: "Ustunlikli pozuldy"
@@ -129,6 +145,12 @@ router.get("/worker", isTariff, async (req, res) => {
 });
 
 router.post("/worker/create", isTariff, imageUpload.upload.single("tarif_img"), async (req, res) => {
+    let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'tarif', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
+    await sharp(req.file.path).jpeg({
+        quality: 30,
+        chromaSubsampling: '4:4:4'
+    }).toFile(compresedImage)
+
     await Tarif.create({
         title: req.body.title,
         description: req.body.description,
@@ -158,11 +180,19 @@ router.get("/worker/edit/:tarifId", isTariff, async (req, res) => {
 router.post("/worker/edit/:tarifId", isTariff, imageUpload.upload.single("tarif_img"), async (req, res) => {
     let img = req.body.tarif_img;
     if (req.file) {
-        img = req.file.filename;
-
-        fs.unlink("/public/img/tarif/" + req.body.tarif_img, err => {
+          img = req.file.filename;
+        fs.unlink("/public/img/tarif/" + img, err => {
             console.log(err);
         })
+        fs.unlink("/public/compress/tarif/" + img, err => {
+            console.log(err);
+        })
+
+        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'tarif', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
+        await sharp(req.file.path).jpeg({
+            quality: 30,
+            chromaSubsampling: '4:4:4'
+        }).toFile(compresedImage)
     }
     await Tarif.update({
         title: req.body.title,
@@ -193,9 +223,8 @@ router.delete("/worker/delete/:tarifId", isTariff, async (req, res) => {
     })
         .then((tarif) => {
             if (tarif) {
-                fs.unlink("./public/img/tarif/" + tarif.tarif_img, err => {
-                    console.log(err);
-                })
+                fs.unlink("./public/img/tarif/" + tarif.tarif_img, err => { })
+                fs.unlink("./public/compress/tarif/" + tarif.tarif_img, err => { })
                 tarif.destroy()
                 return res.json({
                     success: "Ustunlikli pozuldy"
