@@ -18,7 +18,7 @@ router.get("/", isAdmin, async (req, res) => {
 router.post("/create", isAdmin, imageUpload.upload.single("banner_img"), async (req, res) => {
     await Banner.create({
         link: req.body.link,
-        banner_img: res.file.filename
+        banner_img: req.file.filename
     }).then(() => {
         res.json({
             success: "Banner ustinlikli gosuldy"
@@ -46,7 +46,7 @@ router.post("/edit/:bannerId", isAdmin, imageUpload.upload.single("banner_img"),
     }
     await Banner.update({
         link: req.body.link,
-        img: img
+        banner_img: img
     },
         { where: { id: req.params.bannerId } })
         .then(() => {

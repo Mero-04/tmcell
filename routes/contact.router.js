@@ -58,8 +58,7 @@ router.post("/edit/:contactId", isAdmin, async (req, res) => {
             name: req.body.name,
             email: req.body.email,
             subject: req.body.subject,
-            comment: req.body.comment,
-            checked: req.body.checked
+            comment: req.body.comment
         },
         { where: { id: req.params.contactId } })
         .then(() => {

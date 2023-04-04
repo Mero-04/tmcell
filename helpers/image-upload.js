@@ -20,6 +20,15 @@ const storage = multer.diskStorage({
         else if (file.fieldname === "banner_img") {
             cb(null, './public/img/banner/');
         }
+        else if (file.fieldname === "korporatiw_icon") {
+            cb(null, './public/img/korporatiw/');
+        }
+        else if (file.fieldname === "internet_icon") {
+            cb(null, './public/img/internet/');
+        }
+        else if (file.fieldname === "sponsor_img") {
+            cb(null, './public/img/sponsor/');
+        }
     },
     filename: function (req, file, cb) {
         cb(null, path.parse(file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(file.originalname));

@@ -46,7 +46,8 @@ router.post("/create", isAdmin, imageUpload.upload.single("tarif_img"), async (r
         title: req.body.title,
         description: req.body.description,
         price: req.body.price,
-        tarif_img: req.file.filename
+        tarif_img: req.file.filename,
+        checked: "1"
     }).then(() => {
         res.json({
             success: "Nyrhnama ustinlikli gosuldy"
@@ -87,7 +88,7 @@ router.post("/edit/:tarifId", isAdmin, imageUpload.upload.single("tarif_img"), a
         description: req.body.description,
         price: req.body.price,
         checked: req.body.checked,
-        img: img
+        tarif_img: img
     },
         { where: { id: req.params.tarifId } })
         .then(() => {
@@ -198,7 +199,7 @@ router.post("/worker/edit/:tarifId", isTariff, imageUpload.upload.single("tarif_
         title: req.body.title,
         description: req.body.description,
         price: req.body.price,
-        img: img,
+        tarif_img: img,
         workerId: req.user.id
     },
         {

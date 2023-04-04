@@ -63,6 +63,7 @@ const Internet = sequelize.define("internet", {
     price: { type: DataTypes.INTEGER, allowNull: false },
     description: { type: DataTypes.TEXT, allowNull: false },
     connect_USSD: { type: DataTypes.STRING, allowNull: false },
+    internet_icon: { type: DataTypes.STRING, allowNull: false },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
 
@@ -128,7 +129,19 @@ const Korporatiw = sequelize.define("korporatiw", {
     },
     title: { type: DataTypes.STRING, allowNull: false },
     description: { type: DataTypes.TEXT, allowNull: false },
-    icon: { type: DataTypes.STRING, allowNull: false },
+    koporatiw_icon: { type: DataTypes.STRING, allowNull: false },
+    checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
+});
+
+const Sponsor = sequelize.define("sponsor", {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: true
+    },
+    title: { type: DataTypes.STRING, allowNull: false },
+    sponsor_img: { type: DataTypes.STRING, allowNull: false },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
 
@@ -142,8 +155,7 @@ const Contact = sequelize.define("contact", {
     name: { type: DataTypes.STRING, allowNull: false },
     email: { type: DataTypes.STRING, allowNull: false },
     subject: { type: DataTypes.STRING, allowNull: false },
-    comment: { type: DataTypes.STRING, allowNull: false },
-    checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
+    comment: { type: DataTypes.STRING, allowNull: false }
 
 });
 
@@ -214,5 +226,6 @@ module.exports = {
     Korporatiw,
     Contact,
     Program,
-    Banner
+    Banner,
+    Sponsor
 };

@@ -47,6 +47,7 @@ router.post("/create", isAdmin, imageUpload.upload.single("service_img"), async 
         description: req.body.description,
         service_img: req.file.filename,
         icon: req.body.icon,
+        checked: "1"
     }).then(() => {
         res.json({
             success: "Hyzmat ustinlikli gosuldy"
@@ -86,7 +87,7 @@ router.post("/edit/:serviceId", isAdmin, imageUpload.upload.single("service_img"
         description: req.body.description,
         icon: req.body.icon,
         checked: req.body.checked,
-        img: img
+        service_img: img
     },
         { where: { id: req.params.serviceId } })
         .then(() => {
@@ -117,7 +118,7 @@ router.delete("/delete/:serviceId", isAdmin, async (req, res) => {
 
 
 
-//superADMIN start
+//workerADMIN start
 router.get("/worker", isService, async (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const size = 10;
@@ -199,7 +200,7 @@ router.post("/worker/edit/:serviceId", isService, imageUpload.upload.single("ser
         title: req.body.title,
         description: req.body.description,
         icon: req.body.icon,
-        img: img,
+        service_img: img,
         workerId: req.user.id
     },
         {
@@ -238,7 +239,7 @@ router.delete("/worker/delete/:serviceId", isService, async (req, res) => {
         })
 });
 
-//superADMIN end
+//workerADMIN end
 
 
 

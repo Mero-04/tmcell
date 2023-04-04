@@ -2,6 +2,12 @@ const express = require('express');
 const { isAdmin, isTariff } = require('../middlewares/authMiddleware');
 const router = express.Router();
 const { Korporatiw } = require("../models/model");
+const imageUpload = require("../helpers/image-upload")
+const multer = require("multer");
+const upload = multer({ dest: "./public/img" });
+const fs = require('fs')
+const sharp = require("sharp");
+const path = require("path")
 
 
 //superADMIN start
@@ -30,11 +36,12 @@ router.get("/", isAdmin, async (req, res) => {
         })
 })
 
-router.post("/create", isAdmin, async (req, res) => {
+router.post("/create", isAdmin,imageUpload.upload.single("korporatiw_icon"), async (req, res) => {
     await Korporatiw.create({
         title: req.body.title,
         description: req.body.description,
-        icon: req.user.icon
+        korporatiw_icon: req.file.filename,
+        checked: "1"
     }).then(() => {
         res.json({
             success: "Korporatiw nyrhnama ustinlikli gosuldy"
@@ -52,12 +59,19 @@ router.get("/edit/:korporatiwId", isAdmin, async (req, res) => {
     })
 });
 
-router.post("/edit/:korporatiwId", isAdmin, async (req, res) => {
+router.post("/edit/:korporatiwId", isAdmin, imageUpload.upload.single("korporatiw_icon"), async (req, res) => {
+    let img = req.body.korporatiw_icon;
+    if (req.file) {
+        img = req.file.filename;
+        fs.unlink("/public/img/korporatiw/" + img, err => {
+            console.log(err);
+        })
+    }
     await Korporatiw.update({
         title: req.body.title,
         description: req.body.description,
         checked: req.body.checked,
-        icon: req.body.icon
+        korporatiw_icon: img
     },
         { where: { id: req.params.korporatiwId } })
         .then(() => {
@@ -71,6 +85,7 @@ router.delete("/delete/:korporatiwId", isAdmin, async (req, res) => {
     await Korporatiw.findOne({ where: { id: req.params.korporatiwId } })
         .then((korporatiw) => {
             if (korporatiw) {
+                fs.unlink("./public/img/korporatiw/" + korporatiw.korporatiw_icon, err => { })
                 korporatiw.destroy()
                 return res.json({
                     success: "Ustunlikli pozuldy"
@@ -88,7 +103,7 @@ router.delete("/delete/:korporatiwId", isAdmin, async (req, res) => {
 
 
 //workerADMIN start
-router.get("/", isTariff, async (req, res) => {
+router.get("/worker", isTariff, async (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const size = 10;
     const offset = (page - 1) * size;
@@ -114,11 +129,11 @@ router.get("/", isTariff, async (req, res) => {
         })
 })
 
-router.post("/create", isAdmin, async (req, res) => {
+router.post("/worker/create", isAdmin, imageUpload.upload.single("korporatiw_icon"),  async (req, res) => {
     await Korporatiw.create({
         title: req.body.title,
         description: req.body.description,
-        icon: req.user.icon,
+        korporatiw_icon: req.file.filename,
         workerId: req.user.id
     }).then(() => {
         res.json({
@@ -127,7 +142,7 @@ router.post("/create", isAdmin, async (req, res) => {
     })
 });
 
-router.get("/edit/:korporatiwId", isTariff, async (req, res) => {
+router.get("/worker/edit/:korporatiwId", isTariff, async (req, res) => {
     await Korporatiw.findOne({
         where: {
             id: req.params.korporatiwId,
@@ -140,11 +155,18 @@ router.get("/edit/:korporatiwId", isTariff, async (req, res) => {
     })
 });
 
-router.post("/edit/:korporatiwId", isTariff, async (req, res) => {
+router.post("/worker/edit/:korporatiwId", isTariff, imageUpload.upload.single("korporatiw_icon"), async (req, res) => {
+    let img = req.body.korporatiw_icon;
+    if (req.file) {
+        img = req.file.filename;
+        fs.unlink("/public/img/korporatiw/" + img, err => {
+            console.log(err);
+        })
+    }
     await Korporatiw.update({
         title: req.body.title,
         description: req.body.description,
-        icon: req.body.icon,
+        korporatiw_icon: img,
         workerId: req.user.id
     },
         { where: { id: req.params.korporatiwId } })
@@ -155,10 +177,11 @@ router.post("/edit/:korporatiwId", isTariff, async (req, res) => {
         })
 });
 
-router.delete("/delete/:korporatiwId", isTariff, async (req, res) => {
+router.delete("/worker/delete/:korporatiwId", isTariff, async (req, res) => {
     await Korporatiw.findOne({ where: { id: req.params.korporatiwId } })
         .then((korporatiw) => {
             if (korporatiw) {
+                fs.unlink("./public/img/korporatiw/" + korporatiw.korporatiw_icon, err => { })
                 korporatiw.destroy()
                 return res.json({
                     success: "Ustunlikli pozuldy"

@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
-const { Tarif, Address, Region, Category, Internet, Service, Korporatiw, News, Contact, Program, Banner } = require("../models/model")
+const { Tarif, Address, Region, Category, Internet, Service, Korporatiw, News, Program, Banner, Sponsor } = require("../models/model")
+const { Op } = require("sequelize");
 
 
 //tarif_nyrhnama
@@ -118,8 +119,9 @@ router.get("/category", async (req, res) => {
 });
 
 router.get("/news", async (req, res) => {
+    const search = req.query.search || "";
     await News.findAll({
-        where: { checked: "1" },
+        where: { checked: "1",  [Op.or]: [{ title: { [Op.like]: '%' + search + '%' } },{ description: { [Op.like]: '%' + search + '%' } }, { categoryId: { [Op.like]: '%' + search + '%' } }] },
         include: { model: Category, attributes: ['id', 'name'] }
     }).then((news) => {
         res.json({ news: news })
@@ -166,5 +168,13 @@ router.get("/banner", async (req, res) => {
     })
 });
 //Banner
+
+//Sponsor
+router.get("/sponsor", async (req, res) => {
+    await Sponsor.findAll({ where: { checked: "1" } }).then((sponsors) => {
+        res.json({ sponsors: sponsors })
+    })
+});
+//Sponsor
 
 module.exports = router;

@@ -12,7 +12,7 @@ const sequelize = require('./data/db');
 app.use(express.json());
 app.use(express.json({ limit: "50mb" }))
 app.use(express.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 }))
-// app.use(cors());
+app.use(cors());
 app.use('/', express.static('public'))
 
 const HomeRouter = require("./routes/home.router")
@@ -29,6 +29,7 @@ const ContactRouter = require("./routes/contact.router")
 const KorporatiwRouter = require("./routes/korporatiw.router")
 const ProgramRouter = require("./routes/program.router")
 const BannerRouter = require("./routes/banner.router")
+const SponsorRouter = require("./routes/sponsor.router")
 
 
 app.use("/api/v1/home", HomeRouter);
@@ -45,6 +46,7 @@ app.use("/api/v1/contact", ContactRouter);
 app.use("/api/v1/korporatiw", KorporatiwRouter);
 app.use("/api/v1/program", ProgramRouter);
 app.use("/api/v1/banner", BannerRouter);
+app.use("/api/v1/sponsor", SponsorRouter);
 
 
 //serv

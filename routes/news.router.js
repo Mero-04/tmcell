@@ -6,6 +6,8 @@ const imageUpload = require("../helpers/image-upload")
 const multer = require("multer");
 const upload = multer({ dest: "./public/img" });
 const fs = require('fs')
+const sharp = require("sharp");
+const path = require("path")
 
 //superADMIN start
 router.get("/", isAdmin, async (req, res) => {
@@ -51,7 +53,8 @@ router.post("/create", isAdmin, imageUpload.upload.single("news_img"), async (re
         title: req.body.title,
         description: req.body.description,
         news_img: req.file.filename,
-        categoryId: req.body.categoryId
+        categoryId: req.body.categoryId,
+        checked: "1"
     }).then(() => {
         res.json({
             success: "Tazelik ustinlikli gosuldy"
@@ -89,7 +92,7 @@ router.post("/edit/:newsId", isAdmin, imageUpload.upload.single("news_img"), asy
     await News.update({
         title: req.body.title,
         description: req.body.description,
-        img: img,
+        news_img: img,
         checked: req.body.checked,
         categoryId: req.body.categoryId
     },
@@ -207,7 +210,7 @@ router.post("/worker/edit/:newsId", isNews, imageUpload.upload.single("news_img"
     await News.update({
         title: req.body.title,
         description: req.body.description,
-        img: img,
+        news_img: img,
         categoryId: req.body.categoryId,
         workerId: req.user.id
     },

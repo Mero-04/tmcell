@@ -43,6 +43,7 @@ router.post("/create", isAdmin, async (req, res) => {
         open_time: req.body.open_time,
         close_time: req.body.close_time,
         regionId: req.body.regionId,
+        checked: "1"
     }).then(() => {
         res.json({
             success: "Salgy ustinlikli gosuldy"

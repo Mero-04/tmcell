@@ -47,7 +47,8 @@ router.post("/create", isAdmin, imageUpload.upload.single("program_img"), async 
         description: req.body.description,
         play_store: req.body.play_store,
         app_store: req.body.app_store,
-        program_img: req.file.filename
+        program_img: req.file.filename,
+        checked: "1"
     }).then(() => {
         res.json({
             success: "Mobil gosundy ustinlikli gosuldy"
@@ -89,7 +90,7 @@ router.post("/edit/:programId", isAdmin, imageUpload.upload.single("program_img"
         play_store: req.body.play_store,
         app_store: req.body.app_store,
         checked: req.body.checked,
-        img: img
+        program_img: img
     },
         { where: { id: req.params.programId } })
         .then(() => {
@@ -202,7 +203,7 @@ router.post("/worker/edit/:programId", isProgram, imageUpload.upload.single("pro
         description: req.body.description,
         play_store: req.body.play_store,
         app_store: req.body.app_store,
-        img: img,
+        program_img: img,
         workerId: req.user.id
     },
         {
