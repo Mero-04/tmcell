@@ -2,10 +2,14 @@ const express = require('express');
 const { isAdmin } = require('../middlewares/authMiddleware');
 const router = express.Router();
 const { Banner } = require("../models/model");
-const imageUpload = require("../helpers/image-upload")
+const bannerUpload = require("../helpers/banner-upload")
 const multer = require("multer");
 const upload = multer({ dest: "./public/img" });
 const fs = require('fs')
+const sharp = require("sharp");
+const path = require("path")
+
+
 
 //superADMIN start
 router.get("/", isAdmin, async (req, res) => {
@@ -15,7 +19,7 @@ router.get("/", isAdmin, async (req, res) => {
         })
 })
 
-router.post("/create", isAdmin, imageUpload.upload.single("banner_img"), async (req, res) => {
+router.post("/create", isAdmin, bannerUpload.upload.single("banner_img"), async (req, res) => {
     await Banner.create({
         link: req.body.link,
         banner_img: req.file.filename
@@ -36,7 +40,7 @@ router.get("/edit/:bannerId", isAdmin, async (req, res) => {
     })
 });
 
-router.post("/edit/:bannerId", isAdmin, imageUpload.upload.single("banner_img"), async (req, res) => {
+router.post("/edit/:bannerId", isAdmin, bannerUpload.upload.single("banner_img"), async (req, res) => {
     let img = req.body.banner_img;
     if (req.file) {
         img = req.file.filename;
@@ -45,6 +49,7 @@ router.post("/edit/:bannerId", isAdmin, imageUpload.upload.single("banner_img"),
         })
     }
     await Banner.update({
+        title: req.body.title,
         link: req.body.link,
         banner_img: img
     },
