@@ -21,6 +21,7 @@ const WorkerRouter = require("./routes/worker.router")
 const InternetRouter = require("./routes/internet.router")
 const NewsRouter = require("./routes/news.router")
 const ServiceRouter = require("./routes/service.router")
+const WelayatRouter = require("./routes/welayat.router")
 const RegionRouter = require("./routes/region.router")
 const AddressRouter = require("./routes/address.router")
 const TarifRouter = require("./routes/tarif.router")
@@ -38,6 +39,7 @@ app.use("/api/v1/worker", WorkerRouter);
 app.use("/api/v1/internet", InternetRouter);
 app.use("/api/v1/news", NewsRouter);
 app.use("/api/v1/service", ServiceRouter);
+app.use("/api/v1/welayat", WelayatRouter);
 app.use("/api/v1/region", RegionRouter);
 app.use("/api/v1/address", AddressRouter);
 app.use("/api/v1/tarif", TarifRouter);
