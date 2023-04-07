@@ -49,12 +49,11 @@ router.post("/edit/:bannerId", isAdmin, bannerUpload.upload.single("banner_img")
         })
     }
     await Banner.update({
-        title: req.body.title,
         link: req.body.link,
         banner_img: img
     },
         { where: { id: req.params.bannerId } })
-        .then(() => {
+        .then(() => {21321321
             res.json({
                 success: "Ustunlikli uytgedildi"
             })

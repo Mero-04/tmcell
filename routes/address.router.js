@@ -6,9 +6,8 @@ const { Address, Region } = require("../models/model");
 //superADMIN start
 router.get("/", isAdmin, async (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 1;
-    const size = 10;
-    const offset = (page - 1) * size;
-    const limit = page * size;
+    const limit = 20;
+    const offset = (page - 1) * limit;
     var before = offset > 0 ? page - 1 : 1;
     var next = page + 1;
     await Address.findAndCountAll({
@@ -24,7 +23,7 @@ router.get("/", isAdmin, async (req, res) => {
                     next: next,
                     page: page,
                     total: addresses.count,
-                    pages: Math.ceil(addresses.count / size)
+                    pages: Math.ceil(addresses.count / limit)
                 }
             })
         })

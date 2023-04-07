@@ -6,9 +6,8 @@ const { Contact } = require("../models/model");
 //User ucin
 router.get("/", isAdmin, async (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 1;
-    const size = 3;
-    const offset = (page - 1) * size;
-    const limit = page * size;
+    const limit = 20;
+    const offset = (page - 1) * limit;
     var before = offset > 0 ? page - 1 : 1;
     var next = page + 1;
     await Contact.findAndCountAll({ limit, offset }).then((contacts) => {
@@ -19,7 +18,7 @@ router.get("/", isAdmin, async (req, res) => {
                 next: next,
                 page: page,
                 total: contacts.count,
-                pages: Math.ceil(contacts.count / size)
+                pages: Math.ceil(contacts.count / limit)
             }
         })
     }).catch((err) => {

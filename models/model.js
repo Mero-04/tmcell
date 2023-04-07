@@ -38,6 +38,7 @@ const Category = sequelize.define("category", {
 
 });
 
+
 const News = sequelize.define("news", {
     id: {
         type: DataTypes.INTEGER,
@@ -77,8 +78,18 @@ const Service = sequelize.define("service", {
     title: { type: DataTypes.STRING, allowNull: false },
     description: { type: DataTypes.TEXT, allowNull: false },
     service_img: { type: DataTypes.STRING, allowNull: false },
-    icon: { type: DataTypes.STRING, allowNull: false },
+    service_icon: { type: DataTypes.STRING, allowNull: false },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
+});
+
+const Welayat = sequelize.define("welayat", {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: true
+    },
+    name: { type: DataTypes.STRING, allowNull: false }
 });
 
 const Region = sequelize.define("region", {
@@ -198,6 +209,9 @@ News.belongsTo(Worker)
 Category.hasMany(News, { onDelete: "cascade", onUpdate: "cascade" })
 News.belongsTo(Category)
 
+Welayat.hasMany(Region, { onDelete: "cascade", onUpdate: "cascade" })
+Region.belongsTo(Welayat)
+
 Region.hasMany(Address, { onDelete: "cascade", onUpdate: "cascade" })
 Address.belongsTo(Region)
 
@@ -220,6 +234,7 @@ module.exports = {
     Category,
     News,
     Service,
+    Welayat,
     Region,
     Address,
     Tarif,
