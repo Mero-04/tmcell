@@ -39,6 +39,8 @@ router.post("/create", isAdmin, async (req, res) => {
     await Address.create({
         title: req.body.title,
         phone_num: req.body.phone_num,
+        latitude: req.body.latitude,
+        longitude: req.body.longitude,
         open_time: req.body.open_time,
         close_time: req.body.close_time,
         regionId: req.body.regionId,
@@ -65,6 +67,8 @@ router.post("/edit/:addressId", isAdmin, async (req, res) => {
     await Address.update({
         title: req.body.title,
         phone_num: req.body.phone_num,
+        latitude: req.body.latitude,
+        longitude: req.body.longitude,
         open_time: req.body.open_time,
         close_time: req.body.close_time,
         checked: req.body.checked,

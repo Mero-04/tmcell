@@ -115,6 +115,8 @@ const Address = sequelize.define("address", {
     phone_num: { type: DataTypes.STRING, allowNull: false },
     open_time: { type: DataTypes.STRING, allowNull: false },
     close_time: { type: DataTypes.STRING, allowNull: false },
+    latitude: { type: DataTypes.STRING, allowNull: false },
+    longitude: { type: DataTypes.STRING, allowNull: false },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
 
@@ -203,6 +205,20 @@ const Banner = sequelize.define("banner", {
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
 
+const Popup = sequelize.define("popup", {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: true
+    },
+    title: { type: DataTypes.STRING, allowNull: false },
+    description: { type: DataTypes.TEXT, allowNull: false },
+    link: { type: DataTypes.STRING, allowNull: false },
+    popup_img: { type: DataTypes.STRING, allowNull: false },
+    checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
+});
+
 Admin.findOrCreate({ where: { email: "admin@gmail.com", password: "$2b$10$.2s8SLEln9Dnql5sPuvtfec93qtcKyvMAqDY8zeLg8IcndoHNtXWS", role: "Admin" } })
 
 Worker.hasMany(Internet, { onDelete: "cascade", onUpdate: "cascade" })
@@ -247,5 +263,6 @@ module.exports = {
     Contact,
     Program,
     Banner,
-    Sponsor
+    Sponsor,
+    Popup
 };

@@ -31,6 +31,7 @@ const KorporatiwRouter = require("./routes/korporatiw.router")
 const ProgramRouter = require("./routes/program.router")
 const BannerRouter = require("./routes/banner.router")
 const SponsorRouter = require("./routes/sponsor.router")
+const PopupRouter = require("./routes/popup.router")
 
 
 app.use("/api/v1/home", HomeRouter);
@@ -49,6 +50,7 @@ app.use("/api/v1/korporatiw", KorporatiwRouter);
 app.use("/api/v1/program", ProgramRouter);
 app.use("/api/v1/banner", BannerRouter);
 app.use("/api/v1/sponsor", SponsorRouter);
+app.use("/api/v1/popup", PopupRouter);
 
 
 //serv

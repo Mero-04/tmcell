@@ -35,7 +35,7 @@ router.get("/", isAdmin, async (req, res) => {
 
 router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
     if (req.files.service_img && req.files.service_icon) {
-        let compresedImage = path.join(__dirname, "../", "public", "compress", "service", path.parse(req.files.service_img[0].fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.files.service_img[0].originalname));
+        let compresedImage = path.join(__dirname, "../", "public", "compress", "service", path.parse(req.files.service_img[0].fieldname).name + "_" + Date.now() + path.extname(req.files.service_img[0].originalname));
         await sharp(req.files.service_img[0].path)
             .jpeg({
                 quality: 30,
@@ -55,8 +55,10 @@ router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
                 success: "Hyzmat ustinlikli gosuldy",
             });
         });
+
     } else if (req.files.service_img) {
-        let compresedImage = path.join(__dirname, "../", "public", "compress", "service", path.parse(req.files.service_img[0].fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.files.service_img[0].originalname));
+
+        let compresedImage = path.join(__dirname, "../", "public", "compress", "service", path.parse(req.files.service_img[0].fieldname).name + "_" + Date.now() + path.extname(req.files.service_img[0].originalname));
         await sharp(req.files.service_img[0].path)
             .jpeg({
                 quality: 30,
@@ -75,7 +77,9 @@ router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
                 success: "Hyzmat ustinlikli gosuldy",
             });
         });
+
     } else if (req.files.service_icon) {
+
         await Service.create({
             title: req.body.title,
             short_desc: req.body.short_desc,
@@ -98,6 +102,7 @@ router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
             });
         });
     }
+    
 });
 
 router.get("/edit/:serviceId", isAdmin, async (req, res) => {
@@ -120,7 +125,7 @@ router.post("/edit/:serviceId", isAdmin, multiUpload.upload, async (req, res) =>
             console.log(err);
         })
         img = req.file.filename;
-        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'service', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
+        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'service', path.parse(req.file.fieldname).name + "_" + Date.now() + path.extname(req.file.originalname));
         await sharp(req.file.path).jpeg({
             quality: 30,
             chromaSubsampling: '4:4:4'

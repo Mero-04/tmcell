@@ -1,7 +1,7 @@
 const express = require('express');
 const { isAdmin } = require('../middlewares/authMiddleware');
 const router = express.Router();
-const { Sponsor } = require("../models/model");
+const { Popup } = require("../models/model");
 const imageUpload = require("../helpers/image-upload")
 const multer = require("multer");
 const upload = multer({ dest: "./public/img" });
@@ -16,34 +16,36 @@ router.get("/", isAdmin, async (req, res) => {
     const offset = (page - 1) * limit;
     var before = offset > 0 ? page - 1 : 1;
     var next = page + 1;
-    await Sponsor.findAndCountAll({
+    await Popup.findAndCountAll({
         limit,
         offset
     })
-        .then((sponsors) => {
+        .then((popups) => {
             res.json({
-                sponsors: sponsors.rows,
+                popups: popups.rows,
                 pagination: {
                     before: before,
                     next: next,
                     page: page,
-                    total: sponsors.count,
-                    pages: Math.ceil(sponsors.count / limit)
+                    total: popups.count,
+                    pages: Math.ceil(popups.count / limit)
                 }
             })
         })
 })
 
-router.post("/create", isAdmin, imageUpload.upload.single("sponsor_img"), async (req, res) => {
-    let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'sponsor', path.parse(req.file.fieldname).name + "_" + Date.now() + path.extname(req.file.originalname));
+router.post("/create", isAdmin, imageUpload.upload.single("popup_img"), async (req, res) => {
+    let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'popup', path.parse(req.file.fieldname).name + "_" + Date.now() + path.extname(req.file.originalname));
     await sharp(req.file.path).jpeg({
         quality: 30,
         chromaSubsampling: '4:4:4'
     }).toFile(compresedImage)
 
-    await Sponsor.create({
+    await Popup.create({
         title: req.body.title,
-        sponsor_img: req.file.filename,
+        description: req.body.description,
+        link: req.body.link,
+        popup_img: req.file.filename,
         checked: "1"
     }).then(() => {
         res.json({
@@ -52,38 +54,40 @@ router.post("/create", isAdmin, imageUpload.upload.single("sponsor_img"), async 
     })
 });
 
-router.get("/edit/:sponsorId", isAdmin, async (req, res) => {
-    await Sponsor.findOne({
-        where: { id: req.params.sponsorId }
-    }).then((sponsor) => {
+router.get("/edit/:popupId", isAdmin, async (req, res) => {
+    await Popup.findOne({
+        where: { id: req.params.popupId }
+    }).then((popup) => {
         res.json({
-            sponsor: sponsor
+            popup: popup
         })
     })
 });
 
-router.post("/edit/:sponsorId", isAdmin, imageUpload.upload.single("sponsor_img"), async (req, res) => {
-    let img = req.body.sponsor_img;
+router.post("/edit/:popupId", isAdmin, imageUpload.upload.single("popup_img"), async (req, res) => {
+    let img = req.body.popup_img;
     if (req.file) {
-        fs.unlink("/public/img/sponsor/" + img, err => {
+        fs.unlink("/public/img/popup/" + img, err => {
             console.log(err);
         })
-        fs.unlink("/public/compress/sponsor/" + img, err => {
+        fs.unlink("/public/compress/popup/" + img, err => {
             console.log(err);
         })
         img = req.file.filename;
-        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'sponsor', path.parse(req.file.fieldname).name + "_" + Date.now() + path.extname(req.file.originalname));
+        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'popup', path.parse(req.file.fieldname).name + "_" + Date.now() + path.extname(req.file.originalname));
         await sharp(req.file.path).jpeg({
             quality: 30,
             chromaSubsampling: '4:4:4'
         }).toFile(compresedImage)
     }
-    await Sponsor.update({
+    await Popup.update({
         title: req.body.title,
-        sponsor_img: img,
+        description: req.body.description,
+        link: req.body.link,
+        popup_img: img,
         checked: req.body.checked,
     },
-        { where: { id: req.params.sponsorId } })
+        { where: { id: req.params.popupId } })
         .then(() => {
             res.json({
                 success: "Ustunlikli uytgedildi"
@@ -91,13 +95,13 @@ router.post("/edit/:sponsorId", isAdmin, imageUpload.upload.single("sponsor_img"
         })
 });
 
-router.delete("/delete/:sponsorId", isAdmin, async (req, res) => {
-    await Sponsor.findOne({ where: { id: req.params.sponsorId } })
-        .then((sponsor) => {
-            if (sponsor) {
-                fs.unlink("./public/img/sponsor/" + sponsor.sponsor_img, err => { })
-                fs.unlink("./public/compress/sponsor/" + sponsor.sponsor_img, err => { })
-                sponsor.destroy()
+router.delete("/delete/:popupId", isAdmin, async (req, res) => {
+    await Popup.findOne({ where: { id: req.params.popupId } })
+        .then((popup) => {
+            if (popup) {
+                fs.unlink("./public/img/popup/" + popup.popup_img, err => { })
+                fs.unlink("./public/compress/popup/" + popup.popup_img, err => { })
+                popup.destroy()
                 return res.json({
                     success: "Ustunlikli pozuldy"
                 })

@@ -23,8 +23,7 @@ router.post("/create", isAdmin, async (req, res) => {
         welayatId: req.body.welayatId
     }).then(() => {
         res.json({
-            success: true,
-            message: "Etrap ustinlikli gosuldy"
+            success: "Etrap ustinlikli gosuldy"
         })
     })
 });
@@ -47,8 +46,7 @@ router.post("/edit/:regionId", isAdmin, async (req, res) => {
         { where: { id: req.params.regionId } })
         .then(() => {
             res.json({
-                success: true,
-                message: "Ustunlikli uytgedildi"
+                success: "Ustunlikli uytgedildi"
             })
         })
 });
@@ -59,13 +57,11 @@ router.delete("/delete/:regionId", isAdmin, async (req, res) => {
             if (region) {
                 region.destroy()
                 return res.json({
-                    success: true,
-                    message: "Ustunlikli pozuldy"
+                    success:  "Ustunlikli pozuldy"
                 })
             } else {
                 res.json({
-                    success: false,
-                    message: "Tapylmady"
+                    error: "Tapylmady"
                 })
             }
         })
