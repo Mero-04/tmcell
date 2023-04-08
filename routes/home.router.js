@@ -6,7 +6,7 @@ const { Op } = require("sequelize");
 
 //tarif_nyrhnama
 router.get("/tarif", async (req, res) => {
-    await Tarif.findAll({ where: { checked: "1" , status: "1"} }).then((tarifs) => {
+    await Tarif.findAll({ where: { checked: "1", status: "1" } }).then((tarifs) => {
         res.json({ tarifs: tarifs })
     })
 });
@@ -100,8 +100,8 @@ router.get("/region", async (req, res) => {
 
 router.get("/address", async (req, res) => {
     await Address.findAll(
-        { where: { checked: "1" } },
-        { include: { model: Region, attributes: ['id', 'name'] } }
+        { include: { model: Region, attributes: ['id', 'name'] } },
+        { where: { checked: "1" } }
     )
         .then((address) => {
             res.json({ address: address })
@@ -121,7 +121,7 @@ router.get("/category", async (req, res) => {
 router.get("/news", async (req, res) => {
     const search = req.query.search || "";
     await News.findAll({
-        where: { checked: "1",  [Op.or]: [{ title: { [Op.like]: '%' + search + '%' } },{ description: { [Op.like]: '%' + search + '%' } }, { categoryId: { [Op.like]: '%' + search + '%' } }] },
+        where: { checked: "1", [Op.or]: [{ title: { [Op.like]: '%' + search + '%' } }, { description: { [Op.like]: '%' + search + '%' } }, { categoryId: { [Op.like]: '%' + search + '%' } }] },
         include: { model: Category, attributes: ['id', 'name'] }
     }).then((news) => {
         res.json({ news: news })
