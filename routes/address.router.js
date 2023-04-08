@@ -43,7 +43,7 @@ router.post("/create", isAdmin, async (req, res) => {
         longitude: req.body.longitude,
         open_time: req.body.open_time,
         close_time: req.body.close_time,
-        regionId: req.body.regionId,
+        etrapId: req.body.etrapId,
         checked: "1"
     }).then(() => {
         res.json({
