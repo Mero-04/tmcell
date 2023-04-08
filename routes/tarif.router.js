@@ -43,8 +43,10 @@ router.post("/create", isAdmin, imageUpload.upload.single("tarif_img"), async (r
 
     await Tarif.create({
         title: req.body.title,
+        short_desc: req.body.short_desc,
         description: req.body.description,
         price: req.body.price,
+        period: req.body.period,
         tarif_img: req.file.filename,
         checked: "1"
     }).then(() => {
@@ -84,8 +86,10 @@ router.post("/edit/:tarifId", isAdmin, imageUpload.upload.single("tarif_img"), a
 
     await Tarif.update({
         title: req.body.title,
+        short_desc: req.body.short_desc,
         description: req.body.description,
         price: req.body.price,
+        period: req.body.period,
         checked: req.body.checked,
         tarif_img: img
     },

@@ -38,6 +38,7 @@ router.get("/", isAdmin, async (req, res) => {
 router.post("/create", isAdmin,imageUpload.upload.single("korporatiw_icon"), async (req, res) => {
     await Korporatiw.create({
         title: req.body.title,
+        short_desc: req.body.short_desc,
         description: req.body.description,
         korporatiw_icon: req.file.filename,
         checked: "1"
@@ -68,6 +69,7 @@ router.post("/edit/:korporatiwId", isAdmin, imageUpload.upload.single("korporati
     }
     await Korporatiw.update({
         title: req.body.title,
+        short_desc: req.body.short_desc,
         description: req.body.description,
         checked: req.body.checked,
         korporatiw_icon: img

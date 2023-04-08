@@ -62,6 +62,7 @@ const Internet = sequelize.define("internet", {
     title: { type: DataTypes.STRING, allowNull: false },
     volume: { type: DataTypes.INTEGER, allowNull: false },
     price: { type: DataTypes.INTEGER, allowNull: false },
+    short_desc: { type: DataTypes.TEXT, allowNull: false },
     description: { type: DataTypes.TEXT, allowNull: false },
     connect_USSD: { type: DataTypes.STRING, allowNull: false },
     internet_icon: { type: DataTypes.STRING, allowNull: false },
@@ -76,6 +77,7 @@ const Service = sequelize.define("service", {
         allowNull: true
     },
     title: { type: DataTypes.STRING, allowNull: false },
+    short_desc: { type: DataTypes.TEXT, allowNull: false },
     description: { type: DataTypes.TEXT, allowNull: false },
     service_img: { type: DataTypes.STRING, allowNull: true },
     service_icon: { type: DataTypes.STRING, allowNull: true },
@@ -125,8 +127,10 @@ const Tarif = sequelize.define("tarif", {
     },
     title: { type: DataTypes.STRING, allowNull: false },
     description: { type: DataTypes.TEXT, allowNull: false },
+    short_desc: { type: DataTypes.TEXT, allowNull: false },
     tarif_img: { type: DataTypes.STRING, allowNull: false },
     price: { type: DataTypes.STRING, allowNull: false },
+    period: { type: DataTypes.TINYINT, allowNull: false},
     status: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "1" },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
@@ -139,6 +143,7 @@ const Korporatiw = sequelize.define("korporatiw", {
         allowNull: true
     },
     title: { type: DataTypes.STRING, allowNull: false },
+    short_desc: { type: DataTypes.TEXT, allowNull: false },
     description: { type: DataTypes.TEXT, allowNull: false },
     koporatiw_icon: { type: DataTypes.STRING, allowNull: false },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }

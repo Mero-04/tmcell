@@ -45,6 +45,7 @@ router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
 
         await Service.create({
             title: req.body.title,
+            short_desc: req.body.short_desc,
             description: req.body.description,
             service_img: req.files.service_img[0].filename,
             service_icon: req.files.service_icon[0].filename,
@@ -65,6 +66,7 @@ router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
 
         await Service.create({
             title: req.body.title,
+            short_desc: req.body.short_desc,
             description: req.body.description,
             service_img: req.files.service_img[0].filename,
             checked: "1",
@@ -76,6 +78,7 @@ router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
     } else if (req.files.service_icon) {
         await Service.create({
             title: req.body.title,
+            short_desc: req.body.short_desc,
             description: req.body.description,
             service_icon: req.files.service_icon[0].filename,
             checked: "1",
@@ -126,6 +129,7 @@ router.post("/edit/:serviceId", isAdmin, multiUpload.upload, async (req, res) =>
 
     await Service.update({
         title: req.body.title,
+        short_desc: req.body.short_desc,
         description: req.body.description,
         icon: req.body.icon,
         checked: req.body.checked,
