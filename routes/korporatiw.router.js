@@ -102,96 +102,96 @@ router.delete("/delete/:korporatiwId", isAdmin, async (req, res) => {
 
 
 //workerADMIN start
-router.get("/worker", isTariff, async (req, res) => {
-    const page = req.query.page ? parseInt(req.query.page) : 1;
-    const size = 10;
-    const offset = (page - 1) * size;
-    const limit = page * size;
-    var before = offset > 0 ? page - 1 : 1;
-    var next = page + 1;
-    await Korporatiw.findAndCountAll({
-        limit,
-        offset,
-        where: req.user.role == "Nyrhnama" ? { workerId: req.user.id } : null
-    })
-        .then((korporatiws) => {
-            res.json({
-                korporatiws: korporatiws.rows,
-                pagination: {
-                    before: before,
-                    next: next,
-                    page: page,
-                    total: korporatiws.count,
-                    pages: Math.ceil(korporatiws.count / size)
-                }
-            })
-        })
-})
+// router.get("/worker", isTariff, async (req, res) => {
+//     const page = req.query.page ? parseInt(req.query.page) : 1;
+//     const size = 10;
+//     const offset = (page - 1) * size;
+//     const limit = page * size;
+//     var before = offset > 0 ? page - 1 : 1;
+//     var next = page + 1;
+//     await Korporatiw.findAndCountAll({
+//         limit,
+//         offset,
+//         where: req.user.role == "Nyrhnama" ? { workerId: req.user.id } : null
+//     })
+//         .then((korporatiws) => {
+//             res.json({
+//                 korporatiws: korporatiws.rows,
+//                 pagination: {
+//                     before: before,
+//                     next: next,
+//                     page: page,
+//                     total: korporatiws.count,
+//                     pages: Math.ceil(korporatiws.count / size)
+//                 }
+//             })
+//         })
+// })
 
-router.post("/worker/create", isAdmin, imageUpload.upload.single("korporatiw_icon"),  async (req, res) => {
-    await Korporatiw.create({
-        title: req.body.title,
-        description: req.body.description,
-        korporatiw_icon: req.file.filename,
-        workerId: req.user.id
-    }).then(() => {
-        res.json({
-            success: "Korporatiw nyrhnama ustinlikli gosuldy"
-        })
-    })
-});
+// router.post("/worker/create", isAdmin, imageUpload.upload.single("korporatiw_icon"),  async (req, res) => {
+//     await Korporatiw.create({
+//         title: req.body.title,
+//         description: req.body.description,
+//         korporatiw_icon: req.file.filename,
+//         workerId: req.user.id
+//     }).then(() => {
+//         res.json({
+//             success: "Korporatiw nyrhnama ustinlikli gosuldy"
+//         })
+//     })
+// });
 
-router.get("/worker/edit/:korporatiwId", isTariff, async (req, res) => {
-    await Korporatiw.findOne({
-        where: {
-            id: req.params.korporatiwId,
-            workerId: req.user.id
-        }
-    }).then((korporatiw) => {
-        res.json({
-            korporatiw: korporatiw
-        })
-    })
-});
+// router.get("/worker/edit/:korporatiwId", isTariff, async (req, res) => {
+//     await Korporatiw.findOne({
+//         where: {
+//             id: req.params.korporatiwId,
+//             workerId: req.user.id
+//         }
+//     }).then((korporatiw) => {
+//         res.json({
+//             korporatiw: korporatiw
+//         })
+//     })
+// });
 
-router.post("/worker/edit/:korporatiwId", isTariff, imageUpload.upload.single("korporatiw_icon"), async (req, res) => {
-    let img = req.body.korporatiw_icon;
-    if (req.file) {
-        img = req.file.filename;
-        fs.unlink("/public/img/korporatiw/" + img, err => {
-            console.log(err);
-        })
-    }
-    await Korporatiw.update({
-        title: req.body.title,
-        description: req.body.description,
-        korporatiw_icon: img,
-        workerId: req.user.id
-    },
-        { where: { id: req.params.korporatiwId } })
-        .then(() => {
-            res.json({
-                success: "Ustunlikli uytgedildi"
-            })
-        })
-});
+// router.post("/worker/edit/:korporatiwId", isTariff, imageUpload.upload.single("korporatiw_icon"), async (req, res) => {
+//     let img = req.body.korporatiw_icon;
+//     if (req.file) {
+//         img = req.file.filename;
+//         fs.unlink("/public/img/korporatiw/" + img, err => {
+//             console.log(err);
+//         })
+//     }
+//     await Korporatiw.update({
+//         title: req.body.title,
+//         description: req.body.description,
+//         korporatiw_icon: img,
+//         workerId: req.user.id
+//     },
+//         { where: { id: req.params.korporatiwId } })
+//         .then(() => {
+//             res.json({
+//                 success: "Ustunlikli uytgedildi"
+//             })
+//         })
+// });
 
-router.delete("/worker/delete/:korporatiwId", isTariff, async (req, res) => {
-    await Korporatiw.findOne({ where: { id: req.params.korporatiwId } })
-        .then((korporatiw) => {
-            if (korporatiw) {
-                fs.unlink("./public/img/korporatiw/" + korporatiw.korporatiw_icon, err => { })
-                korporatiw.destroy()
-                return res.json({
-                    success: "Ustunlikli pozuldy"
-                })
-            } else {
-                res.json({
-                    error: "Tapylmady"
-                })
-            }
-        })
-});
+// router.delete("/worker/delete/:korporatiwId", isTariff, async (req, res) => {
+//     await Korporatiw.findOne({ where: { id: req.params.korporatiwId } })
+//         .then((korporatiw) => {
+//             if (korporatiw) {
+//                 fs.unlink("./public/img/korporatiw/" + korporatiw.korporatiw_icon, err => { })
+//                 korporatiw.destroy()
+//                 return res.json({
+//                     success: "Ustunlikli pozuldy"
+//                 })
+//             } else {
+//                 res.json({
+//                     error: "Tapylmady"
+//                 })
+//             }
+//         })
+// });
 //workerADMIN end
 
 

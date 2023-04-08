@@ -106,112 +106,112 @@ router.delete("/delete/:internetId", isAdmin, async (req, res) => {
 
 
 //workerADMIN start
-router.get("/worker", isInternet, async (req, res) => {
-    const page = req.query.page ? parseInt(req.query.page) : 1;
-    const size = 10;
-    const offset = (page - 1) * size;
-    const limit = page * size;
-    var before = offset > 0 ? page - 1 : 1;
-    var next = page + 1;
-    await Internet.findAndCountAll({
-        limit,
-        offset,
-        where: req.user.role == "Internet" ? { workerId: req.user.id } : null
-    })
-        .then((internets) => {
-            res.json({
-                internets: internets.rows,
-                pagination: {
-                    before: before,
-                    next: next,
-                    page: page,
-                    total: internets.count,
-                    pages: Math.ceil(internets.count / size)
-                }
-            })
-        })
-})
+// router.get("/worker", isInternet, async (req, res) => {
+//     const page = req.query.page ? parseInt(req.query.page) : 1;
+//     const size = 10;
+//     const offset = (page - 1) * size;
+//     const limit = page * size;
+//     var before = offset > 0 ? page - 1 : 1;
+//     var next = page + 1;
+//     await Internet.findAndCountAll({
+//         limit,
+//         offset,
+//         where: req.user.role == "Internet" ? { workerId: req.user.id } : null
+//     })
+//         .then((internets) => {
+//             res.json({
+//                 internets: internets.rows,
+//                 pagination: {
+//                     before: before,
+//                     next: next,
+//                     page: page,
+//                     total: internets.count,
+//                     pages: Math.ceil(internets.count / size)
+//                 }
+//             })
+//         })
+// })
 
-router.post("/worker/create", isInternet, imageUpload.upload.single("internet_icon"), async (req, res) => {
-    await Internet.create({
-        title: req.body.title,
-        volume: req.body.volume,
-        price: req.body.price,
-        description: req.body.description,
-        connect_USSD: req.body.connect_USSD,
-        internet_icon: req.file.filename,
-        workerId: req.user.id
-    }).then(() => {
-        res.json({
-            success: "Internet nyrhnamasy ustinlikli gosuldy"
-        })
-    })
-});
+// router.post("/worker/create", isInternet, imageUpload.upload.single("internet_icon"), async (req, res) => {
+//     await Internet.create({
+//         title: req.body.title,
+//         volume: req.body.volume,
+//         price: req.body.price,
+//         description: req.body.description,
+//         connect_USSD: req.body.connect_USSD,
+//         internet_icon: req.file.filename,
+//         workerId: req.user.id
+//     }).then(() => {
+//         res.json({
+//             success: "Internet nyrhnamasy ustinlikli gosuldy"
+//         })
+//     })
+// });
 
-router.get("/worker/edit/:internetId", isInternet, async (req, res) => {
-    await Internet.findOne({
-        where: {
-            id: req.params.internetId,
-            workerId: req.user.id
-        }
-    }).then((internet) => {
-        res.json({
-            internet: internet
-        })
-    })
-});
+// router.get("/worker/edit/:internetId", isInternet, async (req, res) => {
+//     await Internet.findOne({
+//         where: {
+//             id: req.params.internetId,
+//             workerId: req.user.id
+//         }
+//     }).then((internet) => {
+//         res.json({
+//             internet: internet
+//         })
+//     })
+// });
 
-router.post("/worker/edit/:internetId", isInternet, imageUpload.upload.single("internet_icon"), async (req, res) => {
-    let img = req.body.internet_icon;
-    if (req.file) {
-        img = req.file.filename;
-        fs.unlink("/public/img/internet/" + img, err => {
-            console.log(err);
-        })
-    }
-    await Internet.update({
-        title: req.body.title,
-        volume: req.body.volume,
-        price: req.body.price,
-        description: req.body.description,
-        connect_USSD: req.body.connect_USSD,
-        internet_icon: img,
-        workerId: req.user.id
-    },
-        {
-            where: {
-                id: req.params.internetId,
-                workerId: req.user.id
-            }
-        })
-        .then(() => {
-            res.json({
-                success: "Ustunlikli uytgedildi"
-            })
-        })
-});
+// router.post("/worker/edit/:internetId", isInternet, imageUpload.upload.single("internet_icon"), async (req, res) => {
+//     let img = req.body.internet_icon;
+//     if (req.file) {
+//         img = req.file.filename;
+//         fs.unlink("/public/img/internet/" + img, err => {
+//             console.log(err);
+//         })
+//     }
+//     await Internet.update({
+//         title: req.body.title,
+//         volume: req.body.volume,
+//         price: req.body.price,
+//         description: req.body.description,
+//         connect_USSD: req.body.connect_USSD,
+//         internet_icon: img,
+//         workerId: req.user.id
+//     },
+//         {
+//             where: {
+//                 id: req.params.internetId,
+//                 workerId: req.user.id
+//             }
+//         })
+//         .then(() => {
+//             res.json({
+//                 success: "Ustunlikli uytgedildi"
+//             })
+//         })
+// });
 
-router.delete("/worker/delete/:internetId", isInternet, async (req, res) => {
-    await Internet.findOne({
-        where: {
-            id: req.params.internetId,
-            workerId: req.user.id
-        }
-    })
-        .then((internet) => {
-            if (internet) {
-                fs.unlink("./public/img/internet/" + internet.internet_icon, err => { })
-                internet.destroy()
-                return res.json({
-                    success: "Ustunlikli pozuldy"
-                })
-            } else {
-                res.json({
-                    error: "Tapylmady"
-                })
-            }
-        })
-});
+// router.delete("/worker/delete/:internetId", isInternet, async (req, res) => {
+//     await Internet.findOne({
+//         where: {
+//             id: req.params.internetId,
+//             workerId: req.user.id
+//         }
+//     })
+//         .then((internet) => {
+//             if (internet) {
+//                 fs.unlink("./public/img/internet/" + internet.internet_icon, err => { })
+//                 internet.destroy()
+//                 return res.json({
+//                     success: "Ustunlikli pozuldy"
+//                 })
+//             } else {
+//                 res.json({
+//                     error: "Tapylmady"
+//                 })
+//             }
+//         })
+// });
 //workerADMIN end
 
 
