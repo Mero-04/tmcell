@@ -34,23 +34,67 @@ router.get("/", isAdmin, async (req, res) => {
 })
 
 router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
-    let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'service', path.parse(req.files.service_img[0].fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.files.service_img[0].originalname));
-    await sharp(req.files.service_img[0].path).jpeg({
-        quality: 30,
-        chromaSubsampling: '4:4:4'
-    }).toFile(compresedImage)
+    if (req.files.service_img && req.files.service_icon) {
+        let compresedImage = path.join(__dirname, "../", "public", "compress", "service", path.parse(req.files.service_img[0].fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.files.service_img[0].originalname));
+        await sharp(req.files.service_img[0].path)
+            .jpeg({
+                quality: 30,
+                chromaSubsampling: "4:4:4",
+            })
+            .toFile(compresedImage);
 
-    await Service.create({
-        title: req.body.title,
-        description: req.body.description,
-        service_img: req.files.service_img[0].filename,
-        service_icon: req.files.service_icon[0].filename,
-        checked: "1"
-    }).then(() => {
-        res.json({
-            success: "Hyzmat ustinlikli gosuldy"
-        })
-    })
+        await Service.create({
+            title: req.body.title,
+            description: req.body.description,
+            service_img: req.files.service_img[0].filename,
+            service_icon: req.files.service_icon[0].filename,
+            checked: "1",
+        }).then(() => {
+            res.json({
+                success: "Hyzmat ustinlikli gosuldy",
+            });
+        });
+    } else if (req.files.service_img) {
+        let compresedImage = path.join(__dirname, "../", "public", "compress", "service", path.parse(req.files.service_img[0].fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.files.service_img[0].originalname));
+        await sharp(req.files.service_img[0].path)
+            .jpeg({
+                quality: 30,
+                chromaSubsampling: "4:4:4",
+            })
+            .toFile(compresedImage);
+
+        await Service.create({
+            title: req.body.title,
+            description: req.body.description,
+            service_img: req.files.service_img[0].filename,
+            checked: "1",
+        }).then(() => {
+            res.json({
+                success: "Hyzmat ustinlikli gosuldy",
+            });
+        });
+    } else if (req.files.service_icon) {
+        await Service.create({
+            title: req.body.title,
+            description: req.body.description,
+            service_icon: req.files.service_icon[0].filename,
+            checked: "1",
+        }).then(() => {
+            res.json({
+                success: "Hyzmat ustinlikli gosuldy",
+            });
+        });
+    } else {
+        await Service.create({
+            title: req.body.title,
+            description: req.body.description,
+            checked: "1",
+        }).then(() => {
+            res.json({
+                success: "Hyzmat ustinlikli gosuldy",
+            });
+        });
+    }
 });
 
 router.get("/edit/:serviceId", isAdmin, async (req, res) => {

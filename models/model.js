@@ -77,8 +77,8 @@ const Service = sequelize.define("service", {
     },
     title: { type: DataTypes.STRING, allowNull: false },
     description: { type: DataTypes.TEXT, allowNull: false },
-    service_img: { type: DataTypes.STRING, allowNull: false },
-    service_icon: { type: DataTypes.STRING, allowNull: false },
+    service_img: { type: DataTypes.STRING, allowNull: true },
+    service_icon: { type: DataTypes.STRING, allowNull: true },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
 
