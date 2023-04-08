@@ -233,9 +233,7 @@ News.belongsTo(Category)
 Welayat.hasMany(Region, { onDelete: "cascade", onUpdate: "cascade" })
 Region.belongsTo(Welayat)
 
-Region.hasMany(Address,  {
-    foreignKey: 'etrapId'
-  })
+Region.hasMany(Address, { onDelete: "cascade", onUpdate: "cascade" })
 Address.belongsTo(Region)
 
 Worker.hasMany(Tarif, { onDelete: "cascade", onUpdate: "cascade" })

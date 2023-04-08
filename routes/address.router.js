@@ -36,20 +36,25 @@ router.get("/create", isAdmin, async (req, res) => {
 });
 
 router.post("/create", isAdmin, async (req, res) => {
-    await Address.create({
-        title: req.body.title,
-        phone_num: req.body.phone_num,
-        latitude: req.body.latitude,
-        longitude: req.body.longitude,
-        open_time: req.body.open_time,
-        close_time: req.body.close_time,
-        etrapId: req.body.etrapId,
-        checked: "1"
-    }).then(() => {
-        res.json({
-            success: "Salgy ustinlikli gosuldy"
+    if (!req.body.title) {
+        res.json({ error: "error" })
+    } else {
+        await Address.create({
+            title: req.body.title,
+            phone_num: req.body.phone_num,
+            latitude: req.body.latitude,
+            longitude: req.body.longitude,
+            open_time: req.body.open_time,
+            close_time: req.body.close_time,
+            regionId: req.body.regionId,
+            checked: "1"
+        }).then(() => {
+            res.json({
+                success: "Salgy ustinlikli gosuldy"
+            })
         })
-    })
+    }
+
 });
 
 router.get("/edit/:addressId", isAdmin, async (req, res) => {
