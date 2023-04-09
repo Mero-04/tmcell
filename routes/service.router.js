@@ -35,7 +35,7 @@ router.get("/", isAdmin, async (req, res) => {
 
 router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
     if (req.files.service_img && req.files.service_icon) {
-        let compresedImage = path.join(__dirname, "../", "public", "compress", "service", path.parse(req.files.service_img[0].fieldname).name + "_" + Date.now() + path.extname(req.files.service_img[0].originalname));
+        let compresedImage = path.join(__dirname, "../", "public", "compress", "service", path.parse(req.files.service_img[0].fieldname).name + "_" +  path.parse(req.body.title).name + path.extname(req.files.service_img[0].originalname));
         await sharp(req.files.service_img[0].path)
             .jpeg({
                 quality: 30,
@@ -54,11 +54,17 @@ router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
             res.json({
                 success: "Hyzmat ustinlikli gosuldy",
             });
-        });
+        }).catch((err) => {
+            let msg = "";
+            for (let e of err.errors) {
+                msg += e.message + ""
+            }
+            res.json({ error: msg })
+        })
 
     } else if (req.files.service_img) {
 
-        let compresedImage = path.join(__dirname, "../", "public", "compress", "service", path.parse(req.files.service_img[0].fieldname).name + "_" + Date.now() + path.extname(req.files.service_img[0].originalname));
+        let compresedImage = path.join(__dirname, "../", "public", "compress", "service", path.parse(req.files.service_img[0].fieldname).name + "_" +  path.parse(req.body.title).name + path.extname(req.files.service_img[0].originalname));
         await sharp(req.files.service_img[0].path)
             .jpeg({
                 quality: 30,
@@ -76,7 +82,13 @@ router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
             res.json({
                 success: "Hyzmat ustinlikli gosuldy",
             });
-        });
+        }).catch((err) => {
+            let msg = "";
+            for (let e of err.errors) {
+                msg += e.message + ""
+            }
+            res.json({ error: msg })
+        })
 
     } else if (req.files.service_icon) {
 
@@ -90,7 +102,13 @@ router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
             res.json({
                 success: "Hyzmat ustinlikli gosuldy",
             });
-        });
+        }).catch((err) => {
+            let msg = "";
+            for (let e of err.errors) {
+                msg += e.message + ""
+            }
+            res.json({ error: msg })
+        })
     } else {
         await Service.create({
             title: req.body.title,
@@ -100,9 +118,15 @@ router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
             res.json({
                 success: "Hyzmat ustinlikli gosuldy",
             });
-        });
+        }).catch((err) => {
+            let msg = "";
+            for (let e of err.errors) {
+                msg += e.message + ""
+            }
+            res.json({ error: msg })
+        })
     }
-    
+
 });
 
 router.get("/edit/:serviceId", isAdmin, async (req, res) => {
@@ -116,29 +140,47 @@ router.get("/edit/:serviceId", isAdmin, async (req, res) => {
 });
 
 router.post("/edit/:serviceId", isAdmin, multiUpload.upload, async (req, res) => {
+    const current = await Service.findOne({ where: { id: req.params.serviceId } });
     let img = req.body.service_img;
-    if (req.file) {
-        fs.unlink("/public/img/service/" + img, err => {
+    let icon = req.body.service_icon;
+    if (req.files.service_img && req.files.service_icon) {
+        fs.unlink("/public/img/service/" + current.service_img, err => {
             console.log(err);
         })
-        fs.unlink("/public/compress/service/" + img, err => {
+        fs.unlink("/public/compress/service_icon/" + current.service_icon, err => {
             console.log(err);
         })
-        img = req.file.filename;
-        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'service', path.parse(req.file.fieldname).name + "_" + Date.now() + path.extname(req.file.originalname));
+        img = req.files.service_img[0].filename;
+        icon = req.files.service_icon[0].filename;
+        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'service', path.parse(req.files.service_img[0].fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.files.service_icon[0].originalname));
         await sharp(req.file.path).jpeg({
             quality: 30,
             chromaSubsampling: '4:4:4'
         }).toFile(compresedImage)
+    } else if (req.files.service_img) {
+        fs.unlink("/public/img/service/" + current.service_img, err => {
+            console.log(err);
+        })
+        img = req.files.service_img[0].filename;
+        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'service', path.parse(req.files.service_img[0].fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.files.service_icon[0].originalname));
+        await sharp(req.file.path).jpeg({
+            quality: 30,
+            chromaSubsampling: '4:4:4'
+        }).toFile(compresedImage)
+    } else if (req.files.service_icon) {
+        fs.unlink("/public/compress/service_icon/" + current.service_icon, err => {
+            console.log(err);
+        })
+        icon = req.files.service_icon[0].filename;
     }
 
     await Service.update({
         title: req.body.title,
         short_desc: req.body.short_desc,
         description: req.body.description,
-        icon: req.body.icon,
         checked: req.body.checked,
-        service_img: img
+        service_img: img,
+        service_icon: icon
     },
         { where: { id: req.params.serviceId } })
         .then(() => {

@@ -20,11 +20,31 @@ const Worker = sequelize.define("worker", {
         primaryKey: true,
         allowNull: true
     },
-    name: { type: DataTypes.STRING, allowNull: false },
-    email: { type: DataTypes.STRING, allowNull: false },
-    password: { type: DataTypes.STRING, allowNull: false },
-    phone_num: { type: DataTypes.STRING, allowNull: false },
-    role: { type: DataTypes.ENUM('Nyrhnama', 'Internet', 'Address', 'Tazelik', 'Hyzmat', 'Program'), allowNull: true }
+    name: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Adyny giriziň!" }
+        }
+    },
+    email: {
+        type: DataTypes.STRING, allowNull: false,
+        unique: { args: true, msg: "Bu e-poçta ulanylýar!" },
+        validate: { isEmail: { msg: "Hökman e-poçta bolmaly!" } }
+    },
+    password: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Açar sözini giriziň!" }
+        }
+    },
+    phone_num: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Telefon nomerini giriziň!" }
+        }
+    },
+    role: {
+        type: DataTypes.ENUM('Nyrhnama', 'Internet', 'Address', 'Tazelik', 'Hyzmat', 'Program'), allowNull: true, validate: {
+            notEmpty: { msg: "Status saylan!" }
+        }
+    }
 });
 
 const Category = sequelize.define("category", {
@@ -34,7 +54,11 @@ const Category = sequelize.define("category", {
         primaryKey: true,
         allowNull: true
     },
-    name: { type: DataTypes.STRING, allowNull: false }
+    name: {
+        type: DataTypes.STRING, allowNull: false, unique: { args: true, msg: "Bu kategoriýa önem bar!" }, validate: {
+            notEmpty: { msg: "Kategoriýanyň adyny giriziň!" }
+        }
+    }
 
 });
 
@@ -46,10 +70,24 @@ const News = sequelize.define("news", {
         primaryKey: true,
         allowNull: true
     },
-    title: { type: DataTypes.STRING, allowNull: false },
-    description: { type: DataTypes.TEXT, allowNull: false },
-    news_img: { type: DataTypes.STRING, allowNull: false },
-    checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
+    title: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Täzeligiň adyny giriziň!" }
+        }
+    },
+    description: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Täzeligiň mazmunyny giriziň!" }
+        }
+    },
+    news_img: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Täzeligiň suratyny giriziň!" }
+        }
+    },
+    checked: {
+        type: DataTypes.TINYINT, allowNull: false, defaultValue: "0"
+    }
 });
 
 const Internet = sequelize.define("internet", {
@@ -59,13 +97,41 @@ const Internet = sequelize.define("internet", {
         primaryKey: true,
         allowNull: true
     },
-    title: { type: DataTypes.STRING, allowNull: false },
-    volume: { type: DataTypes.STRING, allowNull: false },
-    price: { type: DataTypes.INTEGER, allowNull: false },
-    short_desc: { type: DataTypes.TEXT, allowNull: false },
-    description: { type: DataTypes.TEXT, allowNull: false },
-    connect_USSD: { type: DataTypes.STRING, allowNull: false },
-    internet_icon: { type: DataTypes.STRING, allowNull: false },
+    title: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Internet bukjanyň görnüşini giriziň!" }
+        }
+    },
+    volume: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Internet bukjanyň mukdaryny giriziň!" }
+        }
+    },
+    price: {
+        type: DataTypes.INTEGER, allowNull: false, validate: {
+            notEmpty: { msg: "Internet bukjanyň bahasyny giriziň!" }
+        }
+    },
+    short_desc: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Internet bukjanyň gysga mazmunyny giriziň!" }
+        }
+    },
+    description: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Internet bukjanyň mazmunyny giriziň!" }
+        }
+    },
+    connect_USSD: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Internet bukjanyň USSD kodyny giriziň!" }
+        }
+    },
+    internet_icon: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Internet paketiň iconyny giriziň!" }
+        }
+    },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
 
@@ -76,11 +142,31 @@ const Service = sequelize.define("service", {
         primaryKey: true,
         allowNull: true
     },
-    title: { type: DataTypes.STRING, allowNull: false },
-    short_desc: { type: DataTypes.TEXT, allowNull: false },
-    description: { type: DataTypes.TEXT, allowNull: false },
-    service_img: { type: DataTypes.STRING, allowNull: true },
-    service_icon: { type: DataTypes.STRING, allowNull: true },
+    title: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Hyzmatyň adyny giriziň!" }
+        }
+    },
+    short_desc: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Hyzmatyň gysga mazmunyny giriziň!" }
+        }
+    },
+    description: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Hyzmatyň mazmunyny giriziň!" }
+        }
+    },
+    service_img: {
+        type: DataTypes.STRING, allowNull: true, validate: {
+            notEmpty: { msg: "Hyzmatyň suratyny giriziň!" }
+        }
+    },
+    service_icon: {
+        type: DataTypes.STRING, allowNull: true, validate: {
+            notEmpty: { msg: "Hyzmatyň iconyny giriziň!" }
+        }
+    },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
 
@@ -91,7 +177,7 @@ const Welayat = sequelize.define("welayat", {
         primaryKey: true,
         allowNull: true
     },
-    name: { type: DataTypes.STRING, allowNull: false }
+    name: { type: DataTypes.STRING, allowNull: false, unique: { args: true, msg: "Bu welaýat önem bar!" }, }
 });
 
 const Region = sequelize.define("region", {
@@ -101,7 +187,7 @@ const Region = sequelize.define("region", {
         primaryKey: true,
         allowNull: true
     },
-    name: { type: DataTypes.STRING, allowNull: false }
+    name: { type: DataTypes.STRING, allowNull: false, unique: { args: true, msg: "Bu etrap önem bar!" }, }
 });
 
 const Address = sequelize.define("address", {
@@ -111,12 +197,36 @@ const Address = sequelize.define("address", {
         primaryKey: true,
         allowNull: true
     },
-    title: { type: DataTypes.STRING, allowNull: false },
-    phone_num: { type: DataTypes.STRING, allowNull: false },
-    open_time: { type: DataTypes.STRING, allowNull: false },
-    close_time: { type: DataTypes.STRING, allowNull: false },
-    latitude: { type: DataTypes.STRING, allowNull: false },
-    longitude: { type: DataTypes.STRING, allowNull: false },
+    title: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Salgyny giriziň!" }
+        }
+    },
+    phone_num: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Degişli operatoryň nomerini giriziň!" }
+        }
+    },
+    open_time: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Iş wagtyny giriziň!" }
+        }
+    },
+    close_time: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Iş wagtyny giriziň!" }
+        }
+    },
+    latitude: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Koordinatasyny giriziň!" }
+        }
+    },
+    longitude: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Koordinatasyny giriziň!" }
+        }
+    },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
 
@@ -127,12 +237,36 @@ const Tarif = sequelize.define("tarif", {
         primaryKey: true,
         allowNull: true
     },
-    title: { type: DataTypes.STRING, allowNull: false },
-    description: { type: DataTypes.TEXT, allowNull: false },
-    short_desc: { type: DataTypes.TEXT, allowNull: false },
-    tarif_img: { type: DataTypes.STRING, allowNull: false },
-    price: { type: DataTypes.STRING, allowNull: false },
-    period: { type: DataTypes.TINYINT, allowNull: false },
+    title: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Nyrhnamanyň adyny giriziň!" }
+        }
+    },
+    description: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Nyrhnamanyň mazmunyny giriziň!" }
+        }
+    },
+    short_desc: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Nyrhnamanyň gysga mazmunyny giriziň!" }
+        }
+    },
+    tarif_img: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Nyrhnamanyň suratyny giriziň!" }
+        }
+    },
+    price: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Nyrhnamanyň bahasyny giriziň!" }
+        }
+    },
+    period: {
+        type: DataTypes.TINYINT, allowNull: false, validate: {
+            notEmpty: { msg: "Nyrhnamanyň periodyny giriziň!" }
+        }
+    },
     status: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "1" },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
@@ -144,10 +278,26 @@ const Korporatiw = sequelize.define("korporatiw", {
         primaryKey: true,
         allowNull: true
     },
-    title: { type: DataTypes.STRING, allowNull: false },
-    short_desc: { type: DataTypes.TEXT, allowNull: false },
-    description: { type: DataTypes.TEXT, allowNull: false },
-    koporatiw_icon: { type: DataTypes.STRING, allowNull: false },
+    title: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Hyzmatyň adyny giriziň!" }
+        }
+    },
+    short_desc: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Hyzmatyň gysga mazmunyny giriziň!" }
+        }
+    },
+    description: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Hyzmatyň mazmunyny giriziň!" }
+        }
+    },
+    koporatiw_icon: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Hyzmatyň suratyny giriziň!" }
+        }
+    },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
 
@@ -158,8 +308,16 @@ const Sponsor = sequelize.define("sponsor", {
         primaryKey: true,
         allowNull: true
     },
-    title: { type: DataTypes.STRING, allowNull: false },
-    sponsor_img: { type: DataTypes.STRING, allowNull: false },
+    title: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Title giriziň!" }
+        }
+    },
+    sponsor_img: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Suraty giriziň!" }
+        }
+    },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
 
@@ -200,12 +358,36 @@ const Program = sequelize.define("program", {
         primaryKey: true,
         allowNull: true
     },
-    title: { type: DataTypes.STRING, allowNull: false },
-    description: { type: DataTypes.TEXT, allowNull: false },
-    program_img: { type: DataTypes.STRING, allowNull: false },
-    app_store: { type: DataTypes.STRING, allowNull: false },
-    play_store: { type: DataTypes.STRING, allowNull: false },
-    QR: { type: DataTypes.STRING, allowNull: true },
+    title: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Mobil goşundynyň adyny giriziň!" }
+        }
+    },
+    description: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Mobil goşundynyň mazmunyny giriziň!" }
+        }
+    },
+    program_img: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Mobil goşundynyň suratyny giriziň!" }
+        }
+    },
+    app_store: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Mobil goşundynyň app_store linkini giriziň!" }
+        }
+    },
+    play_store: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Mobil goşundynyň play_store linkini giriziň!" }
+        }
+    },
+    QR: {
+        type: DataTypes.STRING, allowNull: true, validate: {
+            notEmpty: { msg: "Mobil goşundynyň QR kodyny giriziň!" }
+        }
+    },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
 
@@ -216,8 +398,16 @@ const Banner = sequelize.define("banner", {
         primaryKey: true,
         allowNull: true
     },
-    link: { type: DataTypes.STRING, allowNull: false },
-    banner_img: { type: DataTypes.STRING, allowNull: false },
+    link: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Banneriň linkini giriziň!" }
+        }
+    },
+    banner_img: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Surat giriziň!" }
+        }
+    },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
 
@@ -228,10 +418,26 @@ const Popup = sequelize.define("popup", {
         primaryKey: true,
         allowNull: true
     },
-    title: { type: DataTypes.STRING, allowNull: false },
-    description: { type: DataTypes.TEXT, allowNull: false },
-    link: { type: DataTypes.STRING, allowNull: false },
-    popup_img: { type: DataTypes.STRING, allowNull: false },
+    title: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Adyny giriziň!" }
+        }
+    },
+    description: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Mazmunyny giriziň!" }
+        }
+    },
+    link: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Link giriziň!" }
+        }
+    },
+    popup_img: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Surat giriziň!" }
+        }
+    },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
 

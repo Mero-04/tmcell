@@ -42,7 +42,7 @@ router.get("/create", isAdmin, async (req, res) => {
 });
 
 router.post("/create", isAdmin, imageUpload.upload.single("news_img"), async (req, res) => {
-    let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'news', path.parse(req.file.fieldname).name + "_" + Date.now() + path.extname(req.file.originalname));
+    let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'news', path.parse(req.file.fieldname).name + "_" +  path.parse(req.body.title).name + path.extname(req.file.originalname));
     await sharp(req.file.path).jpeg({
         quality: 30,
         chromaSubsampling: '4:4:4'
@@ -57,6 +57,12 @@ router.post("/create", isAdmin, imageUpload.upload.single("news_img"), async (re
     }).then(() => {
         res.json({
             success: "Tazelik ustinlikli gosuldy"
+        }).catch((err) => {
+            let msg = "";
+            for (let e of err.errors) {
+                msg += e.message + ""
+            }
+            res.json({ error: msg })
         })
     })
 });
@@ -82,7 +88,7 @@ router.post("/edit/:newsId", isAdmin, imageUpload.upload.single("news_img"), asy
             console.log(err);
         })
         img = req.file.filename;
-        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'news', path.parse(req.file.fieldname).name + "_" + Date.now() + path.extname(req.file.originalname));
+        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'news', path.parse(req.file.fieldname).name + "_" +  path.parse(req.body.title).name + path.extname(req.file.originalname));
         await sharp(req.file.path).jpeg({
             quality: 30,
             chromaSubsampling: '4:4:4'
@@ -101,6 +107,13 @@ router.post("/edit/:newsId", isAdmin, imageUpload.upload.single("news_img"), asy
                 success: "Ustunlikli uytgedildi"
             })
         })
+        .catch((err) => {
+            let msg = "";
+            for (let e of err.errors) {
+                msg += e.message + ""
+            }
+            res.json({ error: msg })
+        })
 });
 
 router.delete("/delete/:newsId", isAdmin, async (req, res) => {
@@ -108,7 +121,7 @@ router.delete("/delete/:newsId", isAdmin, async (req, res) => {
         .then((news) => {
             if (news) {
                 fs.unlink("./public/img/news/" + news.news_img, err => { })
-                fs.unlink("./public/compress/news/" +  news.news_img, err => { })
+                fs.unlink("./public/compress/news/" + news.news_img, err => { })
                 news.destroy()
                 return res.json({
                     success: "Ustunlikli pozuldy"
@@ -192,7 +205,7 @@ router.get("/worker/edit/:newsId", isNews, async (req, res) => {
 router.post("/worker/edit/:newsId", isNews, imageUpload.upload.single("news_img"), async (req, res) => {
     let img = req.body.news_img;
     if (req.file) {
-         fs.unlink("/public/img/news/" + img, err => {
+        fs.unlink("/public/img/news/" + img, err => {
             console.log(err);
         })
         fs.unlink("/public/compress/news/" + img, err => {
@@ -230,7 +243,7 @@ router.delete("/worker/delete/:newsId", isNews, async (req, res) => {
         .then((news) => {
             if (news) {
                 fs.unlink("./public/img/news/" + news.news_img, err => { })
-                fs.unlink("./public/compress/news/" +  news.news_img, err => { })
+                fs.unlink("./public/compress/news/" + news.news_img, err => { })
                 news.destroy()
                 return res.json({
                     success: "Ustunlikli pozuldy"

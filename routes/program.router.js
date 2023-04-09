@@ -36,7 +36,7 @@ router.get("/", isAdmin, async (req, res) => {
 })
 
 router.post("/create", isAdmin, imageUpload.upload.single("program_img"), async (req, res) => {
-    let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'program', path.parse(req.file.fieldname).name + "_" + Date.now() + path.extname(req.file.originalname));
+    let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'program', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
     await sharp(req.file.path).jpeg({
         quality: 30,
         chromaSubsampling: '4:4:4'
@@ -53,6 +53,12 @@ router.post("/create", isAdmin, imageUpload.upload.single("program_img"), async 
         res.json({
             success: "Mobil gosundy ustinlikli gosuldy"
         })
+    }).catch((err) => {
+        let msg = "";
+        for (let e of err.errors) {
+            msg += e.message + ""
+        }
+        res.json({ error: msg })
     })
 });
 
@@ -77,7 +83,7 @@ router.post("/edit/:programId", isAdmin, imageUpload.upload.single("program_img"
             console.log(err);
         })
 
-        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'program', path.parse(req.file.fieldname).name + "_" + Date.now() + path.extname(req.file.originalname));
+        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'program', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
         await sharp(req.file.path).jpeg({
             quality: 30,
             chromaSubsampling: '4:4:4'
@@ -97,6 +103,13 @@ router.post("/edit/:programId", isAdmin, imageUpload.upload.single("program_img"
             res.json({
                 success: "Ustunlikli uytgedildi"
             })
+        })
+        .catch((err) => {
+            let msg = "";
+            for (let e of err.errors) {
+                msg += e.message + ""
+            }
+            res.json({ error: msg })
         })
 });
 

@@ -35,7 +35,7 @@ router.get("/", isAdmin, async (req, res) => {
 })
 
 router.post("/create", isAdmin, imageUpload.upload.single("popup_img"), async (req, res) => {
-    let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'popup', path.parse(req.file.fieldname).name + "_" + Date.now() + path.extname(req.file.originalname));
+    let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'popup', path.parse(req.file.fieldname).name + "_" +  path.parse(req.body.title).name + path.extname(req.file.originalname));
     await sharp(req.file.path).jpeg({
         quality: 30,
         chromaSubsampling: '4:4:4'
@@ -51,6 +51,12 @@ router.post("/create", isAdmin, imageUpload.upload.single("popup_img"), async (r
         res.json({
             success: "Ustinlikli gosuldy"
         })
+    }).catch((err) => {
+        let msg = "";
+        for (let e of err.errors) {
+            msg += e.message + ""
+        }
+        res.json({ error: msg })
     })
 });
 
@@ -74,7 +80,7 @@ router.post("/edit/:popupId", isAdmin, imageUpload.upload.single("popup_img"), a
             console.log(err);
         })
         img = req.file.filename;
-        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'popup', path.parse(req.file.fieldname).name + "_" + Date.now() + path.extname(req.file.originalname));
+        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'popup', path.parse(req.file.fieldname).name + "_" +  path.parse(req.body.title).name + path.extname(req.file.originalname));
         await sharp(req.file.path).jpeg({
             quality: 30,
             chromaSubsampling: '4:4:4'
@@ -92,6 +98,13 @@ router.post("/edit/:popupId", isAdmin, imageUpload.upload.single("popup_img"), a
             res.json({
                 success: "Ustunlikli uytgedildi"
             })
+        })
+        .catch((err) => {
+            let msg = "";
+            for (let e of err.errors) {
+                msg += e.message + ""
+            }
+            res.json({ error: msg })
         })
 });
 

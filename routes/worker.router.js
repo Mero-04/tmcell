@@ -42,6 +42,12 @@ router.post("/create", isAdmin, async (req, res) => {
         res.json({
             success: "Isgar ustinlikli gosuldy"
         })
+    }).catch((err) => {
+        let msg = "";
+        for (let e of err.errors) {
+            msg += e.message + ""
+        }
+        res.json({ error: msg })
     })
 });
 
@@ -72,6 +78,13 @@ router.post("/edit/:workerId", isAdmin, async (req, res) => {
             res.json({
                 success: "Ustunlikli uytgedildi"
             })
+        })
+        .catch((err) => {
+            let msg = "";
+            for (let e of err.errors) {
+                msg += e.message + ""
+            }
+            res.json({ error: msg })
         })
 });
 

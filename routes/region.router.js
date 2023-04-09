@@ -25,6 +25,12 @@ router.post("/create", isAdmin, async (req, res) => {
         res.json({
             success: "Etrap ustinlikli gosuldy"
         })
+    }).catch((err) => {
+        let msg = "";
+        for (let e of err.errors) {
+            msg += e.message + ""
+        }
+        res.json({ error: msg })
     })
 });
 
@@ -49,6 +55,13 @@ router.post("/edit/:regionId", isAdmin, async (req, res) => {
                 success: "Ustunlikli uytgedildi"
             })
         })
+        .catch((err) => {
+            let msg = "";
+            for (let e of err.errors) {
+                msg += e.message + ""
+            }
+            res.json({ error: msg })
+        })
 });
 
 router.delete("/delete/:regionId", isAdmin, async (req, res) => {
@@ -57,7 +70,7 @@ router.delete("/delete/:regionId", isAdmin, async (req, res) => {
             if (region) {
                 region.destroy()
                 return res.json({
-                    success:  "Ustunlikli pozuldy"
+                    success: "Ustunlikli pozuldy"
                 })
             } else {
                 res.json({

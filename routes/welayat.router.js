@@ -1,11 +1,11 @@
 const express = require('express');
 const { isAdmin } = require('../middlewares/authMiddleware');
 const router = express.Router();
-const { Welayat,Region } = require("../models/model");
+const { Welayat, Region } = require("../models/model");
 
 //superADMIN start
 router.get("/", isAdmin, async (req, res) => {
-    await Welayat.findAll( { model: Region, attributes: ['id', 'name'] })
+    await Welayat.findAll({ model: Region, attributes: ['id', 'name'] })
         .then((welayat) => {
             res.json({ welayat: welayat })
         })
@@ -18,6 +18,12 @@ router.post("/create", isAdmin, async (req, res) => {
         res.json({
             success: "Welayat ustinlikli gosuldy"
         })
+    }).catch((err) => {
+        let msg = "";
+        for (let e of err.errors) {
+            msg += e.message + ""
+        }
+        res.json({ error: msg })
     })
 });
 
@@ -41,6 +47,13 @@ router.post("/edit/:welayatId", isAdmin, async (req, res) => {
                 success: "Ustunlikli uytgedildi"
             })
         })
+        .catch((err) => {
+            let msg = "";
+            for (let e of err.errors) {
+                msg += e.message + ""
+            }
+            res.json({ error: msg })
+        })
 });
 
 router.delete("/delete/:welayatId", isAdmin, async (req, res) => {
@@ -49,7 +62,7 @@ router.delete("/delete/:welayatId", isAdmin, async (req, res) => {
             if (welayat) {
                 welayat.destroy()
                 return res.json({
-                    success:"Ustunlikli pozuldy"
+                    success: "Ustunlikli pozuldy"
                 })
             } else {
                 res.json({

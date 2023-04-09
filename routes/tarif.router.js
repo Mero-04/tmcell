@@ -35,7 +35,7 @@ router.get("/", isAdmin, async (req, res) => {
 })
 
 router.post("/create", isAdmin, imageUpload.upload.single("tarif_img"), async (req, res) => {
-    let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'tarif', path.parse(req.file.fieldname).name + "_" + Date.now() + path.extname(req.file.originalname));
+    let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'tarif', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
     await sharp(req.file.path).jpeg({
         quality: 30,
         chromaSubsampling: '4:4:4'
@@ -53,6 +53,12 @@ router.post("/create", isAdmin, imageUpload.upload.single("tarif_img"), async (r
         res.json({
             success: "Nyrhnama ustinlikli gosuldy"
         })
+    }).catch((err) => {
+        let msg = "";
+        for (let e of err.errors) {
+            msg += e.message + ""
+        }
+        res.json({ error: msg })
     })
 });
 
@@ -77,7 +83,7 @@ router.post("/edit/:tarifId", isAdmin, imageUpload.upload.single("tarif_img"), a
             console.log(err);
         })
 
-        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'tarif', path.parse(req.file.fieldname).name + "_" + Date.now() + path.extname(req.file.originalname));
+        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'tarif', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
         await sharp(req.file.path).jpeg({
             quality: 30,
             chromaSubsampling: '4:4:4'
@@ -98,6 +104,13 @@ router.post("/edit/:tarifId", isAdmin, imageUpload.upload.single("tarif_img"), a
             res.json({
                 success: "Ustunlikli uytgedildi"
             })
+        })
+        .catch((err) => {
+            let msg = "";
+            for (let e of err.errors) {
+                msg += e.message + ""
+            }
+            res.json({ error: msg })
         })
 });
 
