@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const { Tarif, Address, Region, Category, Internet, Service, Korporatiw, News, Program, Banner, Sponsor } = require("../models/model")
+const { Tarif, Address, Region, Category, Internet, Service, Korporatiw, News, Program, Banner, Sponsor, Welayat } = require("../models/model")
 const { Op } = require("sequelize");
 
 
@@ -92,7 +92,7 @@ router.get("/service/:serviceId", async (req, res) => {
 
 ///Adresss
 router.get("/region", async (req, res) => {
-    await Region.findAll()
+    await Region.findAll( { include: { model: Welayat, attributes: ['id', 'name'] } },)
         .then((region) => {
             res.json({ region: region })
         })
