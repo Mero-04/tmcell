@@ -120,9 +120,9 @@ router.get("/category", async (req, res) => {
 
 router.get("/news", async (req, res) => {
     const search = req.query.search || "";
-    await News.findAll({
-        where: { checked: "1", [Op.or]: [{ title: { [Op.like]: '%' + search + '%' } }, { description: { [Op.like]: '%' + search + '%' } }, { categoryId: { [Op.like]: '%' + search + '%' } }] },
-        include: { model: Category, attributes: ['id', 'name'] }
+    await News.findAll({include: { 
+        model: Category, attributes: ['id', 'name'] },
+        where: { checked: "1", [Op.or]: [{ title: { [Op.like]: '%' + search + '%' } }, { description: { [Op.like]: '%' + search + '%' } }, { categoryId: { [Op.like]: '%' + search + '%' } }] }
     }).then((news) => {
         res.json({ news: news })
     })
