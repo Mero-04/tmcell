@@ -24,7 +24,7 @@ const Worker = sequelize.define("worker", {
     email: { type: DataTypes.STRING, allowNull: false },
     password: { type: DataTypes.STRING, allowNull: false },
     phone_num: { type: DataTypes.STRING, allowNull: false },
-    role: { type: DataTypes.ENUM('Nyrhnama', 'Internet', 'Address', 'Tazelik', 'Hyzmat','Program'), allowNull: true }
+    role: { type: DataTypes.ENUM('Nyrhnama', 'Internet', 'Address', 'Tazelik', 'Hyzmat', 'Program'), allowNull: true }
 });
 
 const Category = sequelize.define("category", {
@@ -60,7 +60,7 @@ const Internet = sequelize.define("internet", {
         allowNull: true
     },
     title: { type: DataTypes.STRING, allowNull: false },
-    volume: { type: DataTypes.INTEGER, allowNull: false },
+    volume: { type: DataTypes.STRING, allowNull: false },
     price: { type: DataTypes.INTEGER, allowNull: false },
     short_desc: { type: DataTypes.TEXT, allowNull: false },
     description: { type: DataTypes.TEXT, allowNull: false },
@@ -132,7 +132,7 @@ const Tarif = sequelize.define("tarif", {
     short_desc: { type: DataTypes.TEXT, allowNull: false },
     tarif_img: { type: DataTypes.STRING, allowNull: false },
     price: { type: DataTypes.STRING, allowNull: false },
-    period: { type: DataTypes.TINYINT, allowNull: false},
+    period: { type: DataTypes.TINYINT, allowNull: false },
     status: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "1" },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
@@ -170,10 +170,26 @@ const Contact = sequelize.define("contact", {
         primaryKey: true,
         allowNull: true
     },
-    name: { type: DataTypes.STRING, allowNull: false },
-    email: { type: DataTypes.STRING, allowNull: false },
-    subject: { type: DataTypes.STRING, allowNull: false },
-    comment: { type: DataTypes.STRING, allowNull: false }
+    name: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Adyňyzy giriziň!" }
+        }
+    },
+    email: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "E-poçtaňyzy giriziň!" }
+        }
+    },
+    subject: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Teswiriňiziň temasyny giriziň!" }
+        }
+    },
+    comment: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Teswiriňizi giriziň!" }
+        }
+    }
 
 });
 

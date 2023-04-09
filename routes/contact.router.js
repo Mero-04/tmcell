@@ -28,9 +28,6 @@ router.get("/", isAdmin, async (req, res) => {
 });
 
 router.post("/create", async (req, res) => {
-    if (!(req.body.name && req.body.email && req.body.subject && req.body.comment)) {
-        res.json({ error: "Ahli öyjükleri dolduruň!" });
-    }
     await Contact.create({
         name: req.body.name,
         email: req.body.email,
@@ -38,6 +35,12 @@ router.post("/create", async (req, res) => {
         comment: req.body.comment
     }).then(() => {
         res.json({ success: "Teswir ustunlikli ugrdyldy" });
+    }).catch((err)=>{
+        let msg = "";
+        for (let e of err.errors) {
+            msg += e.message + ""
+        }
+        res.json({error: msg})
     })
 }
 );
