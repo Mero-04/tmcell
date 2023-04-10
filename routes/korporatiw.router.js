@@ -13,7 +13,7 @@ const path = require("path")
 //superADMIN start
 router.get("/", isAdmin, async (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 1;
-    const limit =20;
+    const limit = 20;
     const offset = (page - 1) * limit;
     var before = offset > 0 ? page - 1 : 1;
     var next = page + 1;
@@ -35,9 +35,10 @@ router.get("/", isAdmin, async (req, res) => {
         })
 })
 
-router.post("/create", isAdmin,imageUpload.upload.single("korporatiw_icon"), async (req, res) => {
+router.post("/create", isAdmin, imageUpload.upload.single("korporatiw_icon"), async (req, res) => {
     await Korporatiw.create({
         title: req.body.title,
+        price: req.body.price,
         short_desc: req.body.short_desc,
         description: req.body.description,
         korporatiw_icon: req.file.filename,
@@ -46,12 +47,12 @@ router.post("/create", isAdmin,imageUpload.upload.single("korporatiw_icon"), asy
         res.json({
             success: "Korporatiw nyrhnama ustinlikli gosuldy"
         })
-    }).catch((err)=>{
+    }).catch((err) => {
         let msg = "";
         for (let e of err.errors) {
             msg += e.message + ""
         }
-        res.json({error: msg})
+        res.json({ error: msg })
     })
 });
 
@@ -75,6 +76,7 @@ router.post("/edit/:korporatiwId", isAdmin, imageUpload.upload.single("korporati
     }
     await Korporatiw.update({
         title: req.body.title,
+        price: req.body.price,
         short_desc: req.body.short_desc,
         description: req.body.description,
         checked: req.body.checked,

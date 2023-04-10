@@ -283,6 +283,11 @@ const Korporatiw = sequelize.define("korporatiw", {
             notEmpty: { msg: "Hyzmatyň adyny giriziň!" }
         }
     },
+    price: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Hyzmatyň bahasyny giriziň!" }
+        }
+    },
     short_desc: {
         type: DataTypes.TEXT, allowNull: false, validate: {
             notEmpty: { msg: "Hyzmatyň gysga mazmunyny giriziň!" }
