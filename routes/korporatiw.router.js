@@ -47,12 +47,8 @@ router.post("/create", isAdmin, imageUpload.upload.single("korporatiw_icon"), as
         res.json({
             success: "Korporatiw nyrhnama ustinlikli gosuldy"
         })
-    }).catch((err) => {
-        let msg = "";
-        for (let e of err.errors) {
-            msg += e.message + ""
-        }
-        res.json({ error: msg })
+    }).catch((error) => {
+        res.json({ error: error })
     })
 });
 
@@ -88,12 +84,8 @@ router.post("/edit/:korporatiwId", isAdmin, imageUpload.upload.single("korporati
                 success: "Ustunlikli uytgedildi"
             })
         })
-        .catch((err) => {
-            let msg = "";
-            for (let e of err.errors) {
-                msg += e.message + ""
-            }
-            res.json({ error: msg })
+        .catch((error) => {
+            res.json({ error: error })
         })
 });
 

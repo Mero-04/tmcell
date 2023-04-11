@@ -57,12 +57,8 @@ router.post("/create", isAdmin, imageUpload.upload.single("news_img"), async (re
     }).then(() => {
         res.json({
             success: "Tazelik ustinlikli gosuldy"
-        }).catch((err) => {
-            let msg = "";
-            for (let e of err.errors) {
-                msg += e.message + ""
-            }
-            res.json({ error: msg })
+        }).catch((error) => {
+            res.json({ error: error })
         })
     })
 });
@@ -107,12 +103,8 @@ router.post("/edit/:newsId", isAdmin, imageUpload.upload.single("news_img"), asy
                 success: "Ustunlikli uytgedildi"
             })
         })
-        .catch((err) => {
-            let msg = "";
-            for (let e of err.errors) {
-                msg += e.message + ""
-            }
-            res.json({ error: msg })
+        .catch((error) => {
+            res.json({ error: error })
         })
 });
 

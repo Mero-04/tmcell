@@ -49,12 +49,8 @@ router.post("/create", isAdmin, imageUpload.upload.single("sponsor_img"), async 
         res.json({
             success: "Ustinlikli gosuldy"
         })
-    }).catch((err) => {
-        let msg = "";
-        for (let e of err.errors) {
-            msg += e.message + ""
-        }
-        res.json({ error: msg })
+    }).catch((error) => {
+        res.json({ error: error })
     })
 });
 
@@ -95,12 +91,8 @@ router.post("/edit/:sponsorId", isAdmin, imageUpload.upload.single("sponsor_img"
                 success: "Ustunlikli uytgedildi"
             })
         })
-        .catch((err) => {
-            let msg = "";
-            for (let e of err.errors) {
-                msg += e.message + ""
-            }
-            res.json({ error: msg })
+        .catch((error) => {
+            res.json({ error: error })
         })
 });
 

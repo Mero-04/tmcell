@@ -18,12 +18,8 @@ router.post("/create", isAdmin, async (req, res) => {
         res.json({
             success: "Welayat ustinlikli gosuldy"
         })
-    }).catch((err) => {
-        let msg = "";
-        for (let e of err.errors) {
-            msg += e.message + ""
-        }
-        res.json({ error: msg })
+    }).catch((error) => {
+        res.json({ error: error })
     })
 });
 
@@ -47,12 +43,8 @@ router.post("/edit/:welayatId", isAdmin, async (req, res) => {
                 success: "Ustunlikli uytgedildi"
             })
         })
-        .catch((err) => {
-            let msg = "";
-            for (let e of err.errors) {
-                msg += e.message + ""
-            }
-            res.json({ error: msg })
+        .catch((error) => {
+            res.json({ error: error })
         })
 });
 

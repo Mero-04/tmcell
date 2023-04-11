@@ -12,7 +12,7 @@ router.get("/tarif", async (req, res) => {
 });
 
 router.get("/tarif/old", async (req, res) => {
-    await Tarif.findAll({ where: { checked: "1", status: "0" } }).then((tarif) => {
+    await Tarif.findAll({ where: { checked: "1", status: "0" } }).then((oldtarif) => {
         res.json({ oldtarif: oldtarif })
     })
 });

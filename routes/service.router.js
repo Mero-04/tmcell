@@ -54,12 +54,8 @@ router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
             res.json({
                 success: "Hyzmat ustinlikli gosuldy",
             });
-        }).catch((err) => {
-            let msg = "";
-            for (let e of err.errors) {
-                msg += e.message + ""
-            }
-            res.json({ error: msg })
+        }).catch((error) => {
+            res.json({ error: error })
         })
 
     } else if (req.files.service_img) {
@@ -82,12 +78,8 @@ router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
             res.json({
                 success: "Hyzmat ustinlikli gosuldy",
             });
-        }).catch((err) => {
-            let msg = "";
-            for (let e of err.errors) {
-                msg += e.message + ""
-            }
-            res.json({ error: msg })
+        }).catch((error) => {
+            res.json({ error: error })
         })
 
     } else if (req.files.service_icon) {
@@ -102,12 +94,8 @@ router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
             res.json({
                 success: "Hyzmat ustinlikli gosuldy",
             });
-        }).catch((err) => {
-            let msg = "";
-            for (let e of err.errors) {
-                msg += e.message + ""
-            }
-            res.json({ error: msg })
+        }).catch((error) => {
+            res.json({ error: error })
         })
     } else {
         await Service.create({
@@ -118,12 +106,8 @@ router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
             res.json({
                 success: "Hyzmat ustinlikli gosuldy",
             });
-        }).catch((err) => {
-            let msg = "";
-            for (let e of err.errors) {
-                msg += e.message + ""
-            }
-            res.json({ error: msg })
+        }).catch((error) => {
+            res.json({ error: error })
         })
     }
 

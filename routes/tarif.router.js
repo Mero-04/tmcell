@@ -53,12 +53,8 @@ router.post("/create", isAdmin, imageUpload.upload.single("tarif_img"), async (r
         res.json({
             success: "Nyrhnama ustinlikli gosuldy"
         })
-    }).catch((err) => {
-        let msg = "";
-        for (let e of err.errors) {
-            msg += e.message + ""
-        }
-        res.json({ error: msg })
+    }).catch((error) => {
+        res.json({ error: error })
     })
 });
 
@@ -105,12 +101,8 @@ router.post("/edit/:tarifId", isAdmin, imageUpload.upload.single("tarif_img"), a
                 success: "Ustunlikli uytgedildi"
             })
         })
-        .catch((err) => {
-            let msg = "";
-            for (let e of err.errors) {
-                msg += e.message + ""
-            }
-            res.json({ error: msg })
+        .catch((error) => {
+            res.json({ error: error })
         })
 });
 

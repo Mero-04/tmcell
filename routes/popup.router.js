@@ -51,12 +51,8 @@ router.post("/create", isAdmin, imageUpload.upload.single("popup_img"), async (r
         res.json({
             success: "Ustinlikli gosuldy"
         })
-    }).catch((err) => {
-        let msg = "";
-        for (let e of err.errors) {
-            msg += e.message + ""
-        }
-        res.json({ error: msg })
+    }).catch((error) => {
+        res.json({ error: error })
     })
 });
 
@@ -99,12 +95,8 @@ router.post("/edit/:popupId", isAdmin, imageUpload.upload.single("popup_img"), a
                 success: "Ustunlikli uytgedildi"
             })
         })
-        .catch((err) => {
-            let msg = "";
-            for (let e of err.errors) {
-                msg += e.message + ""
-            }
-            res.json({ error: msg })
+        .catch((error) => {
+            res.json({ error: error })
         })
 });
 

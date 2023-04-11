@@ -47,12 +47,8 @@ router.post("/create", isAdmin, imageUpload.upload.single("internet_icon"), asyn
     }).then(() => {
         res.json({
             success: "Internet nyrhnamasy ustinlikli gosuldy"
-        }).catch((err) => {
-            let msg = "";
-            for (let e of err.errors) {
-                msg += e.message + ""
-            }
-            res.json({ error: msg })
+        }).catch((error) => {
+            res.json({ error: error })
         })
     })
 });
@@ -91,12 +87,8 @@ router.post("/edit/:internetId", isAdmin, imageUpload.upload.single("internet_ic
                 success: "Ustunlikli uytgedildi"
             })
         })
-        .catch((err) => {
-            let msg = "";
-            for (let e of err.errors) {
-                msg += e.message + ""
-            }
-            res.json({ error: msg })
+        .catch((error) => {
+            res.json({ error: error })
         })
 });
 
