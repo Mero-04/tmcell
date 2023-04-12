@@ -9,33 +9,28 @@ const fs = require('fs')
 const sharp = require("sharp");
 const path = require("path")
 
-//superADMIN start
 router.get("/", isAdmin, async (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const limit = 5;
     const offset = (page - 1) * limit;
     var before = offset > 0 ? page - 1 : 1;
     var next = page + 1;
-    await Popup.findAndCountAll({
-        limit,
-        offset
-    })
-        .then((popups) => {
-            res.json({
-                popups: popups.rows,
-                pagination: {
-                    before: before,
-                    next: next,
-                    page: page,
-                    total: popups.count,
-                    pages: Math.ceil(popups.count / limit)
-                }
-            })
+    await Popup.findAndCountAll({ limit, offset }).then((popups) => {
+        res.json({
+            popups: popups.rows,
+            pagination: {
+                before: before,
+                next: next,
+                page: page,
+                total: popups.count,
+                pages: Math.ceil(popups.count / limit)
+            }
         })
+    })
 })
 
 router.post("/create", isAdmin, imageUpload.upload.single("popup_img"), async (req, res) => {
-    let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'popup', path.parse(req.file.fieldname).name + "_" +  path.parse(req.body.title).name + path.extname(req.file.originalname));
+    let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'popup', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
     await sharp(req.file.path).jpeg({
         quality: 30,
         chromaSubsampling: '4:4:4'
@@ -76,7 +71,7 @@ router.post("/edit/:popupId", isAdmin, imageUpload.upload.single("popup_img"), a
             console.log(err);
         })
         img = req.file.filename;
-        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'popup', path.parse(req.file.fieldname).name + "_" +  path.parse(req.body.title).name + path.extname(req.file.originalname));
+        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'popup', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
         await sharp(req.file.path).jpeg({
             quality: 30,
             chromaSubsampling: '4:4:4'
@@ -88,36 +83,31 @@ router.post("/edit/:popupId", isAdmin, imageUpload.upload.single("popup_img"), a
         link: req.body.link,
         popup_img: img,
         checked: req.body.checked,
-    },
-        { where: { id: req.params.popupId } })
-        .then(() => {
-            res.json({
-                success: "Ustunlikli uytgedildi"
-            })
+    }, { where: { id: req.params.popupId } }).then(() => {
+        res.json({
+            success: "Ustunlikli uytgedildi"
         })
-        .catch((error) => {
-            res.json({ error: error })
-        })
+    }).catch((error) => {
+        res.json({ error: error })
+    })
 });
 
 router.delete("/delete/:popupId", isAdmin, async (req, res) => {
-    await Popup.findOne({ where: { id: req.params.popupId } })
-        .then((popup) => {
-            if (popup) {
-                fs.unlink("./public/img/popup/" + popup.popup_img, err => { })
-                fs.unlink("./public/compress/popup/" + popup.popup_img, err => { })
-                popup.destroy()
-                return res.json({
-                    success: "Ustunlikli pozuldy"
-                })
-            } else {
-                res.json({
-                    error: "Tapylmady"
-                })
-            }
-        })
+    await Popup.findOne({ where: { id: req.params.popupId } }).then((popup) => {
+        if (popup) {
+            fs.unlink("./public/img/popup/" + popup.popup_img, err => { })
+            fs.unlink("./public/compress/popup/" + popup.popup_img, err => { })
+            popup.destroy()
+            return res.json({
+                success: "Ustunlikli pozuldy"
+            })
+        } else {
+            res.json({
+                error: "Tapylmady"
+            })
+        }
+    })
 });
-//superADMIN end
 
 
 

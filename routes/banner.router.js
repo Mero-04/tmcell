@@ -10,13 +10,10 @@ const sharp = require("sharp");
 const path = require("path")
 
 
-
-//superADMIN start
 router.get("/", isAdmin, async (req, res) => {
-    await Banner.findAll()
-        .then((banner) => {
-            res.json({ banner: banner })
-        })
+    await Banner.findAll().then((banner) => {
+        res.json({ banner: banner })
+    })
 })
 
 router.post("/create", isAdmin, bannerUpload.upload.single("banner_img"), async (req, res) => {
@@ -33,9 +30,7 @@ router.post("/create", isAdmin, bannerUpload.upload.single("banner_img"), async 
 });
 
 router.get("/edit/:bannerId", isAdmin, async (req, res) => {
-    await Banner.findOne({
-        where: { id: req.params.bannerId }
-    }).then((banner) => {
+    await Banner.findOne({ where: { id: req.params.bannerId } }).then((banner) => {
         res.json({
             banner: banner
         })
@@ -53,33 +48,29 @@ router.post("/edit/:bannerId", isAdmin, bannerUpload.upload.single("banner_img")
     await Banner.update({
         link: req.body.link,
         banner_img: img
-    },
-        { where: { id: req.params.bannerId } })
-        .then(() => {21321321
-            res.json({
-                success: "Ustunlikli uytgedildi"
-            })
+    }, { where: { id: req.params.bannerId } }).then(() => {
+        res.json({
+            success: "Ustunlikli uytgedildi"
         })
-        .catch((error) => {
-            res.json({ error: error })
-        })
+    }).catch((error) => {
+        res.json({ error: error })
+    })
 });
 
 router.delete("/delete/:bannerId", isAdmin, async (req, res) => {
-    await Banner.findOne({ where: { id: req.params.bannerId } })
-        .then((banner) => {
-            if (banner) {
-                fs.unlink("./public/img/banner/" + banner.banner_img, err => { })
-                banner.destroy()
-                return res.json({
-                    success: "Ustunlikli pozuldy"
-                })
-            } else {
-                res.json({
-                    error: "Tapylmady"
-                })
-            }
-        })
+    await Banner.findOne({ where: { id: req.params.bannerId } }).then((banner) => {
+        if (banner) {
+            fs.unlink("./public/img/banner/" + banner.banner_img, err => { })
+            banner.destroy()
+            return res.json({
+                success: "Ustunlikli pozuldy"
+            })
+        } else {
+            res.json({
+                error: "Tapylmady"
+            })
+        }
+    })
 });
 //superADMIN end
 

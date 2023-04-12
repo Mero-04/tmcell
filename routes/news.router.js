@@ -20,19 +20,18 @@ router.get("/", isAdmin, async (req, res) => {
         limit,
         offset,
         include: { model: Category, attributes: ['id', 'name'] }
-    })
-        .then((news) => {
-            res.json({
-                news: news.rows,
-                pagination: {
-                    before: before,
-                    next: next,
-                    page: page,
-                    total: news.count,
-                    pages: Math.ceil(news.count / limit)
-                }
-            })
+    }).then((news) => {
+        res.json({
+            news: news.rows,
+            pagination: {
+                before: before,
+                next: next,
+                page: page,
+                total: news.count,
+                pages: Math.ceil(news.count / limit)
+            }
         })
+    })
 })
 
 router.get("/create", isAdmin, async (req, res) => {
@@ -42,7 +41,7 @@ router.get("/create", isAdmin, async (req, res) => {
 });
 
 router.post("/create", isAdmin, imageUpload.upload.single("news_img"), async (req, res) => {
-    let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'news', path.parse(req.file.fieldname).name + "_" +  path.parse(req.body.title).name + path.extname(req.file.originalname));
+    let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'news', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
     await sharp(req.file.path).jpeg({
         quality: 30,
         chromaSubsampling: '4:4:4'
@@ -84,7 +83,7 @@ router.post("/edit/:newsId", isAdmin, imageUpload.upload.single("news_img"), asy
             console.log(err);
         })
         img = req.file.filename;
-        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'news', path.parse(req.file.fieldname).name + "_" +  path.parse(req.body.title).name + path.extname(req.file.originalname));
+        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'news', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
         await sharp(req.file.path).jpeg({
             quality: 30,
             chromaSubsampling: '4:4:4'
@@ -96,34 +95,30 @@ router.post("/edit/:newsId", isAdmin, imageUpload.upload.single("news_img"), asy
         news_img: img,
         checked: req.body.checked,
         categoryId: req.body.categoryId
-    },
-        { where: { id: req.params.newsId } })
-        .then(() => {
-            res.json({
-                success: "Ustunlikli uytgedildi"
-            })
+    }, { where: { id: req.params.newsId } }).then(() => {
+        res.json({
+            success: "Ustunlikli uytgedildi"
         })
-        .catch((error) => {
-            res.json({ error: error })
-        })
+    }).catch((error) => {
+        res.json({ error: error })
+    })
 });
 
 router.delete("/delete/:newsId", isAdmin, async (req, res) => {
-    await News.findOne({ where: { id: req.params.newsId } })
-        .then((news) => {
-            if (news) {
-                fs.unlink("./public/img/news/" + news.news_img, err => { })
-                fs.unlink("./public/compress/news/" + news.news_img, err => { })
-                news.destroy()
-                return res.json({
-                    success: "Ustunlikli pozuldy"
-                })
-            } else {
-                res.json({
-                    error: "Tapylmady"
-                })
-            }
-        })
+    await News.findOne({ where: { id: req.params.newsId } }).then((news) => {
+        if (news) {
+            fs.unlink("./public/img/news/" + news.news_img, err => { })
+            fs.unlink("./public/compress/news/" + news.news_img, err => { })
+            news.destroy()
+            return res.json({
+                success: "Ustunlikli pozuldy"
+            })
+        } else {
+            res.json({
+                error: "Tapylmady"
+            })
+        }
+    })
 });
 //superADMIN end
 
@@ -138,8 +133,8 @@ router.get("/worker/", isNews, async (req, res) => {
     await News.findAndCountAll({
         limit,
         offset,
-        where: req.user.role == "Tazelik" ? { workerId: req.user.id } : null,
-        include: { model: Category, attributes: ['id', 'name'] }
+        include: { model: Category, attributes: ['id', 'name'] },
+        where: req.user.role == "Tazelik" ? { workerId: req.user.id } : null
     })
         .then((news) => {
             res.json({
@@ -216,36 +211,33 @@ router.post("/worker/edit/:newsId", isNews, imageUpload.upload.single("news_img"
         news_img: img,
         categoryId: req.body.categoryId,
         workerId: req.user.id
-    },
-        {
-            where: {
-                id: req.params.newsId,
-                workerId: req.user.id
-            }
+    }, {
+        where: {
+            id: req.params.newsId,
+            workerId: req.user.id
+        }
+    }).then(() => {
+        res.json({
+            success: "Ustunlikli uytgedildi"
         })
-        .then(() => {
-            res.json({
-                success: "Ustunlikli uytgedildi"
-            })
-        })
+    })
 });
 
 router.delete("/worker/delete/:newsId", isNews, async (req, res) => {
-    await News.findOne({ where: { id: req.params.newsId } })
-        .then((news) => {
-            if (news) {
-                fs.unlink("./public/img/news/" + news.news_img, err => { })
-                fs.unlink("./public/compress/news/" + news.news_img, err => { })
-                news.destroy()
-                return res.json({
-                    success: "Ustunlikli pozuldy"
-                })
-            } else {
-                res.json({
-                    error: "Tapylmady"
-                })
-            }
-        })
+    await News.findOne({ where: { id: req.params.newsId } }).then((news) => {
+        if (news) {
+            fs.unlink("./public/img/news/" + news.news_img, err => { })
+            fs.unlink("./public/compress/news/" + news.news_img, err => { })
+            news.destroy()
+            return res.json({
+                success: "Ustunlikli pozuldy"
+            })
+        } else {
+            res.json({
+                error: "Tapylmady"
+            })
+        }
+    })
 });
 //workerADMIN end
 

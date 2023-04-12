@@ -4,7 +4,7 @@ const { Admin, Worker } = require('../models/model');
 const { sign } = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
 
-// Admin login
+
 router.post("/rootman", async (req, res) => {
     const { email, password } = req.body;
     await Admin.findOne({ where: { email: email } })
@@ -26,7 +26,6 @@ router.post("/rootman", async (req, res) => {
         })
 });
 
-// Worker login
 router.post("/login", async (req, res) => {
     const { email, password } = req.body;
     await Worker.findOne({ where: { email: email } })

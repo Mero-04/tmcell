@@ -9,7 +9,6 @@ const fs = require('fs')
 const sharp = require("sharp");
 const path = require("path")
 
-//superADMIN start
 router.get("/", isAdmin, async (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const size = 10;
@@ -17,22 +16,18 @@ router.get("/", isAdmin, async (req, res) => {
     const limit = page * size;
     var before = offset > 0 ? page - 1 : 1;
     var next = page + 1;
-    await Program.findAndCountAll({
-        limit,
-        offset
-    })
-        .then((programs) => {
-            res.json({
-                programs: programs.rows,
-                pagination: {
-                    before: before,
-                    next: next,
-                    page: page,
-                    total: programs.count,
-                    pages: Math.ceil(programs.count / size)
-                }
-            })
+    await Program.findAndCountAll({ limit, offset }).then((programs) => {
+        res.json({
+            programs: programs.rows,
+            pagination: {
+                before: before,
+                next: next,
+                page: page,
+                total: programs.count,
+                pages: Math.ceil(programs.count / size)
+            }
         })
+    })
 })
 
 router.post("/create", isAdmin, imageUpload.upload.single("program_img"), async (req, res) => {
@@ -122,7 +117,6 @@ router.delete("/delete/:programId", isAdmin, async (req, res) => {
             }
         })
 });
-//superADMIN end
 
 
 //workerADMIN start

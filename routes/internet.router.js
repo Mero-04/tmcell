@@ -9,29 +9,24 @@ const fs = require('fs')
 const sharp = require("sharp");
 const path = require("path")
 
-//superADMIN start
 router.get("/", isAdmin, async (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const limit = 20;
     const offset = (page - 1) * limit;
     var before = offset > 0 ? page - 1 : 1;
     var next = page + 1;
-    await Internet.findAndCountAll({
-        limit,
-        offset
-    })
-        .then((internets) => {
-            res.json({
-                internets: internets.rows,
-                pagination: {
-                    before: before,
-                    next: next,
-                    page: page,
-                    total: internets.count,
-                    pages: Math.ceil(internets.count / limit)
-                }
-            })
+    await Internet.findAndCountAll({ limit, offset }).then((internets) => {
+        res.json({
+            internets: internets.rows,
+            pagination: {
+                before: before,
+                next: next,
+                page: page,
+                total: internets.count,
+                pages: Math.ceil(internets.count / limit)
+            }
         })
+    })
 })
 
 router.post("/create", isAdmin, imageUpload.upload.single("internet_icon"), async (req, res) => {
@@ -54,9 +49,7 @@ router.post("/create", isAdmin, imageUpload.upload.single("internet_icon"), asyn
 });
 
 router.get("/edit/:internetId", isAdmin, async (req, res) => {
-    await Internet.findOne({
-        where: { id: req.params.internetId }
-    }).then((internet) => {
+    await Internet.findOne({ where: { id: req.params.internetId } }).then((internet) => {
         res.json({
             internet: internet
         })
@@ -80,35 +73,30 @@ router.post("/edit/:internetId", isAdmin, imageUpload.upload.single("internet_ic
         checked: req.body.checked,
         internet_icon: img,
         connect_USSD: req.body.connect_USSD
-    },
-        { where: { id: req.params.internetId } })
-        .then(() => {
-            res.json({
-                success: "Ustunlikli uytgedildi"
-            })
+    }, { where: { id: req.params.internetId } }).then(() => {
+        res.json({
+            success: "Ustunlikli uytgedildi"
         })
-        .catch((error) => {
-            res.json({ error: error })
-        })
+    }).catch((error) => {
+        res.json({ error: error })
+    })
 });
 
 router.delete("/delete/:internetId", isAdmin, async (req, res) => {
-    await Internet.findOne({ where: { id: req.params.internetId } })
-        .then((internet) => {
-            if (internet) {
-                fs.unlink("./public/img/internet/" + internet.internet_icon, err => { })
-                internet.destroy()
-                return res.json({
-                    success: "Ustunlikli pozuldy"
-                })
-            } else {
-                res.json({
-                    error: "Tapylmady"
-                })
-            }
-        })
+    await Internet.findOne({ where: { id: req.params.internetId } }).then((internet) => {
+        if (internet) {
+            fs.unlink("./public/img/internet/" + internet.internet_icon, err => { })
+            internet.destroy()
+            return res.json({
+                success: "Ustunlikli pozuldy"
+            })
+        } else {
+            res.json({
+                error: "Tapylmady"
+            })
+        }
+    })
 });
-//superADMIN end
 
 
 

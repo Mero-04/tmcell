@@ -3,7 +3,6 @@ const { isAdmin, isAddress } = require('../middlewares/authMiddleware');
 const router = express.Router();
 const { Address, Region } = require("../models/model");
 
-//superADMIN start
 router.get("/", isAdmin, async (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const limit = 20;
@@ -14,19 +13,18 @@ router.get("/", isAdmin, async (req, res) => {
         limit,
         offset,
         include: { model: Region, attributes: ['id', 'name'] }
-    })
-        .then((addresses) => {
-            res.json({
-                addresses: addresses.rows,
-                pagination: {
-                    before: before,
-                    next: next,
-                    page: page,
-                    total: addresses.count,
-                    pages: Math.ceil(addresses.count / limit)
-                }
-            })
+    }).then((addresses) => {
+        res.json({
+            addresses: addresses.rows,
+            pagination: {
+                before: before,
+                next: next,
+                page: page,
+                total: addresses.count,
+                pages: Math.ceil(addresses.count / limit)
+            }
         })
+    })
 })
 
 router.get("/create", isAdmin, async (req, res) => {
@@ -80,16 +78,13 @@ router.post("/edit/:addressId", isAdmin, async (req, res) => {
         close_time: req.body.close_time,
         checked: req.body.checked,
         regionId: req.body.regionId,
-    },
-        { where: { id: req.params.addressId } })
-        .then(() => {
-            res.json({
-                success: "Ustunlikli uytgedildi"
-            })
+    }, { where: { id: req.params.addressId } }).then(() => {
+        res.json({
+            success: "Ustunlikli uytgedildi"
         })
-        .catch((error) => {
-            res.json({ error: error })
-        })
+    }).catch((error) => {
+        res.json({ error: error })
+    })
 });
 
 router.delete("/delete/:addressId", isAdmin, async (req, res) => {
@@ -107,7 +102,6 @@ router.delete("/delete/:addressId", isAdmin, async (req, res) => {
             }
         })
 });
-//superADMIN end
 
 
 

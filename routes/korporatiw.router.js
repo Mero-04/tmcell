@@ -17,22 +17,18 @@ router.get("/", isAdmin, async (req, res) => {
     const offset = (page - 1) * limit;
     var before = offset > 0 ? page - 1 : 1;
     var next = page + 1;
-    await Korporatiw.findAndCountAll({
-        limit,
-        offset
-    })
-        .then((korporatiws) => {
-            res.json({
-                korporatiws: korporatiws.rows,
-                pagination: {
-                    before: before,
-                    next: next,
-                    page: page,
-                    total: korporatiws.count,
-                    pages: Math.ceil(korporatiws.count / limit)
-                }
-            })
+    await Korporatiw.findAndCountAll({ limit, offset }).then((korporatiws) => {
+        res.json({
+            korporatiws: korporatiws.rows,
+            pagination: {
+                before: before,
+                next: next,
+                page: page,
+                total: korporatiws.count,
+                pages: Math.ceil(korporatiws.count / limit)
+            }
         })
+    })
 })
 
 router.post("/create", isAdmin, imageUpload.upload.single("korporatiw_icon"), async (req, res) => {
@@ -77,21 +73,17 @@ router.post("/edit/:korporatiwId", isAdmin, imageUpload.upload.single("korporati
         description: req.body.description,
         checked: req.body.checked,
         korporatiw_icon: img
-    },
-        { where: { id: req.params.korporatiwId } })
-        .then(() => {
-            res.json({
-                success: "Ustunlikli uytgedildi"
-            })
+    }, { where: { id: req.params.korporatiwId } }).then(() => {
+        res.json({
+            success: "Ustunlikli uytgedildi"
         })
-        .catch((error) => {
-            res.json({ error: error })
-        })
+    }).catch((error) => {
+        res.json({ error: error })
+    })
 });
 
 router.delete("/delete/:korporatiwId", isAdmin, async (req, res) => {
-    await Korporatiw.findOne({ where: { id: req.params.korporatiwId } })
-        .then((korporatiw) => {
+    await Korporatiw.findOne({ where: { id: req.params.korporatiwId } }).then((korporatiw) => {
             if (korporatiw) {
                 fs.unlink("./public/img/korporatiw/" + korporatiw.korporatiw_icon, err => { })
                 korporatiw.destroy()
