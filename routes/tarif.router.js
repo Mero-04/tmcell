@@ -9,29 +9,24 @@ const fs = require('fs')
 const sharp = require("sharp");
 const path = require("path")
 
-//superADMIN start
 router.get("/", isAdmin, async (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const limit = 5;
     const offset = (page - 1) * limit;
     var before = offset > 0 ? page - 1 : 1;
     var next = page + 1;
-    await Tarif.findAndCountAll({
-        limit,
-        offset
-    })
-        .then((tarifs) => {
-            res.json({
-                tarifs: tarifs.rows,
-                pagination: {
-                    before: before,
-                    next: next,
-                    page: page,
-                    total: tarifs.count,
-                    pages: Math.ceil(tarifs.count / limit)
-                }
-            })
+    await Tarif.findAndCountAll({ limit, offset }).then((tarifs) => {
+        res.json({
+            tarifs: tarifs.rows,
+            pagination: {
+                before: before,
+                next: next,
+                page: page,
+                total: tarifs.count,
+                pages: Math.ceil(tarifs.count / limit)
+            }
         })
+    })
 })
 
 router.post("/create", isAdmin, imageUpload.upload.single("tarif_img"), async (req, res) => {
@@ -50,34 +45,20 @@ router.post("/create", isAdmin, imageUpload.upload.single("tarif_img"), async (r
         tarif_img: req.file.filename,
         checked: "1"
     }).then(() => {
-        res.json({
-            success: "Nyrhnama ustinlikli gosuldy"
-        })
-    }).catch((error) => {
-        res.json({ error: error })
-    })
+        res.json({ success: "Nyrhnama ustinlikli gosuldy" })
+    }).catch((error) => { res.json({ error: error }) })
 });
 
 router.get("/edit/:tarifId", isAdmin, async (req, res) => {
-    await Tarif.findOne({
-        where: { id: req.params.tarifId }
-    }).then((tarif) => {
-        res.json({
-            tarif: tarif
-        })
-    })
+    await Tarif.findOne({ where: { id: req.params.tarifId } }).then((tarif) => { res.json({ tarif: tarif }) })
 });
 
 router.post("/edit/:tarifId", isAdmin, imageUpload.upload.single("tarif_img"), async (req, res) => {
     let img = req.body.tarif_img;
     if (req.file) {
         img = req.file.filename;
-        fs.unlink("/public/img/tarif/" + img, err => {
-            console.log(err);
-        })
-        fs.unlink("/public/compress/tarif/" + img, err => {
-            console.log(err);
-        })
+        fs.unlink("/public/img/tarif/" + img, err => { console.log(err); })
+        fs.unlink("/public/compress/tarif/" + img, err => { console.log(err); })
 
         let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'tarif', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
         await sharp(req.file.path).jpeg({
@@ -94,36 +75,21 @@ router.post("/edit/:tarifId", isAdmin, imageUpload.upload.single("tarif_img"), a
         period: req.body.period,
         checked: req.body.checked,
         tarif_img: img
-    },
-        { where: { id: req.params.tarifId } })
-        .then(() => {
-            res.json({
-                success: "Ustunlikli uytgedildi"
-            })
-        })
-        .catch((error) => {
-            res.json({ error: error })
-        })
+    }, { where: { id: req.params.tarifId } }).then(() => {
+        res.json({ success: "Ustunlikli uytgedildi" })
+    }).catch((error) => { res.json({ error: error }) })
 });
 
 router.delete("/delete/:tarifId", isAdmin, async (req, res) => {
-    await Tarif.findOne({ where: { id: req.params.tarifId } })
-        .then((tarif) => {
-            if (tarif) {
-                fs.unlink("./public/img/tarif/" + tarif.tarif_img, err => { })
-                fs.unlink("./public/compress/tarif/" + tarif.tarif_img, err => { })
-                tarif.destroy()
-                return res.json({
-                    success: "Ustunlikli pozuldy"
-                })
-            } else {
-                res.json({
-                    error: "Tapylmady"
-                })
-            }
-        })
+    await Tarif.findOne({ where: { id: req.params.tarifId } }).then((tarif) => {
+        if (tarif) {
+            fs.unlink("./public/img/tarif/" + tarif.tarif_img, err => { })
+            fs.unlink("./public/compress/tarif/" + tarif.tarif_img, err => { })
+            tarif.destroy()
+            return res.json({ success: "Ustunlikli pozuldy" })
+        } else { res.json({ error: "Tapylmady" }) }
+    })
 });
-//superADMIN end
 
 
 //workerADMIN start

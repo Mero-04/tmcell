@@ -3,7 +3,6 @@ const { isAdmin } = require("../middlewares/authMiddleware");
 const router = express.Router();
 const { Contact } = require("../models/model");
 
-//User ucin
 router.get("/", isAdmin, async (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const limit = 20;
@@ -21,10 +20,7 @@ router.get("/", isAdmin, async (req, res) => {
                 pages: Math.ceil(contacts.count / limit)
             }
         })
-    }).catch((err) => {
-        console.log(err)
-        res.status(500).json({ err })
-    })
+    }).catch((error) => { res.status(500).json({ error: error }) })
 });
 
 router.post("/create", async (req, res) => {
@@ -33,21 +29,13 @@ router.post("/create", async (req, res) => {
         email: req.body.email,
         subject: req.body.subject,
         comment: req.body.comment
-    }).then(() => {
-        res.json({ success: "Teswir ustunlikli ugrdyldy" });
-    }).catch((error) => {
-        res.json({ error: error })
-    })
-}
-);
+    }).then(() => { res.json({ success: "Teswir ustunlikli ugrdyldy" }) })
+        .catch((error) => { res.json({ error: error }) })
+});
 
 router.get("/edit/:contactId", isAdmin, async (req, res) => {
-    await Contact.findOne({
-        where: { id: req.params.contactId }
-    })
-        .then((contact) => {
-            res.json({ contact: contact })
-        })
+    await Contact.findOne({ where: { id: req.params.contactId } })
+        .then((contact) => { res.json({ contact: contact }) })
 });
 
 router.post("/edit/:contactId", isAdmin, async (req, res) => {
@@ -58,28 +46,17 @@ router.post("/edit/:contactId", isAdmin, async (req, res) => {
             subject: req.body.subject,
             comment: req.body.comment
         },
-        { where: { id: req.params.contactId } })
-        .then(() => {
-            res.json({ success: "ustunlikli uytgedildi" });
-        })
-        .catch((error) => {
-            res.json({ error: error })
-        })
+        { where: { id: req.params.contactId } }).then(() => { res.json({ success: "ustunlikli uytgedildi" }); })
+        .catch((error) => { res.json({ error: error }) })
 });
 
 router.delete("/delete/:contactId", isAdmin, async (req, res) => {
-    await Contact.findOne({
-        where: { id: req.params.contactId }
-    }).then((contact) => {
+    await Contact.findOne({ where: { id: req.params.contactId } }).then((contact) => {
         if (contact) {
             contact.destroy();
             return res.json({ success: "Teswir ustunlikli pozuldy" })
-        } else {
-            res.json({ error: "Teswir tapylmady" })
-        }
-    }).catch((err) => {
-        res.status(500).json({ err });
-    })
+        } else { res.json({ error: "Teswir tapylmady" }) }
+    }).catch((error) => { res.status(500).json({ error }) })
 });
 
 module.exports = router;

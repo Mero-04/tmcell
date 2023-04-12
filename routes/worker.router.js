@@ -10,22 +10,18 @@ router.get("/", isAdmin, async (req, res) => {
     const offset = (page - 1) * limit;
     var before = offset > 0 ? page - 1 : 1;
     var next = page + 1;
-    await Worker.findAndCountAll({
-        limit,
-        offset
-    })
-        .then((worker) => {
-            res.json({
-                worker: worker.rows,
-                pagination: {
-                    before: before,
-                    next: next,
-                    page: page,
-                    total: worker.count,
-                    pages: Math.ceil(worker.count / limit)
-                }
-            })
+    await Worker.findAndCountAll({ limit, offset }).then((worker) => {
+        res.json({
+            worker: worker.rows,
+            pagination: {
+                before: before,
+                next: next,
+                page: page,
+                total: worker.count,
+                pages: Math.ceil(worker.count / limit)
+            }
         })
+    })
 });
 
 router.post("/create", isAdmin, async (req, res) => {
@@ -38,22 +34,13 @@ router.post("/create", isAdmin, async (req, res) => {
         phone_num: req.body.phone_num,
         password: hash,
         role: req.body.role
-    }).then(() => {
-        res.json({
-            success: "Isgar ustinlikli gosuldy"
-        })
-    }).catch((error) => {
-        res.json({ error: error })
-    })
+    }).then(() => { res.json({ success: "Isgar ustinlikli gosuldy" }) })
+        .catch((error) => { res.json({ error: error }) })
 });
 
 router.get("/edit/:workerId", isAdmin, async (req, res) => {
-    await Worker.findOne({
-        where: { id: req.params.workerId }
-    }).then((worker) => {
-        res.json({
-            worker: worker
-        })
+    await Worker.findOne({ where: { id: req.params.workerId } }).then((worker) => {
+        res.json({ worker: worker })
     })
 });
 
@@ -68,30 +55,18 @@ router.post("/edit/:workerId", isAdmin, async (req, res) => {
         password: hash,
         role: req.body.role,
         checked: req.body.checked
-    },
-        { where: { id: req.params.workerId } })
-        .then(() => {
-            res.json({
-                success: "Ustunlikli uytgedildi"
-            })
-        })
-        .catch((error) => {
-            res.json({ error: error })
-        })
+    }, { where: { id: req.params.workerId } }).then(() => {
+        res.json({ success: "Ustunlikli uytgedildi" })
+    }).catch((error) => { res.json({ error: error }) })
 });
 
 router.delete("/delete/:workerId", isAdmin, async (req, res) => {
-    await Worker.findOne({ id: req.params.workerId })
-        .then((worker) => {
-            if (worker) {
-                worker.destroy()
-                res.json({
-                    success: "Ustunlikli pozuldy"
-                })
-            } res.json({
-                error: "Tapylmady"
-            })
-        })
+    await Worker.findOne({ id: req.params.workerId }).then((worker) => {
+        if (worker) {
+            worker.destroy()
+            res.json({ success: "Ustunlikli pozuldy" })
+        } res.json({ error: "Tapylmady" })
+    })
 });
 
 module.exports = router;

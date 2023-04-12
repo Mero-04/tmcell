@@ -383,15 +383,17 @@ const Program = sequelize.define("program", {
             notEmpty: { msg: "Mobil goşundynyň app_store linkini giriziň!" }
         }
     },
+
     play_store: {
         type: DataTypes.STRING, allowNull: false, validate: {
             notEmpty: { msg: "Mobil goşundynyň play_store linkini giriziň!" }
         }
     },
-    QR: {
-        type: DataTypes.STRING, allowNull: true, validate: {
-            notEmpty: { msg: "Mobil goşundynyň QR kodyny giriziň!" }
-        }
+    play_store_qr: {
+        type: DataTypes.TEXT, allowNull: true
+    },
+    app_store_qr: {
+        type: DataTypes.TEXT, allowNull: true
     },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });

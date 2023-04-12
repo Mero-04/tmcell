@@ -1,4 +1,3 @@
-//Express 
 const express = require('express');
 const app = express();
 require('dotenv').config();
@@ -53,7 +52,6 @@ app.use("/api/v1/sponsor", SponsorRouter);
 app.use("/api/v1/popup", PopupRouter);
 
 
-//serv
 app.listen(port, () => {
     console.log(`server listening on port ${port}`);
 })

@@ -40,29 +40,20 @@ router.post("/create", isAdmin, imageUpload.upload.single("internet_icon"), asyn
         internet_icon: req.file.filename,
         checked: "1"
     }).then(() => {
-        res.json({
-            success: "Internet nyrhnamasy ustinlikli gosuldy"
-        }).catch((error) => {
-            res.json({ error: error })
-        })
+        res.json({ success: "Internet nyrhnamasy ustinlikli gosuldy" })
+            .catch((error) => { res.json({ error: error }) })
     })
 });
 
 router.get("/edit/:internetId", isAdmin, async (req, res) => {
-    await Internet.findOne({ where: { id: req.params.internetId } }).then((internet) => {
-        res.json({
-            internet: internet
-        })
-    })
+    await Internet.findOne({ where: { id: req.params.internetId } }).then((internet) => { res.json({ internet: internet }) })
 });
 
 router.post("/edit/:internetId", isAdmin, imageUpload.upload.single("internet_icon"), async (req, res) => {
     let img = req.body.internet_icon;
     if (req.file) {
         img = req.file.filename;
-        fs.unlink("/public/img/internet/" + img, err => {
-            console.log(err);
-        })
+        fs.unlink("/public/img/internet/" + img, err => { console.log(err); })
     }
     await Internet.update({
         title: req.body.title,
@@ -74,12 +65,8 @@ router.post("/edit/:internetId", isAdmin, imageUpload.upload.single("internet_ic
         internet_icon: img,
         connect_USSD: req.body.connect_USSD
     }, { where: { id: req.params.internetId } }).then(() => {
-        res.json({
-            success: "Ustunlikli uytgedildi"
-        })
-    }).catch((error) => {
-        res.json({ error: error })
-    })
+        res.json({ success: "Ustunlikli uytgedildi" })
+    }).catch((error) => { res.json({ error: error }) })
 });
 
 router.delete("/delete/:internetId", isAdmin, async (req, res) => {
@@ -87,14 +74,8 @@ router.delete("/delete/:internetId", isAdmin, async (req, res) => {
         if (internet) {
             fs.unlink("./public/img/internet/" + internet.internet_icon, err => { })
             internet.destroy()
-            return res.json({
-                success: "Ustunlikli pozuldy"
-            })
-        } else {
-            res.json({
-                error: "Tapylmady"
-            })
-        }
+            return res.json({ success: "Ustunlikli pozuldy" })
+        } else { res.json({ error: "Tapylmady" }) }
     })
 });
 

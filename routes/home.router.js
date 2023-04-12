@@ -4,130 +4,81 @@ const { Tarif, Address, Region, Category, Internet, Service, Korporatiw, News, P
 const { Op } = require("sequelize");
 
 router.get("/tarif", async (req, res) => {
-    await Tarif.findAll({ where: { checked: "1", status: "1" } }).then((tarifs) => {
-        res.json({ tarifs: tarifs })
-    })
+    await Tarif.findAll({ where: { checked: "1", status: "1" } }).then((tarifs) => { res.json({ tarifs: tarifs }) })
 });
 
 router.get("/tarif/old", async (req, res) => {
-    await Tarif.findAll({ where: { checked: "1", status: "0" } }).then((oldtarif) => {
-        res.json({ oldtarif: oldtarif })
-    })
+    await Tarif.findAll({ where: { checked: "1", status: "0" } }).then((oldtarif) => { res.json({ oldtarif: oldtarif }) })
 });
 
 router.get("/tarif/:tarifId", async (req, res) => {
     await Tarif.findAll({
-        where: {
-            id: req.params.tarifId,
-            checked: "1"
-        }
-    }).then((tarif) => {
-        res.json({ tarif: tarif })
-    })
+        where: { id: req.params.tarifId, checked: "1" }
+    }).then((tarif) => { res.json({ tarif: tarif }) })
 });
 
 
 router.get("/korporatiw", async (req, res) => {
-    await Korporatiw.findAll({ where: { checked: "1" } }).then((korporatiws) => {
-        res.json({ korporatiws: korporatiws })
-    })
+    await Korporatiw.findAll({ where: { checked: "1" } }).then((korporatiws) => { res.json({ korporatiws: korporatiws }) })
 });
 
 router.get("/korporatiw/:korporatiwId", async (req, res) => {
     await Korporatiw.findAll({
-        where: {
-            id: req.params.korporatiwId,
-            checked: "1"
-        }
-    }).then((korporatiw) => {
-        res.json({ korporatiw: korporatiw })
-    })
+        where: { id: req.params.korporatiwId, checked: "1" }
+    }).then((korporatiw) => { res.json({ korporatiw: korporatiw }) })
 });
 
 
 router.get("/internet", async (req, res) => {
-    await Internet.findAll({ where: { checked: "1" } }).then((internets) => {
-        res.json({ internets: internets })
-    })
+    await Internet.findAll({ where: { checked: "1" } }).then((internets) => { res.json({ internets: internets }) })
 });
 
 router.get("/internet/:internetId", async (req, res) => {
     await Internet.findAll({
-        where: {
-            id: req.params.internetId,
-            checked: "1"
-        }
-    }).then((internet) => {
-        res.json({ internet: internet })
-    })
+        where: { id: req.params.internetId, checked: "1" }
+    }).then((internet) => { res.json({ internet: internet }) })
 });
 
 
 router.get("/service", async (req, res) => {
-    await Service.findAll({ where: { checked: "1" } }).then((services) => {
-        res.json({ services: services })
-    })
+    await Service.findAll({ where: { checked: "1" } }).then((services) => { res.json({ services: services }) })
 });
 
 router.get("/service/:serviceId", async (req, res) => {
     await Service.findAll({
-        where: {
-            id: req.params.serviceId,
-            checked: "1"
-        }
-    }).then((service) => {
-        res.json({ service: service })
-    })
+        where: { id: req.params.serviceId, checked: "1" }
+    }).then((service) => { res.json({ service: service }) })
 });
 
 
 router.get("/region", async (req, res) => {
-    await Region.findAll({ include: { model: Welayat, attributes: ['id', 'name'] } }).then((region) => {
-            res.json({ region: region })
-        })
+    await Region.findAll({ include: { model: Welayat, attributes: ['id', 'name'] } }).then((region) => { res.json({ region: region }) })
 });
 
 router.get("/address", async (req, res) => {
-    const page = req.query.page ? parseInt(req.query.page) : 1;
-    const limit = 10;
-    const offset = (page - 1) * limit;
-    var before = offset > 0 ? page - 1 : 1;
-    var next = page + 1;
-    await Address.findAndCountAll(
+    await Address.findAll(
         { include: { model: Region, attributes: ['id', 'name'] } },
         { where: { checked: "1" } }
     ).then((address) => {
-            res.json({
-                address: address.rows,
-                pagination: {
-                    before: before,
-                    next: next,
-                    page: page,
-                    total: address.count,
-                    pages: Math.ceil(address.count / limit)
-                }
-            })
-        })
+        res.json({ address: address })
+    })
 });
-///Adresss
 
 
-///News
 router.get("/category", async (req, res) => {
-    await Category.findAll().then((category) => {
-            res.json({ category: category })
-        })
+    await Category.findAll().then((category) => { res.json({ category: category }) })
 });
 
 router.get("/news", async (req, res) => {
-    const page = req.query.page ? parseInt(req.query.page) : 1;  
+    const page = req.query.page ? parseInt(req.query.page) : 1;
     const search = req.query.search || "";
-    const limit = 10;
+    const limit = 8;
     const offset = (page - 1) * limit;
     var before = offset > 0 ? page - 1 : 1;
     var next = page + 1;
     await News.findAndCountAll({
-        include: {model: Category, attributes: ['id', 'name']},
+        offset, limit,
+        include: { model: Category, attributes: ['id', 'name'] },
         where: { checked: "1", [Op.or]: [{ title: { [Op.like]: '%' + search + '%' } }, { description: { [Op.like]: '%' + search + '%' } }, { categoryId: { [Op.like]: '%' + search + '%' } }] }
     }).then((news) => {
         res.json({
@@ -145,10 +96,7 @@ router.get("/news", async (req, res) => {
 
 router.get("/news/:newsId", async (req, res) => {
     await News.findAll({
-        where: {
-            id: req.params.newsId,
-            checked: "1"
-        }
+        where: { id: req.params.newsId, checked: "1" }
     }).then((news) => {
         res.json({ news: news })
     })

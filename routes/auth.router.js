@@ -4,7 +4,6 @@ const { Admin, Worker } = require('../models/model');
 const { sign } = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
 
-
 router.post("/rootman", async (req, res) => {
     const { email, password } = req.body;
     await Admin.findOne({ where: { email: email } })
@@ -16,11 +15,7 @@ router.post("/rootman", async (req, res) => {
                 if (!passwordIsValid) {
                     res.json({ error: "Ulanyjynyň nomeri ýa-da açar sözi nädogry" })
                 } else {
-                    const accessToken = sign(
-                        { id: admin.id, role: admin.role },
-                        "importantsecret"
-                    );
-                    res.json({ token: accessToken });
+                    res.json({ token: sign({ id: admin.id, role: admin.role }, "importantsecret") });
                 }
             }
         })
@@ -37,11 +32,7 @@ router.post("/login", async (req, res) => {
                 if (!passwordIsValid) {
                     res.json({ error: "Ulanyjynyň nomeri ýa-da açar sözi nädogry" })
                 } else {
-                    const accessToken = sign(
-                        { id: worker.id, role: worker.role },
-                        "importantsecret"
-                    );
-                    res.json({ token: accessToken });
+                    res.json({ token: sign({ id: worker.id, role: worker.role }, "importantsecret") });
                 }
             }
         })

@@ -39,32 +39,21 @@ router.post("/create", isAdmin, imageUpload.upload.single("korporatiw_icon"), as
         description: req.body.description,
         korporatiw_icon: req.file.filename,
         checked: "1"
-    }).then(() => {
-        res.json({
-            success: "Korporatiw nyrhnama ustinlikli gosuldy"
-        })
-    }).catch((error) => {
-        res.json({ error: error })
-    })
+    }).then(() => { res.json({ success: "Korporatiw nyrhnama ustinlikli gosuldy" }) })
+        .catch((error) => { res.json({ error: error }) })
 });
 
 router.get("/edit/:korporatiwId", isAdmin, async (req, res) => {
     await Korporatiw.findOne({
         where: { id: req.params.korporatiwId }
-    }).then((korporatiw) => {
-        res.json({
-            korporatiw: korporatiw
-        })
-    })
+    }).then((korporatiw) => { res.json({ korporatiw: korporatiw }) })
 });
 
 router.post("/edit/:korporatiwId", isAdmin, imageUpload.upload.single("korporatiw_icon"), async (req, res) => {
     let img = req.body.korporatiw_icon;
     if (req.file) {
         img = req.file.filename;
-        fs.unlink("/public/img/korporatiw/" + img, err => {
-            console.log(err);
-        })
+        fs.unlink("/public/img/korporatiw/" + img, err => { console.log(err); })
     }
     await Korporatiw.update({
         title: req.body.title,
@@ -74,30 +63,19 @@ router.post("/edit/:korporatiwId", isAdmin, imageUpload.upload.single("korporati
         checked: req.body.checked,
         korporatiw_icon: img
     }, { where: { id: req.params.korporatiwId } }).then(() => {
-        res.json({
-            success: "Ustunlikli uytgedildi"
-        })
-    }).catch((error) => {
-        res.json({ error: error })
-    })
+        res.json({ success: "Ustunlikli uytgedildi" })
+    }).catch((error) => { res.json({ error: error }) })
 });
 
 router.delete("/delete/:korporatiwId", isAdmin, async (req, res) => {
     await Korporatiw.findOne({ where: { id: req.params.korporatiwId } }).then((korporatiw) => {
-            if (korporatiw) {
-                fs.unlink("./public/img/korporatiw/" + korporatiw.korporatiw_icon, err => { })
-                korporatiw.destroy()
-                return res.json({
-                    success: "Ustunlikli pozuldy"
-                })
-            } else {
-                res.json({
-                    error: "Tapylmady"
-                })
-            }
-        })
+        if (korporatiw) {
+            fs.unlink("./public/img/korporatiw/" + korporatiw.korporatiw_icon, err => { })
+            korporatiw.destroy()
+            return res.json({ success: "Ustunlikli pozuldy" })
+        } else { res.json({ error: "Tapylmady" }) }
+    })
 });
-//superADMIN end
 
 
 

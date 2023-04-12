@@ -28,9 +28,7 @@ router.get("/", isAdmin, async (req, res) => {
 })
 
 router.get("/create", isAdmin, async (req, res) => {
-    await Region.findAll().then((region) => {
-        res.json({ region: region })
-    })
+    await Region.findAll().then((region) => { res.json({ region: region }) })
 });
 
 router.post("/create", isAdmin, async (req, res) => {
@@ -47,12 +45,8 @@ router.post("/create", isAdmin, async (req, res) => {
             regionId: req.body.regionId,
             checked: "1"
         }).then(() => {
-            res.json({
-                success: "Salgy ustinlikli gosuldy"
-            })
-        }).catch((error) => {
-            res.json({ error: error })
-        })
+            res.json({ success: "Salgy ustinlikli gosuldy" })
+        }).catch((error) => { res.json({ error: error }) })
     }
 
 });
@@ -61,11 +55,7 @@ router.get("/edit/:addressId", isAdmin, async (req, res) => {
     await Address.findOne({
         where: { id: req.params.addressId },
         include: { model: Region, attributes: ['id', 'name'] }
-    }).then((address) => {
-        res.json({
-            address: address
-        })
-    })
+    }).then((address) => { res.json({ address: address }) })
 });
 
 router.post("/edit/:addressId", isAdmin, async (req, res) => {
@@ -79,12 +69,8 @@ router.post("/edit/:addressId", isAdmin, async (req, res) => {
         checked: req.body.checked,
         regionId: req.body.regionId,
     }, { where: { id: req.params.addressId } }).then(() => {
-        res.json({
-            success: "Ustunlikli uytgedildi"
-        })
-    }).catch((error) => {
-        res.json({ error: error })
-    })
+        res.json({ success: "Ustunlikli uytgedildi" })
+    }).catch((error) => { res.json({ error: error }) })
 });
 
 router.delete("/delete/:addressId", isAdmin, async (req, res) => {
@@ -92,13 +78,9 @@ router.delete("/delete/:addressId", isAdmin, async (req, res) => {
         .then((address) => {
             if (address) {
                 address.destroy()
-                return res.json({
-                    success: "Ustunlikli pozuldy"
-                })
+                return res.json({ success: "Ustunlikli pozuldy" })
             } else {
-                res.json({
-                    error: "Tapylmady"
-                })
+                res.json({ error: "Tapylmady" })
             }
         })
 });

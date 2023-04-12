@@ -135,25 +135,22 @@ router.get("/worker/", isNews, async (req, res) => {
         offset,
         include: { model: Category, attributes: ['id', 'name'] },
         where: req.user.role == "Tazelik" ? { workerId: req.user.id } : null
-    })
-        .then((news) => {
-            res.json({
-                news: news.rows,
-                pagination: {
-                    before: before,
-                    next: next,
-                    page: page,
-                    total: news.count,
-                    pages: Math.ceil(news.count / limit)
-                }
-            })
+    }).then((news) => {
+        res.json({
+            news: news.rows,
+            pagination: {
+                before: before,
+                next: next,
+                page: page,
+                total: news.count,
+                pages: Math.ceil(news.count / limit)
+            }
         })
+    })
 })
 
 router.get("/worker/create", isNews, async (req, res) => {
-    await Category.findAll().then((category) => {
-        res.json({ category: category })
-    })
+    await Category.findAll().then((category) => { res.json({ category: category }) })
 });
 
 router.post("/worker/create", isNews, imageUpload.upload.single("news_img"), async (req, res) => {
@@ -169,35 +166,20 @@ router.post("/worker/create", isNews, imageUpload.upload.single("news_img"), asy
         news_img: req.file.filename,
         categoryId: req.body.categoryId,
         workerId: req.user.id
-    }).then(() => {
-        res.json({
-            success: "Tazelik ustinlikli gosuldy"
-        })
-    })
+    }).then(() => { res.json({ success: "Tazelik ustinlikli gosuldy" }) })
 });
 
 router.get("/worker/edit/:newsId", isNews, async (req, res) => {
     await News.findOne({
-        where: {
-            id: req.params.newsId,
-            workerId: req.user.id
-        }
-    }).then((news) => {
-        res.json({
-            news: news
-        })
-    })
+        where: { id: req.params.newsId, workerId: req.user.id }
+    }).then((news) => { res.json({ news: news }) })
 });
 
 router.post("/worker/edit/:newsId", isNews, imageUpload.upload.single("news_img"), async (req, res) => {
     let img = req.body.news_img;
     if (req.file) {
-        fs.unlink("/public/img/news/" + img, err => {
-            console.log(err);
-        })
-        fs.unlink("/public/compress/news/" + img, err => {
-            console.log(err);
-        })
+        fs.unlink("/public/img/news/" + img, err => { console.log(err); })
+        fs.unlink("/public/compress/news/" + img, err => { console.log(err); })
         img = req.file.filename;
         let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'news', path.parse(req.file.fieldname).name + "_" + Date.now() + path.extname(req.file.originalname));
         await sharp(req.file.path).jpeg({
@@ -216,11 +198,7 @@ router.post("/worker/edit/:newsId", isNews, imageUpload.upload.single("news_img"
             id: req.params.newsId,
             workerId: req.user.id
         }
-    }).then(() => {
-        res.json({
-            success: "Ustunlikli uytgedildi"
-        })
-    })
+    }).then(() => { res.json({ success: "Ustunlikli uytgedildi" }) })
 });
 
 router.delete("/worker/delete/:newsId", isNews, async (req, res) => {
@@ -229,17 +207,10 @@ router.delete("/worker/delete/:newsId", isNews, async (req, res) => {
             fs.unlink("./public/img/news/" + news.news_img, err => { })
             fs.unlink("./public/compress/news/" + news.news_img, err => { })
             news.destroy()
-            return res.json({
-                success: "Ustunlikli pozuldy"
-            })
-        } else {
-            res.json({
-                error: "Tapylmady"
-            })
-        }
+            return res.json({ success: "Ustunlikli pozuldy" })
+        } else { res.json({ error: "Tapylmady" }) }
     })
 });
-//workerADMIN end
 
 
 
