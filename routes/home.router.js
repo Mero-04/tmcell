@@ -69,6 +69,8 @@ router.get("/category", async (req, res) => {
     await Category.findAll().then((category) => { res.json({ category: category }) })
 });
 
+
+
 router.get("/news", async (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const search = req.query.search || "";
@@ -79,7 +81,7 @@ router.get("/news", async (req, res) => {
     await News.findAndCountAll({
         offset, limit,
         include: { model: Category, attributes: ['id', 'name'] },
-        where: { checked: "1", [Op.or]: [{ title: { [Op.like]: '%' + search + '%' } }, { description: { [Op.like]: '%' + search + '%' } }, { categoryId: { [Op.like]: '%' + search + '%' } }] }
+        where: { checked: "1", [Op.or]: [{ title: { [Op.like]: '%' + search + '%' } }, { description: { [Op.like]: '%' + search + '%' } }] }
     }).then((news) => {
         res.json({
             news: news.rows,
@@ -94,6 +96,7 @@ router.get("/news", async (req, res) => {
     })
 })
 
+
 router.get("/news/:newsId", async (req, res) => {
     await News.findAll({
         where: { id: req.params.newsId, checked: "1" }
@@ -102,6 +105,9 @@ router.get("/news/:newsId", async (req, res) => {
     })
 });
 
+router.get("/news/category/:categoryId", async (req, res) => {
+    await News.findAll({ where: { categoryId: req.params.categoryId } }).then((news) => { res.json({ news: news }) })
+})
 router.get("/program", async (req, res) => {
     await Program.findAll({ where: { checked: "1" } }).then((programs) => {
         res.json({ programs: programs })

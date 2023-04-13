@@ -62,11 +62,12 @@ router.get("/edit/:programId", isAdmin, async (req, res) => {
 });
 
 router.post("/edit/:programId", isAdmin, imageUpload.upload.single("program_img"), async (req, res) => {
+    const current = Program.findAll({ where: { id: req.params.programId } });
     let img = req.body.program_img;
     if (req.file) {
         img = req.file.filename;
-        fs.unlink("/public/img/program/" + img, err => { console.log(err); })
-        fs.unlink("/public/compress/program/" + img, err => { console.log(err); })
+        fs.unlink("/public/img/program/" + current.img, err => { console.log(err); })
+        fs.unlink("/public/compress/program/" + current.img, err => { console.log(err); })
 
         let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'program', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
         await sharp(req.file.path).jpeg({
@@ -75,23 +76,29 @@ router.post("/edit/:programId", isAdmin, imageUpload.upload.single("program_img"
         }).toFile(compresedImage)
     }
 
-    await Program.update({
-        title: req.body.title,
-        description: req.body.description,
-        play_store: req.body.play_store,
-        app_store: req.body.app_store,
-        checked: req.body.checked,
-        program_img: img
-    }, { where: { id: req.params.programId } }).then(() => {
-        res.json({ success: "Ustunlikli uytgedildi" })
-    }).catch((error) => { res.json({ error: error }) })
+    await qrcode.toDataURL(req.body.play_store, (err, play_url) => {
+        qrcode.toDataURL(req.body.app_store, (err, app_url) => {
+            Program.update({
+                title: req.body.title,
+                description: req.body.description,
+                play_store: req.body.play_store,
+                app_store: req.body.app_store,
+                checked: req.body.checked,
+                play_store_qr: play_url,
+                app_store_qr: app_url,
+                program_img: img
+            }, { where: { id: req.params.programId } }).then(() => {
+                res.json({ success: "Ustunlikli uytgedildi" })
+            }).catch((error) => { res.json({ error: error }) })
+        })
+    })
 });
 
 router.delete("/delete/:programId", isAdmin, async (req, res) => {
     await Program.findOne({ where: { id: req.params.programId } }).then((program) => {
         if (program) {
-            fs.unlink("./public/img/tarif/" + program.program_img, err => { })
-            fs.unlink("./public/compress/tarif/" + program.program_img, err => { })
+            fs.unlink("./public/img/program/" + program.program_img, err => { })
+            fs.unlink("./public/compress/program/" + program.program_img, err => { })
             program.destroy()
             return res.json({ success: "Ustunlikli pozuldy" })
         } else {

@@ -298,7 +298,7 @@ const Korporatiw = sequelize.define("korporatiw", {
             notEmpty: { msg: "Hyzmatyň mazmunyny giriziň!" }
         }
     },
-    koporatiw_icon: {
+    korporatiw_icon: {
         type: DataTypes.STRING, allowNull: false, validate: {
             notEmpty: { msg: "Hyzmatyň suratyny giriziň!" }
         }
