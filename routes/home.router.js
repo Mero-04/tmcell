@@ -2,7 +2,7 @@ const express = require("express")
 const router = express.Router()
 const { Tarif, Address, Region, Category, Internet, Service, Korporatiw, News, Program, Banner, Sponsor, Welayat } = require("../models/model")
 const { Op } = require("sequelize");
-
+const moment = require("moment")
 router.get("/tarif", async (req, res) => {
     await Tarif.findAll({ where: { checked: "1", status: "1" } }).then((tarifs) => { res.json({ tarifs: tarifs }) })
 });
@@ -108,6 +108,16 @@ router.get("/news/:newsId", async (req, res) => {
 router.get("/news/category/:categoryId", async (req, res) => {
     await News.findAll({ where: { categoryId: req.params.categoryId } }).then((news) => { res.json({ news: news }) })
 })
+
+router.get("/news/date/:date", async (req, res) => {
+    const today = moment(req.params.date).format('YYYY-MM-DD')
+    await News.findOne({ where: { created_at: req.params.date } }).then((news) => {
+        if (news) {
+            res.json({ news: news })
+        } else { res.json({ error: "Tazelik tapylmady!" }) }
+    })
+})
+
 router.get("/program", async (req, res) => {
     await Program.findAll({ where: { checked: "1" } }).then((programs) => {
         res.json({ programs: programs })

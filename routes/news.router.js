@@ -8,6 +8,7 @@ const upload = multer({ dest: "./public/img" });
 const fs = require('fs')
 const sharp = require("sharp");
 const path = require("path")
+const moment = require("moment")
 
 //superADMIN start
 router.get("/", isAdmin, async (req, res) => {
@@ -52,13 +53,14 @@ router.post("/create", isAdmin, imageUpload.upload.single("news_img"), async (re
         description: req.body.description,
         news_img: req.file.filename,
         categoryId: req.body.categoryId,
-        checked: "1"
+        checked: "1",
+        created_at: moment().format('YYYY-MM-DD')
     }).then(() => {
         res.json({
             success: "Tazelik ustinlikli gosuldy"
-        }).catch((error) => {
-            res.json({ error: error })
         })
+    }).catch((error) => {
+        res.json({ error: error })
     })
 });
 

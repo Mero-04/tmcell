@@ -85,9 +85,14 @@ const News = sequelize.define("news", {
             notEmpty: { msg: "Täzeligiň suratyny giriziň!" }
         }
     },
+    viewed: {
+        type: DataTypes.INTEGER, allowNull: true
+    },
     checked: {
         type: DataTypes.TINYINT, allowNull: false, defaultValue: "0"
-    }
+    },
+    created_at: {
+        type: DataTypes.STRING, allowNull: false},
 });
 
 const Internet = sequelize.define("internet", {
