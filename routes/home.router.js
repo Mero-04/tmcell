@@ -99,6 +99,7 @@ router.get("/news", async (req, res) => {
 
 router.get("/news/:newsId", async (req, res) => {
     await News.findAll({
+        include: { model: Category, attributes: ['id', 'name'] },
         where: { id: req.params.newsId, checked: "1" }
     }).then((news) => {
         res.json({ news: news })
@@ -106,7 +107,10 @@ router.get("/news/:newsId", async (req, res) => {
 });
 
 router.get("/news/category/:categoryId", async (req, res) => {
-    await News.findAll({ where: { categoryId: req.params.categoryId } }).then((news) => { res.json({ news: news }) })
+    await News.findAll({
+        include: { model: Category, attributes: ['id', 'name'] },
+        where: { categoryId: req.params.categoryId }
+    }).then((news) => { res.json({ news: news }) })
 })
 
 router.get("/news/date/:date", async (req, res) => {

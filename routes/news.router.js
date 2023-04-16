@@ -10,7 +10,6 @@ const sharp = require("sharp");
 const path = require("path")
 const moment = require("moment")
 
-//superADMIN start
 router.get("/", isAdmin, async (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const limit = 20;
@@ -122,7 +121,6 @@ router.delete("/delete/:newsId", isAdmin, async (req, res) => {
         }
     })
 });
-//superADMIN end
 
 
 //workerAdmin start

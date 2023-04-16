@@ -10,7 +10,6 @@ const sharp = require("sharp");
 const path = require("path")
 
 
-//superADMIN start
 router.get("/", isAdmin, async (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const limit = 20;
