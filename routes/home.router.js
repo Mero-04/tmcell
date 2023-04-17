@@ -102,7 +102,9 @@ router.get("/news/:newsId", async (req, res) => {
         include: { model: Category, attributes: ['id', 'name'] },
         where: { id: req.params.newsId, checked: "1" }
     }).then((news) => {
-        res.json({ news: news })
+        News.increment({ viewed: 1 }, { where: { id: req.params.newsId } }).then(() => {
+            res.json({ news: news })
+        })
     })
 });
 
@@ -121,6 +123,8 @@ router.get("/news/date/:date", async (req, res) => {
         } else { res.json({ error: "Tazelik tapylmady!" }) }
     })
 })
+
+
 
 router.get("/program", async (req, res) => {
     await Program.findAll({ where: { checked: "1" } }).then((programs) => {

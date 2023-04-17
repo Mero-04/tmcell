@@ -3,6 +3,7 @@ const router = express.Router();
 const { Admin, Worker } = require('../models/model');
 const { sign } = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
+const { isAdmin } = require("../middlewares/authMiddleware");
 
 router.post("/rootman", async (req, res) => {
     const { email, password } = req.body;
@@ -38,4 +39,7 @@ router.post("/login", async (req, res) => {
         })
 });
 
+router.get("/current_user", isAdmin, async (req, res) => {
+    res.json(req.user)
+})
 module.exports = router;

@@ -86,13 +86,14 @@ const News = sequelize.define("news", {
         }
     },
     viewed: {
-        type: DataTypes.INTEGER, allowNull: true
+        type: DataTypes.INTEGER, allowNull: false, defaultValue: "0"
     },
     checked: {
         type: DataTypes.TINYINT, allowNull: false, defaultValue: "0"
     },
     created_at: {
-        type: DataTypes.STRING, allowNull: false},
+        type: DataTypes.STRING, allowNull: false
+    },
 });
 
 const Internet = sequelize.define("internet", {
