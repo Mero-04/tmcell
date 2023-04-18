@@ -19,7 +19,7 @@ router.get("/", isAdmin, async (req, res) => {
     await News.findAndCountAll({
         limit,
         offset,
-        include: { model: Category, attributes: ['id', 'name'] }
+        include: { model: Category }
     }).then((news) => {
         res.json({
             news: news.rows,
@@ -50,6 +50,10 @@ router.post("/create", isAdmin, imageUpload.upload.single("news_img"), async (re
     await News.create({
         title: req.body.title,
         description: req.body.description,
+        title_en: req.body.title_en,
+        description_en: req.body.description_en,
+        title_ru: req.body.title_ru,
+        description_ru: req.body.description_ru,
         news_img: req.file.filename,
         categoryId: req.body.categoryId,
         checked: "1",
@@ -93,6 +97,10 @@ router.post("/edit/:newsId", isAdmin, imageUpload.upload.single("news_img"), asy
     await News.update({
         title: req.body.title,
         description: req.body.description,
+        title_en: req.body.title_en,
+        description_en: req.body.description_en,
+        title_ru: req.body.title_ru,
+        description_ru: req.body.description_ru,
         news_img: img,
         checked: req.body.checked,
         categoryId: req.body.categoryId
@@ -163,6 +171,10 @@ router.post("/worker/create", isNews, imageUpload.upload.single("news_img"), asy
     await News.create({
         title: req.body.title,
         description: req.body.description,
+        title_en: req.body.title_en,
+        description_en: req.body.description_en,
+        title_ru: req.body.title_ru,
+        description_ru: req.body.description_ru,
         news_img: req.file.filename,
         categoryId: req.body.categoryId,
         workerId: req.user.id
@@ -190,6 +202,10 @@ router.post("/worker/edit/:newsId", isNews, imageUpload.upload.single("news_img"
     await News.update({
         title: req.body.title,
         description: req.body.description,
+        title_en: req.body.title_en,
+        description_en: req.body.description_en,
+        title_ru: req.body.title_ru,
+        description_ru: req.body.description_ru,
         news_img: img,
         categoryId: req.body.categoryId,
         workerId: req.user.id

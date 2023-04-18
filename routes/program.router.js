@@ -44,6 +44,10 @@ router.post("/create", isAdmin, imageUpload.upload.single("program_img"), async 
             Program.create({
                 title: req.body.title,
                 description: req.body.description,
+                title_en: req.body.title_en,
+                description_en: req.body.description_en,
+                title_ru: req.body.title_ru,
+                description_ru: req.body.description_ru,
                 play_store: req.body.play_store,
                 app_store: req.body.app_store,
                 program_img: req.file.filename,
@@ -81,6 +85,10 @@ router.post("/edit/:programId", isAdmin, imageUpload.upload.single("program_img"
             Program.update({
                 title: req.body.title,
                 description: req.body.description,
+                title_en: req.body.title_en,
+                description_en: req.body.description_en,
+                title_ru: req.body.title_ru,
+                description_ru: req.body.description_ru,
                 play_store: req.body.play_store,
                 app_store: req.body.app_store,
                 checked: req.body.checked,

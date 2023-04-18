@@ -80,7 +80,7 @@ router.get("/news", async (req, res) => {
     var next = page + 1;
     await News.findAndCountAll({
         offset, limit,
-        include: { model: Category, attributes: ['id', 'name'] },
+        include: { model: Category},
         where: { checked: "1", [Op.or]: [{ title: { [Op.like]: '%' + search + '%' } }, { description: { [Op.like]: '%' + search + '%' } }] }
     }).then((news) => {
         res.json({
@@ -99,7 +99,7 @@ router.get("/news", async (req, res) => {
 
 router.get("/news/:newsId", async (req, res) => {
     await News.findAll({
-        include: { model: Category, attributes: ['id', 'name'] },
+        include: { model: Category},
         where: { id: req.params.newsId, checked: "1" }
     }).then((news) => {
         News.increment({ viewed: 1 }, { where: { id: req.params.newsId } }).then(() => {
@@ -110,13 +110,12 @@ router.get("/news/:newsId", async (req, res) => {
 
 router.get("/news/category/:categoryId", async (req, res) => {
     await News.findAll({
-        include: { model: Category, attributes: ['id', 'name'] },
+        include: { model: Category },
         where: { categoryId: req.params.categoryId }
     }).then((news) => { res.json({ news: news }) })
 })
 
 router.get("/news/date/:date", async (req, res) => {
-    const today = moment(req.params.date).format('YYYY-MM-DD')
     await News.findOne({ where: { created_at: req.params.date } }).then((news) => {
         if (news) {
             res.json({ news: news })

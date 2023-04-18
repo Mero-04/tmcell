@@ -39,6 +39,10 @@ router.post("/create", isAdmin, imageUpload.upload.single("popup_img"), async (r
     await Popup.create({
         title: req.body.title,
         description: req.body.description,
+        title_en: req.body.title_en,
+        description_en: req.body.description_en,
+        title_ru: req.body.title_ru,
+        description_ru: req.body.description_ru,
         link: req.body.link,
         popup_img: req.file.filename,
         checked: "1"
@@ -67,6 +71,10 @@ router.post("/edit/:popupId", isAdmin, imageUpload.upload.single("popup_img"), a
     await Popup.update({
         title: req.body.title,
         description: req.body.description,
+        title_en: req.body.title_en,
+        description_en: req.body.description_en,
+        title_ru: req.body.title_ru,
+        description_ru: req.body.description_ru,
         link: req.body.link,
         popup_img: img,
         checked: req.body.checked,

@@ -4,13 +4,17 @@ const router = express.Router();
 const { Welayat, Region } = require("../models/model");
 
 router.get("/", isAdmin, async (req, res) => {
-    await Welayat.findAll({ model: Region, attributes: ['id', 'name'] }).then((welayat) => {
+    await Welayat.findAll({ model: Region, attributes: ['id', 'name','name_en', "name_ru"] }).then((welayat) => {
         res.json({ welayat: welayat })
     })
 })
 
 router.post("/create", isAdmin, async (req, res) => {
-    await Welayat.create({ name: req.body.name })
+    await Welayat.create({
+        name: req.body.name,
+        name_en: req.body.name_en,
+        name_ru: req.body.name_ru
+    })
         .then(() => { res.json({ success: "Welayat ustinlikli gosuldy" }) })
         .catch((error) => { res.json({ error: error }) })
 });
@@ -21,7 +25,11 @@ router.get("/edit/:welayatId", isAdmin, async (req, res) => {
 });
 
 router.post("/edit/:welayatId", isAdmin, async (req, res) => {
-    await Welayat.update({ name: req.body.name }, { where: { id: req.params.welayatId } }).then(() => {
+    await Welayat.update({
+        name: req.body.name,
+        name_en: req.body.name_en,
+        name_ru: req.body.name_ru
+    }, { where: { id: req.params.welayatId } }).then(() => {
         res.json({ success: "Ustunlikli uytgedildi" })
     }).catch((error) => { res.json({ error: error }) })
 });

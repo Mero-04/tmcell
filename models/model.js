@@ -58,7 +58,17 @@ const Category = sequelize.define("category", {
         type: DataTypes.STRING, allowNull: false, unique: { args: true, msg: "Bu kategoriýa önem bar!" }, validate: {
             notEmpty: { msg: "Kategoriýanyň adyny giriziň!" }
         }
-    }
+    },
+    name_en: {
+        type: DataTypes.STRING, allowNull: false, unique: { args: true, msg: "Bu kategoriýa önem bar!" }, validate: {
+            notEmpty: { msg: "Kategoriýanyň adyny giriziň!" }
+        }
+    },
+    name_ru: {
+        type: DataTypes.STRING, allowNull: false, unique: { args: true, msg: "Bu kategoriýa önem bar!" }, validate: {
+            notEmpty: { msg: "Kategoriýanyň adyny giriziň!" }
+        }
+    },
 
 });
 
@@ -75,7 +85,27 @@ const News = sequelize.define("news", {
             notEmpty: { msg: "Täzeligiň adyny giriziň!" }
         }
     },
+    title_en: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Täzeligiň adyny giriziň!" }
+        }
+    },
+    title_ru: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Täzeligiň adyny giriziň!" }
+        }
+    },
     description: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Täzeligiň mazmunyny giriziň!" }
+        }
+    },
+    description_en: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Täzeligiň mazmunyny giriziň!" }
+        }
+    },
+    description_ru: {
         type: DataTypes.TEXT, allowNull: false, validate: {
             notEmpty: { msg: "Täzeligiň mazmunyny giriziň!" }
         }
@@ -86,7 +116,7 @@ const News = sequelize.define("news", {
         }
     },
     viewed: {
-        type: DataTypes.INTEGER, allowNull: false, defaultValue: "0"
+        type: DataTypes.INTEGER, allowNull: true, defaultValue: "0"
     },
     checked: {
         type: DataTypes.TINYINT, allowNull: false, defaultValue: "0"
@@ -108,6 +138,16 @@ const Internet = sequelize.define("internet", {
             notEmpty: { msg: "Internet bukjanyň görnüşini giriziň!" }
         }
     },
+    title_en: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Internet bukjanyň görnüşini giriziň!" }
+        }
+    },
+    title_ru: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Internet bukjanyň görnüşini giriziň!" }
+        }
+    },
     volume: {
         type: DataTypes.STRING, allowNull: false, validate: {
             notEmpty: { msg: "Internet bukjanyň mukdaryny giriziň!" }
@@ -123,7 +163,27 @@ const Internet = sequelize.define("internet", {
             notEmpty: { msg: "Internet bukjanyň gysga mazmunyny giriziň!" }
         }
     },
+    short_desc_en: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Internet bukjanyň gysga mazmunyny giriziň!" }
+        }
+    },
+    short_desc_ru: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Internet bukjanyň gysga mazmunyny giriziň!" }
+        }
+    },
     description: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Internet bukjanyň mazmunyny giriziň!" }
+        }
+    },
+    description_en: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Internet bukjanyň mazmunyny giriziň!" }
+        }
+    },
+    description_ru: {
         type: DataTypes.TEXT, allowNull: false, validate: {
             notEmpty: { msg: "Internet bukjanyň mazmunyny giriziň!" }
         }
@@ -153,12 +213,42 @@ const Service = sequelize.define("service", {
             notEmpty: { msg: "Hyzmatyň adyny giriziň!" }
         }
     },
+    title_en: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Hyzmatyň adyny giriziň!" }
+        }
+    },
+    title_ru: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Hyzmatyň adyny giriziň!" }
+        }
+    },
     short_desc: {
         type: DataTypes.TEXT, allowNull: false, validate: {
             notEmpty: { msg: "Hyzmatyň gysga mazmunyny giriziň!" }
         }
     },
+    short_desc_en: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Hyzmatyň gysga mazmunyny giriziň!" }
+        }
+    },
+    short_desc_ru: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Hyzmatyň gysga mazmunyny giriziň!" }
+        }
+    },
     description: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Hyzmatyň mazmunyny giriziň!" }
+        }
+    },
+    description_en: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Hyzmatyň mazmunyny giriziň!" }
+        }
+    },
+    description_ru: {
         type: DataTypes.TEXT, allowNull: false, validate: {
             notEmpty: { msg: "Hyzmatyň mazmunyny giriziň!" }
         }
@@ -183,7 +273,9 @@ const Welayat = sequelize.define("welayat", {
         primaryKey: true,
         allowNull: true
     },
-    name: { type: DataTypes.STRING, allowNull: false, unique: { args: true, msg: "Bu welaýat önem bar!" }, }
+    name: { type: DataTypes.STRING, allowNull: false, unique: { args: true, msg: "Bu welaýat önem bar!" } },
+    name_en: { type: DataTypes.STRING, allowNull: false, unique: { args: true, msg: "Bu welaýat önem bar!" } },
+    name_ru: { type: DataTypes.STRING, allowNull: false, unique: { args: true, msg: "Bu welaýat önem bar!" } }
 });
 
 const Region = sequelize.define("region", {
@@ -193,7 +285,9 @@ const Region = sequelize.define("region", {
         primaryKey: true,
         allowNull: true
     },
-    name: { type: DataTypes.STRING, allowNull: false, unique: { args: true, msg: "Bu etrap önem bar!" }, }
+    name: { type: DataTypes.STRING, allowNull: false, unique: { args: true, msg: "Bu etrap önem bar!" } },
+    name_ru: { type: DataTypes.STRING, allowNull: false, unique: { args: true, msg: "Bu etrap önem bar!" } },
+    name_en: { type: DataTypes.STRING, allowNull: false, unique: { args: true, msg: "Bu etrap önem bar!" } },
 });
 
 const Address = sequelize.define("address", {
@@ -204,6 +298,16 @@ const Address = sequelize.define("address", {
         allowNull: true
     },
     title: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Salgyny giriziň!" }
+        }
+    },
+    title_en: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Salgyny giriziň!" }
+        }
+    },
+    title_ru: {
         type: DataTypes.STRING, allowNull: false, validate: {
             notEmpty: { msg: "Salgyny giriziň!" }
         }
@@ -248,12 +352,42 @@ const Tarif = sequelize.define("tarif", {
             notEmpty: { msg: "Nyrhnamanyň adyny giriziň!" }
         }
     },
+    title_en: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Nyrhnamanyň adyny giriziň!" }
+        }
+    },
+    title_ru: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Nyrhnamanyň adyny giriziň!" }
+        }
+    },
     description: {
         type: DataTypes.TEXT, allowNull: false, validate: {
             notEmpty: { msg: "Nyrhnamanyň mazmunyny giriziň!" }
         }
     },
+    description_en: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Nyrhnamanyň mazmunyny giriziň!" }
+        }
+    },
+    description_ru: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Nyrhnamanyň mazmunyny giriziň!" }
+        }
+    },
     short_desc: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Nyrhnamanyň gysga mazmunyny giriziň!" }
+        }
+    },
+    short_desc_en: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Nyrhnamanyň gysga mazmunyny giriziň!" }
+        }
+    },
+    short_desc_ru: {
         type: DataTypes.TEXT, allowNull: false, validate: {
             notEmpty: { msg: "Nyrhnamanyň gysga mazmunyny giriziň!" }
         }
@@ -289,9 +423,14 @@ const Korporatiw = sequelize.define("korporatiw", {
             notEmpty: { msg: "Hyzmatyň adyny giriziň!" }
         }
     },
-    price: {
+    title_en: {
         type: DataTypes.STRING, allowNull: false, validate: {
-            notEmpty: { msg: "Hyzmatyň bahasyny giriziň!" }
+            notEmpty: { msg: "Hyzmatyň adyny giriziň!" }
+        }
+    },
+    title_ru: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Hyzmatyň adyny giriziň!" }
         }
     },
     short_desc: {
@@ -299,9 +438,34 @@ const Korporatiw = sequelize.define("korporatiw", {
             notEmpty: { msg: "Hyzmatyň gysga mazmunyny giriziň!" }
         }
     },
+    short_desc_en: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Hyzmatyň gysga mazmunyny giriziň!" }
+        }
+    },
+    short_desc_ru: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Hyzmatyň gysga mazmunyny giriziň!" }
+        }
+    },
     description: {
         type: DataTypes.TEXT, allowNull: false, validate: {
             notEmpty: { msg: "Hyzmatyň mazmunyny giriziň!" }
+        }
+    },
+    description_en: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Hyzmatyň mazmunyny giriziň!" }
+        }
+    },
+    description_ru: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Hyzmatyň mazmunyny giriziň!" }
+        }
+    },
+    price: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Hyzmatyň bahasyny giriziň!" }
         }
     },
     korporatiw_icon: {
@@ -324,6 +488,21 @@ const Sponsor = sequelize.define("sponsor", {
             notEmpty: { msg: "Title giriziň!" }
         }
     },
+    title_en: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Title giriziň!" }
+        }
+    },
+    title_ru: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Title giriziň!" }
+        }
+    },
+    link: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Url salgy giriziň!" }
+        }
+    },
     sponsor_img: {
         type: DataTypes.STRING, allowNull: false, validate: {
             notEmpty: { msg: "Suraty giriziň!" }
@@ -341,22 +520,22 @@ const Contact = sequelize.define("contact", {
     },
     name: {
         type: DataTypes.STRING, allowNull: false, validate: {
-            notEmpty: { msg: "Adyňyzy giriziň!" }
+            notEmpty: { msg: "Adyňyzy giriziň!", msg_ru: "Поле имени не может быть пустым!", msg_en: "Name field cannot be empty!" }
         }
     },
     email: {
         type: DataTypes.STRING, allowNull: false, validate: {
-            notEmpty: { msg: "E-poçtaňyzy giriziň!" }
+            notEmpty: { msg: "E-poçtaňyzy giriziň!", msg_ru: "Поле электронной почты не может быть пустым!", msg_en: "Email field cannot be empty!" }
         }
     },
     subject: {
         type: DataTypes.STRING, allowNull: false, validate: {
-            notEmpty: { msg: "Teswiriňiziň temasyny giriziň!" }
+            notEmpty: { msg: "Teswiriňiziň temasyny giriziň!", msg_ru: "Поле темы не может быть пустым!", msg_en: "Subject field cannot be empty!" }
         }
     },
     comment: {
         type: DataTypes.STRING, allowNull: false, validate: {
-            notEmpty: { msg: "Teswiriňizi giriziň!" }
+            notEmpty: { msg: "Teswiriňizi giriziň!", msg_ru: "Поле комментария не может быть пустым!", msg_en: "Comment field cannot be empty!" }
         }
     }
 
@@ -374,7 +553,27 @@ const Program = sequelize.define("program", {
             notEmpty: { msg: "Mobil goşundynyň adyny giriziň!" }
         }
     },
+    title_en: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Mobil goşundynyň adyny giriziň!" }
+        }
+    },
+    title_ru: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Mobil goşundynyň adyny giriziň!" }
+        }
+    },
     description: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Mobil goşundynyň mazmunyny giriziň!" }
+        }
+    },
+    description_en: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Mobil goşundynyň mazmunyny giriziň!" }
+        }
+    },
+    description_ru: {
         type: DataTypes.TEXT, allowNull: false, validate: {
             notEmpty: { msg: "Mobil goşundynyň mazmunyny giriziň!" }
         }
@@ -436,7 +635,27 @@ const Popup = sequelize.define("popup", {
             notEmpty: { msg: "Adyny giriziň!" }
         }
     },
+    title_en: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Adyny giriziň!" }
+        }
+    },
+    title_ru: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Adyny giriziň!" }
+        }
+    },
     description: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Mazmunyny giriziň!" }
+        }
+    },
+    description_en: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Mazmunyny giriziň!" }
+        }
+    },
+    description_ru: {
         type: DataTypes.TEXT, allowNull: false, validate: {
             notEmpty: { msg: "Mazmunyny giriziň!" }
         }

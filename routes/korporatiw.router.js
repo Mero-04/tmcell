@@ -33,9 +33,15 @@ router.get("/", isAdmin, async (req, res) => {
 router.post("/create", isAdmin, imageUpload.upload.single("korporatiw_icon"), async (req, res) => {
     await Korporatiw.create({
         title: req.body.title,
-        price: req.body.price,
         short_desc: req.body.short_desc,
         description: req.body.description,
+        title_en: req.body.title_en,
+        short_desc_en: req.body.short_desc_en,
+        description_en: req.body.description_en,
+        title_ru: req.body.title_ru,
+        short_desc_ru: req.body.short_desc_ru,
+        description_ru: req.body.description_ru,
+        price: req.body.price,
         korporatiw_icon: req.file.filename,
         checked: "1"
     }).then(() => { res.json({ success: "Korporatiw nyrhnama ustinlikli gosuldy" }) })
@@ -56,9 +62,15 @@ router.post("/edit/:korporatiwId", isAdmin, imageUpload.upload.single("korporati
     }
     await Korporatiw.update({
         title: req.body.title,
-        price: req.body.price,
         short_desc: req.body.short_desc,
         description: req.body.description,
+        title_en: req.body.title_en,
+        short_desc_en: req.body.short_desc_en,
+        description_en: req.body.description_en,
+        title_ru: req.body.title_ru,
+        short_desc_ru: req.body.short_desc_ru,
+        description_ru: req.body.description_ru,
+        price: req.body.price,
         checked: req.body.checked,
         korporatiw_icon: img
     }, { where: { id: req.params.korporatiwId } }).then(() => {

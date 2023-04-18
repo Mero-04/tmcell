@@ -38,6 +38,9 @@ router.post("/create", isAdmin, imageUpload.upload.single("sponsor_img"), async 
 
     await Sponsor.create({
         title: req.body.title,
+        title_en: req.body.title_en,
+        title_ru: req.body.title_ru,
+        link: req.body.link,
         sponsor_img: req.file.filename,
         checked: "1"
     }).then(() => { res.json({ success: "Ustinlikli gosuldy" }) })
@@ -62,6 +65,9 @@ router.post("/edit/:sponsorId", isAdmin, imageUpload.upload.single("sponsor_img"
     }
     await Sponsor.update({
         title: req.body.title,
+        title_en: req.body.title_en,
+        title_ru: req.body.title_ru,
+        link: req.body.link,
         sponsor_img: img,
         checked: req.body.checked,
     }, { where: { id: req.params.sponsorId } })
