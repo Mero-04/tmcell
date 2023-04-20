@@ -1,8 +1,7 @@
 const express = require("express")
 const router = express.Router()
-const { Tarif, Address, Region, Category, Internet, Service, Korporatiw, News, Program, Banner, Sponsor, Welayat } = require("../models/model")
+const { Tarif, Address, Region, Category, Internet, Service, Korporatiw, News, Program, Banner, Sponsor, Welayat,Faq, USSD } = require("../models/model")
 const { Op } = require("sequelize");
-const moment = require("moment")
 router.get("/tarif", async (req, res) => {
     await Tarif.findAll({ where: { checked: "1", status: "1" } }).then((tarifs) => { res.json({ tarifs: tarifs }) })
 });
@@ -123,8 +122,6 @@ router.get("/news/date/:date", async (req, res) => {
     })
 })
 
-
-
 router.get("/program", async (req, res) => {
     await Program.findAll({ where: { checked: "1" } }).then((programs) => {
         res.json({ programs: programs })
@@ -154,6 +151,19 @@ router.get("/sponsor", async (req, res) => {
         res.json({ sponsors: sponsors })
     })
 });
+
+router.get("/faq", async (req, res) => {
+    await Faq.findAll({ where: { checked: "1" } }).then((faq) => {
+        res.json({ faq: faq })
+    })
+});
+
+router.get("/ussd", async (req, res) => {
+    await USSD.findAll({ where: { checked: "1" } }).then((ussd) => {
+        res.json({ ussd: ussd })
+    })
+});
+
 
 
 module.exports = router;

@@ -31,6 +31,8 @@ const ProgramRouter = require("./routes/program.router")
 const BannerRouter = require("./routes/banner.router")
 const SponsorRouter = require("./routes/sponsor.router")
 const PopupRouter = require("./routes/popup.router")
+const FaqRouter = require("./routes/faq.router")
+const USSDRouter = require("./routes/ussd.router")
 
 
 app.use("/api/v1/home", HomeRouter);
@@ -50,6 +52,8 @@ app.use("/api/v1/program", ProgramRouter);
 app.use("/api/v1/banner", BannerRouter);
 app.use("/api/v1/sponsor", SponsorRouter);
 app.use("/api/v1/popup", PopupRouter);
+app.use("/api/v1/faq", FaqRouter);
+app.use("/api/v1/ussd", USSDRouter);
 
 
 app.listen(port, () => {

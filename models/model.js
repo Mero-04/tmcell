@@ -673,6 +673,87 @@ const Popup = sequelize.define("popup", {
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
 
+const Faq = sequelize.define("faq", {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: true
+    },
+    question: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Soragy giriziň!" }
+        }
+    },
+    question_en: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Soragy giriziň!" }
+        }
+    },
+    question_ru: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Soragy giriziň!" }
+        }
+    },
+    answer: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Soragyn jogabyny giriziň!" }
+        }
+    },
+    answer_en: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Soragyn jogabyny giriziň!" }
+        }
+    },
+    answer_ru: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Soragyn jogabyny giriziň!" }
+        }
+    },
+    checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
+});
+
+
+const USSD = sequelize.define("ussd", {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: true
+    },
+    title: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Adyny giriziň!" }
+        }
+    },
+    title_en: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Adyny giriziň!" }
+        }
+    },
+    title_ru: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Adyny giriziň!" }
+        }
+    },
+    code: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Giriziň!" }
+        }
+    },
+    code_en: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Giriziň!" }
+        }
+    },
+    code_ru: {
+        type: DataTypes.TEXT, allowNull: false, validate: {
+            notEmpty: { msg: "Giriziň!" }
+        }
+    },
+    checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
+});
+
 Admin.findOrCreate({ where: { email: "admin@gmail.com", password: "$2b$10$.2s8SLEln9Dnql5sPuvtfec93qtcKyvMAqDY8zeLg8IcndoHNtXWS", role: "Admin" } })
 
 Worker.hasMany(Internet, { onDelete: "cascade", onUpdate: "cascade" })
@@ -718,5 +799,7 @@ module.exports = {
     Program,
     Banner,
     Sponsor,
-    Popup
+    Popup,
+    Faq,
+    USSD
 };
