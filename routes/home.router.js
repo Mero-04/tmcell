@@ -69,7 +69,6 @@ router.get("/category", async (req, res) => {
 });
 
 
-
 router.get("/news", async (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const search = req.query.search || "";
@@ -95,7 +94,6 @@ router.get("/news", async (req, res) => {
     })
 })
 
-
 router.get("/news/:newsId", async (req, res) => {
     await News.findAll({
         include: { model: Category},
@@ -115,12 +113,13 @@ router.get("/news/category/:categoryId", async (req, res) => {
 })
 
 router.get("/news/date/:date", async (req, res) => {
-    await News.findOne({ where: { created_at: req.params.date } }).then((news) => {
+    await News.findAll({ include: { model: Category}, where: { created_at: req.params.date } }).then((news) => {
         if (news) {
             res.json({ news: news })
         } else { res.json({ error: "Tazelik tapylmady!" }) }
     })
 })
+
 
 router.get("/program", async (req, res) => {
     await Program.findAll({ where: { checked: "1" } }).then((programs) => {
