@@ -10,10 +10,10 @@ router.get("/", isAdmin, async (req, res) => {
 
 router.post("/create", isAdmin, async (req, res) => {
     await Faq.create({
-        question: req.body.question,
+        question_tm: req.body.question_tm,
         question_en: req.body.question_en,
         question_ru: req.body.question_ru,
-        answer: req.body.answer,
+        answer_tm: req.body.answer_tm,
         answer_en: req.body.answer_en,
         answer_ru: req.body.answer_ru,
         checked: "1"
@@ -30,10 +30,10 @@ router.get("/edit/:faqId", isAdmin, async (req, res) => {
 
 router.post("/edit/:faqId", isAdmin, async (req, res) => {
     await Faq.update({
-        question: req.body.question,
+        question_tm: req.body.question_tm,
         question_en: req.body.question_en,
         question_ru: req.body.question_ru,
-        answer: req.body.answer,
+        answer_tm: req.body.answer_tm,
         answer_en: req.body.answer_en,
         answer_ru: req.body.answer_ru,
         checked: req.body.checked

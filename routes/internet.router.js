@@ -31,9 +31,9 @@ router.get("/", isAdmin, async (req, res) => {
 
 router.post("/create", isAdmin, imageUpload.upload.single("internet_icon"), async (req, res) => {
     await Internet.create({
-        title: req.body.title,
-        short_desc: req.body.short_desc,
-        description: req.body.description,
+        title_tm: req.body.title_tm,
+        short_desc_tm: req.body.short_desc_tm,
+        description_tm: req.body.description_tm,
         title_en: req.body.title_en,
         short_desc_en: req.body.short_desc_en,
         description_en: req.body.description_en,
@@ -62,9 +62,9 @@ router.post("/edit/:internetId", isAdmin, imageUpload.upload.single("internet_ic
         fs.unlink("/public/img/internet/" + img, err => { console.log(err); })
     }
     await Internet.update({
-        title: req.body.title,
-        short_desc: req.body.short_desc,
-        description: req.body.description,
+        title_tm: req.body.title_tm,
+        short_desc_tm: req.body.short_desc_tm,
+        description_tm: req.body.description_tm,
         title_en: req.body.title_en,
         short_desc_en: req.body.short_desc_en,
         description_en: req.body.description_en,

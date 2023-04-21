@@ -36,7 +36,7 @@ router.post("/create", isAdmin, async (req, res) => {
         res.json({ error: "error" })
     } else {
         await Address.create({
-            title: req.body.title,
+            title_tm: req.body.title_tm,
             title_en: req.body.title_en,
             title_ru: req.body.title_ru,
             phone_num: req.body.phone_num,
@@ -62,7 +62,7 @@ router.get("/edit/:addressId", isAdmin, async (req, res) => {
 
 router.post("/edit/:addressId", isAdmin, async (req, res) => {
     await Address.update({
-        title: req.body.title,
+        title_tm: req.body.title_tm,
         title_en: req.body.title_en,
         title_ru: req.body.title_ru,
         phone_num: req.body.phone_num,

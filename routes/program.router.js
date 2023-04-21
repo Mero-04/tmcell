@@ -42,8 +42,8 @@ router.post("/create", isAdmin, imageUpload.upload.single("program_img"), async 
     await qrcode.toDataURL(req.body.play_store, (err, play_url) => {
         qrcode.toDataURL(req.body.app_store, (err, app_url) => {
             Program.create({
-                title: req.body.title,
-                description: req.body.description,
+                title_tm: req.body.title_tm,
+                description_tm: req.body.description_tm,
                 title_en: req.body.title_en,
                 description_en: req.body.description_en,
                 title_ru: req.body.title_ru,
@@ -83,8 +83,8 @@ router.post("/edit/:programId", isAdmin, imageUpload.upload.single("program_img"
     await qrcode.toDataURL(req.body.play_store, (err, play_url) => {
         qrcode.toDataURL(req.body.app_store, (err, app_url) => {
             Program.update({
-                title: req.body.title,
-                description: req.body.description,
+                title_tm: req.body.title_tm,
+                description_tm: req.body.description_tm,
                 title_en: req.body.title_en,
                 description_en: req.body.description_en,
                 title_ru: req.body.title_ru,

@@ -37,9 +37,9 @@ router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
         }).toFile(compresedImage);
 
         await Service.create({
-            title: req.body.title,
-            short_desc: req.body.short_desc,
-            description: req.body.description,
+            title_tm: req.body.title_tm,
+            short_desc_tm: req.body.short_desc_tm,
+            description_tm: req.body.description_tm,
             title_en: req.body.title_en,
             short_desc_en: req.body.short_desc_en,
             description_en: req.body.description_en,
@@ -61,9 +61,9 @@ router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
         }).toFile(compresedImage);
 
         await Service.create({
-            title: req.body.title,
-            short_desc: req.body.short_desc,
-            description: req.body.description,
+            title_tm: req.body.title_tm,
+            short_desc_tm: req.body.short_desc_tm,
+            description_tm: req.body.description_tm,
             title_en: req.body.title_en,
             short_desc_en: req.body.short_desc_en,
             description_en: req.body.description_en,
@@ -79,9 +79,9 @@ router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
     } else if (req.files.service_icon) {
 
         await Service.create({
-            title: req.body.title,
-            short_desc: req.body.short_desc,
-            description: req.body.description,
+            title_tm: req.body.title_tm,
+            short_desc_tm: req.body.short_desc_tm,
+            description_tm: req.body.description_tm,
             title_en: req.body.title_en,
             short_desc_en: req.body.short_desc_en,
             description_en: req.body.description_en,
@@ -95,9 +95,9 @@ router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
         }).catch((error) => { res.json({ error: error }) })
     } else {
         await Service.create({
-            title: req.body.title,
-            short_desc: req.body.short_desc,
-            description: req.body.description,
+            title_tm: req.body.title_tm,
+            short_desc_tm: req.body.short_desc_tm,
+            description_tm: req.body.description_tm,
             title_en: req.body.title_en,
             short_desc_en: req.body.short_desc_en,
             description_en: req.body.description_en,
@@ -148,9 +148,9 @@ router.post("/edit/:serviceId", isAdmin, multiUpload.upload, async (req, res) =>
     }
 
     await Service.update({
-        title: req.body.title,
-        short_desc: req.body.short_desc,
-        description: req.body.description,
+        title_tm: req.body.title_tm,
+        short_desc_tm: req.body.short_desc_tm,
+        description_tm: req.body.description_tm,
         title_en: req.body.title_en,
         short_desc_en: req.body.short_desc_en,
         description_en: req.body.description_en,

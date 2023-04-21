@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const { Tarif, Address, Region, Category, Internet, Service, Korporatiw, News, Program, Banner, Sponsor, Welayat,Faq, USSD } = require("../models/model")
+const { Tarif, Address, Region, Category, Internet, Service, Korporatiw, News, Program, Banner, Sponsor, Welayat, Faq, USSD } = require("../models/model")
 const { Op } = require("sequelize");
 router.get("/tarif", async (req, res) => {
     await Tarif.findAll({ where: { checked: "1", status: "1" } }).then((tarifs) => { res.json({ tarifs: tarifs }) })
@@ -51,12 +51,12 @@ router.get("/service/:serviceId", async (req, res) => {
 
 
 router.get("/region", async (req, res) => {
-    await Region.findAll({ include: { model: Welayat, attributes: ['id', 'name'] } }).then((region) => { res.json({ region: region }) })
+    await Region.findAll({ include: { model: Welayat } }).then((region) => { res.json({ region: region }) })
 });
 
 router.get("/address", async (req, res) => {
     await Address.findAll(
-        { include: { model: Region, attributes: ['id', 'name'] } },
+        { include: { model: Region } },
         { where: { checked: "1" } }
     ).then((address) => {
         res.json({ address: address })
@@ -78,8 +78,18 @@ router.get("/news", async (req, res) => {
     var next = page + 1;
     await News.findAndCountAll({
         offset, limit,
-        include: { model: Category},
-        where: { checked: "1", [Op.or]: [{ title: { [Op.like]: '%' + search + '%' } }, { description: { [Op.like]: '%' + search + '%' } }] }
+        include: { model: Category },
+        where: {
+            checked: "1",
+            [Op.or]: [
+                { title_tm: { [Op.like]: '%' + search + '%' } },
+                { title_ru: { [Op.like]: '%' + search + '%' } },
+                { title_en: { [Op.like]: '%' + search + '%' } },
+                { description_tm: { [Op.like]: '%' + search + '%' } },
+                { description_ru: { [Op.like]: '%' + search + '%' } },
+                { description_en: { [Op.like]: '%' + search + '%' } }
+            ]
+        }
     }).then((news) => {
         res.json({
             news: news.rows,
@@ -96,7 +106,7 @@ router.get("/news", async (req, res) => {
 
 router.get("/news/:newsId", async (req, res) => {
     await News.findAll({
-        include: { model: Category},
+        include: { model: Category },
         where: { id: req.params.newsId, checked: "1" }
     }).then((news) => {
         News.increment({ viewed: 1 }, { where: { id: req.params.newsId } }).then(() => {
@@ -113,7 +123,7 @@ router.get("/news/category/:categoryId", async (req, res) => {
 })
 
 router.get("/news/date/:date", async (req, res) => {
-    await News.findAll({ include: { model: Category}, where: { created_at: req.params.date } }).then((news) => {
+    await News.findAll({ include: { model: Category }, where: { created_at: req.params.date } }).then((news) => {
         if (news) {
             res.json({ news: news })
         } else { res.json({ error: "Tazelik tapylmady!" }) }

@@ -48,8 +48,8 @@ router.post("/create", isAdmin, imageUpload.upload.single("news_img"), async (re
     }).toFile(compresedImage)
 
     await News.create({
-        title: req.body.title,
-        description: req.body.description,
+        title_tm: req.body.title_tm,
+        description_tm: req.body.description_tm,
         title_en: req.body.title_en,
         description_en: req.body.description_en,
         title_ru: req.body.title_ru,
@@ -95,8 +95,8 @@ router.post("/edit/:newsId", isAdmin, imageUpload.upload.single("news_img"), asy
         }).toFile(compresedImage)
     }
     await News.update({
-        title: req.body.title,
-        description: req.body.description,
+        title_tm: req.body.title_tm,
+        description_tm: req.body.description_tm,
         title_en: req.body.title_en,
         description_en: req.body.description_en,
         title_ru: req.body.title_ru,
@@ -169,8 +169,8 @@ router.post("/worker/create", isNews, imageUpload.upload.single("news_img"), asy
     }).toFile(compresedImage)
 
     await News.create({
-        title: req.body.title,
-        description: req.body.description,
+        title_tm: req.body.title_tm,
+        description_tm: req.body.description_tm,
         title_en: req.body.title_en,
         description_en: req.body.description_en,
         title_ru: req.body.title_ru,
@@ -200,8 +200,8 @@ router.post("/worker/edit/:newsId", isNews, imageUpload.upload.single("news_img"
         }).toFile(compresedImage)
     }
     await News.update({
-        title: req.body.title,
-        description: req.body.description,
+        title_tm: req.body.title_tm,
+        description_tm: req.body.description_tm,
         title_en: req.body.title_en,
         description_en: req.body.description_en,
         title_ru: req.body.title_ru,

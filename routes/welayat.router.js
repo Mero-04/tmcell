@@ -11,7 +11,7 @@ router.get("/", isAdmin, async (req, res) => {
 
 router.post("/create", isAdmin, async (req, res) => {
     await Welayat.create({
-        name: req.body.name,
+        name_tm: req.body.name_tm,
         name_en: req.body.name_en,
         name_ru: req.body.name_ru
     })
@@ -26,7 +26,7 @@ router.get("/edit/:welayatId", isAdmin, async (req, res) => {
 
 router.post("/edit/:welayatId", isAdmin, async (req, res) => {
     await Welayat.update({
-        name: req.body.name,
+        name_tm: req.body.name_tm,
         name_en: req.body.name_en,
         name_ru: req.body.name_ru
     }, { where: { id: req.params.welayatId } }).then(() => {

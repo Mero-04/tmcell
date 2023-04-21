@@ -37,7 +37,7 @@ router.post("/create", isAdmin, imageUpload.upload.single("sponsor_img"), async 
     }).toFile(compresedImage)
 
     await Sponsor.create({
-        title: req.body.title,
+        title_tm: req.body.title_tm,
         title_en: req.body.title_en,
         title_ru: req.body.title_ru,
         link: req.body.link,
@@ -64,7 +64,7 @@ router.post("/edit/:sponsorId", isAdmin, imageUpload.upload.single("sponsor_img"
         }).toFile(compresedImage)
     }
     await Sponsor.update({
-        title: req.body.title,
+        title_tm: req.body.title_tm,
         title_en: req.body.title_en,
         title_ru: req.body.title_ru,
         link: req.body.link,

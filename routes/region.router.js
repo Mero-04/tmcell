@@ -13,7 +13,7 @@ router.get("/create", isAdmin, async (req, res) => {
 
 router.post("/create", isAdmin, async (req, res) => {
     await Region.create({
-        name: req.body.name,
+        name_tm: req.body.name_tm,
         name_en: req.body.name_en,
         name_ru: req.body.name_ru,
         welayatId: req.body.welayatId
@@ -30,7 +30,7 @@ router.get("/edit/:regionId", isAdmin, async (req, res) => {
 
 router.post("/edit/:regionId", isAdmin, async (req, res) => {
     await Region.update({
-        name: req.body.name,
+        name_tm: req.body.name_tm,
         name_en: req.body.name_en,
         name_ru: req.body.name_ru,
         welayatId: req.body.welayatId

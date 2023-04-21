@@ -54,7 +54,7 @@ const Category = sequelize.define("category", {
         primaryKey: true,
         allowNull: true
     },
-    name: {
+    name_tm: {
         type: DataTypes.STRING, allowNull: false, unique: { args: true, msg: "Bu kategoriýa önem bar!" }, validate: {
             notEmpty: { msg: "Kategoriýanyň adyny giriziň!" }
         }
@@ -80,7 +80,7 @@ const News = sequelize.define("news", {
         primaryKey: true,
         allowNull: true
     },
-    title: {
+    title_tm: {
         type: DataTypes.STRING, allowNull: false, validate: {
             notEmpty: { msg: "Täzeligiň adyny giriziň!" }
         }
@@ -95,7 +95,7 @@ const News = sequelize.define("news", {
             notEmpty: { msg: "Täzeligiň adyny giriziň!" }
         }
     },
-    description: {
+    description_tm: {
         type: DataTypes.TEXT, allowNull: false, validate: {
             notEmpty: { msg: "Täzeligiň mazmunyny giriziň!" }
         }
@@ -133,7 +133,7 @@ const Internet = sequelize.define("internet", {
         primaryKey: true,
         allowNull: true
     },
-    title: {
+    title_tm: {
         type: DataTypes.STRING, allowNull: false, validate: {
             notEmpty: { msg: "Internet bukjanyň görnüşini giriziň!" }
         }
@@ -158,7 +158,7 @@ const Internet = sequelize.define("internet", {
             notEmpty: { msg: "Internet bukjanyň bahasyny giriziň!" }
         }
     },
-    short_desc: {
+    short_desc_tm: {
         type: DataTypes.TEXT, allowNull: false, validate: {
             notEmpty: { msg: "Internet bukjanyň gysga mazmunyny giriziň!" }
         }
@@ -173,7 +173,7 @@ const Internet = sequelize.define("internet", {
             notEmpty: { msg: "Internet bukjanyň gysga mazmunyny giriziň!" }
         }
     },
-    description: {
+    description_tm: {
         type: DataTypes.TEXT, allowNull: false, validate: {
             notEmpty: { msg: "Internet bukjanyň mazmunyny giriziň!" }
         }
@@ -208,7 +208,7 @@ const Service = sequelize.define("service", {
         primaryKey: true,
         allowNull: true
     },
-    title: {
+    title_tm: {
         type: DataTypes.STRING, allowNull: false, validate: {
             notEmpty: { msg: "Hyzmatyň adyny giriziň!" }
         }
@@ -223,7 +223,7 @@ const Service = sequelize.define("service", {
             notEmpty: { msg: "Hyzmatyň adyny giriziň!" }
         }
     },
-    short_desc: {
+    short_desc_tm: {
         type: DataTypes.TEXT, allowNull: false, validate: {
             notEmpty: { msg: "Hyzmatyň gysga mazmunyny giriziň!" }
         }
@@ -238,7 +238,7 @@ const Service = sequelize.define("service", {
             notEmpty: { msg: "Hyzmatyň gysga mazmunyny giriziň!" }
         }
     },
-    description: {
+    description_tm: {
         type: DataTypes.TEXT, allowNull: false, validate: {
             notEmpty: { msg: "Hyzmatyň mazmunyny giriziň!" }
         }
@@ -273,7 +273,7 @@ const Welayat = sequelize.define("welayat", {
         primaryKey: true,
         allowNull: true
     },
-    name: { type: DataTypes.STRING, allowNull: false, unique: { args: true, msg: "Bu welaýat önem bar!" } },
+    name_tm: { type: DataTypes.STRING, allowNull: false, unique: { args: true, msg: "Bu welaýat önem bar!" } },
     name_en: { type: DataTypes.STRING, allowNull: false, unique: { args: true, msg: "Bu welaýat önem bar!" } },
     name_ru: { type: DataTypes.STRING, allowNull: false, unique: { args: true, msg: "Bu welaýat önem bar!" } }
 });
@@ -285,7 +285,7 @@ const Region = sequelize.define("region", {
         primaryKey: true,
         allowNull: true
     },
-    name: { type: DataTypes.STRING, allowNull: false, unique: { args: true, msg: "Bu etrap önem bar!" } },
+    name_tm: { type: DataTypes.STRING, allowNull: false, unique: { args: true, msg: "Bu etrap önem bar!" } },
     name_ru: { type: DataTypes.STRING, allowNull: false, unique: { args: true, msg: "Bu etrap önem bar!" } },
     name_en: { type: DataTypes.STRING, allowNull: false, unique: { args: true, msg: "Bu etrap önem bar!" } },
 });
@@ -297,7 +297,7 @@ const Address = sequelize.define("address", {
         primaryKey: true,
         allowNull: true
     },
-    title: {
+    title_tm: {
         type: DataTypes.STRING, allowNull: false, validate: {
             notEmpty: { msg: "Salgyny giriziň!" }
         }
@@ -347,7 +347,7 @@ const Tarif = sequelize.define("tarif", {
         primaryKey: true,
         allowNull: true
     },
-    title: {
+    title_tm: {
         type: DataTypes.STRING, allowNull: false, validate: {
             notEmpty: { msg: "Nyrhnamanyň adyny giriziň!" }
         }
@@ -362,7 +362,7 @@ const Tarif = sequelize.define("tarif", {
             notEmpty: { msg: "Nyrhnamanyň adyny giriziň!" }
         }
     },
-    description: {
+    description_tm: {
         type: DataTypes.TEXT, allowNull: false, validate: {
             notEmpty: { msg: "Nyrhnamanyň mazmunyny giriziň!" }
         }
@@ -377,7 +377,7 @@ const Tarif = sequelize.define("tarif", {
             notEmpty: { msg: "Nyrhnamanyň mazmunyny giriziň!" }
         }
     },
-    short_desc: {
+    short_desc_tm: {
         type: DataTypes.TEXT, allowNull: false, validate: {
             notEmpty: { msg: "Nyrhnamanyň gysga mazmunyny giriziň!" }
         }
@@ -418,7 +418,7 @@ const Korporatiw = sequelize.define("korporatiw", {
         primaryKey: true,
         allowNull: true
     },
-    title: {
+    title_tm: {
         type: DataTypes.STRING, allowNull: false, validate: {
             notEmpty: { msg: "Hyzmatyň adyny giriziň!" }
         }
@@ -433,7 +433,7 @@ const Korporatiw = sequelize.define("korporatiw", {
             notEmpty: { msg: "Hyzmatyň adyny giriziň!" }
         }
     },
-    short_desc: {
+    short_desc_tm: {
         type: DataTypes.TEXT, allowNull: false, validate: {
             notEmpty: { msg: "Hyzmatyň gysga mazmunyny giriziň!" }
         }
@@ -448,7 +448,7 @@ const Korporatiw = sequelize.define("korporatiw", {
             notEmpty: { msg: "Hyzmatyň gysga mazmunyny giriziň!" }
         }
     },
-    description: {
+    description_tm: {
         type: DataTypes.TEXT, allowNull: false, validate: {
             notEmpty: { msg: "Hyzmatyň mazmunyny giriziň!" }
         }
@@ -483,7 +483,7 @@ const Sponsor = sequelize.define("sponsor", {
         primaryKey: true,
         allowNull: true
     },
-    title: {
+    title_tm: {
         type: DataTypes.STRING, allowNull: false, validate: {
             notEmpty: { msg: "Title giriziň!" }
         }
@@ -548,7 +548,7 @@ const Program = sequelize.define("program", {
         primaryKey: true,
         allowNull: true
     },
-    title: {
+    title_tm: {
         type: DataTypes.STRING, allowNull: false, validate: {
             notEmpty: { msg: "Mobil goşundynyň adyny giriziň!" }
         }
@@ -563,7 +563,7 @@ const Program = sequelize.define("program", {
             notEmpty: { msg: "Mobil goşundynyň adyny giriziň!" }
         }
     },
-    description: {
+    description_tm: {
         type: DataTypes.TEXT, allowNull: false, validate: {
             notEmpty: { msg: "Mobil goşundynyň mazmunyny giriziň!" }
         }
@@ -588,7 +588,6 @@ const Program = sequelize.define("program", {
             notEmpty: { msg: "Mobil goşundynyň app_store linkini giriziň!" }
         }
     },
-
     play_store: {
         type: DataTypes.STRING, allowNull: false, validate: {
             notEmpty: { msg: "Mobil goşundynyň play_store linkini giriziň!" }
@@ -630,7 +629,7 @@ const Popup = sequelize.define("popup", {
         primaryKey: true,
         allowNull: true
     },
-    title: {
+    title_tm: {
         type: DataTypes.STRING, allowNull: false, validate: {
             notEmpty: { msg: "Adyny giriziň!" }
         }
@@ -645,7 +644,7 @@ const Popup = sequelize.define("popup", {
             notEmpty: { msg: "Adyny giriziň!" }
         }
     },
-    description: {
+    description_tm: {
         type: DataTypes.TEXT, allowNull: false, validate: {
             notEmpty: { msg: "Mazmunyny giriziň!" }
         }
@@ -680,7 +679,7 @@ const Faq = sequelize.define("faq", {
         primaryKey: true,
         allowNull: true
     },
-    question: {
+    question_tm: {
         type: DataTypes.STRING, allowNull: false, validate: {
             notEmpty: { msg: "Soragy giriziň!" }
         }
@@ -695,7 +694,7 @@ const Faq = sequelize.define("faq", {
             notEmpty: { msg: "Soragy giriziň!" }
         }
     },
-    answer: {
+    answer_tm: {
         type: DataTypes.TEXT, allowNull: false, validate: {
             notEmpty: { msg: "Soragyn jogabyny giriziň!" }
         }
@@ -721,7 +720,7 @@ const USSD = sequelize.define("ussd", {
         primaryKey: true,
         allowNull: true
     },
-    title: {
+    title_tm: {
         type: DataTypes.STRING, allowNull: false, validate: {
             notEmpty: { msg: "Adyny giriziň!" }
         }
@@ -736,7 +735,7 @@ const USSD = sequelize.define("ussd", {
             notEmpty: { msg: "Adyny giriziň!" }
         }
     },
-    code: {
+    code_tm: {
         type: DataTypes.TEXT, allowNull: false, validate: {
             notEmpty: { msg: "Giriziň!" }
         }

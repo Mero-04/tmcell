@@ -37,9 +37,9 @@ router.post("/create", isAdmin, imageUpload.upload.single("tarif_img"), async (r
     }).toFile(compresedImage)
 
     await Tarif.create({
-        title: req.body.title,
-        short_desc: req.body.short_desc,
-        description: req.body.description,
+        title_tm: req.body.title_tm,
+        short_desc_tm: req.body.short_desc_tm,
+        description_tm: req.body.description_tm,
         title_en: req.body.title_en,
         short_desc_en: req.body.short_desc_en,
         description_en: req.body.description_en,
@@ -74,9 +74,9 @@ router.post("/edit/:tarifId", isAdmin, imageUpload.upload.single("tarif_img"), a
     }
 
     await Tarif.update({
-        title: req.body.title,
-        short_desc: req.body.short_desc,
-        description: req.body.description,
+        title_tm: req.body.title_tm,
+        short_desc_tm: req.body.short_desc_tm,
+        description_tm: req.body.description_tm,
         title_en: req.body.title_en,
         short_desc_en: req.body.short_desc_en,
         description_en: req.body.description_en,

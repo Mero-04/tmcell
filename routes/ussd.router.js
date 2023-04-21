@@ -10,10 +10,10 @@ router.get("/", isAdmin, async (req, res) => {
 
 router.post("/create", isAdmin, async (req, res) => {
     await USSD.create({
-        title: req.body.title,
+        title_tm: req.body.title_tm,
         title_en: req.body.title_en,
         title_ru: req.body.title_ru,
-        code: req.body.code,
+        code_tm: req.body.code_tm,
         code_en: req.body.code_en,
         code_ru: req.body.code_ru,
         checked: "1"
@@ -30,10 +30,10 @@ router.get("/edit/:ussdId", isAdmin, async (req, res) => {
 
 router.post("/edit/:ussdId", isAdmin, async (req, res) => {
     await USSD.update({
-        title: req.body.title,
+        title_tm: req.body.title_tm,
         title_en: req.body.title_en,
         title_ru: req.body.title_ru,
-        code: req.body.code,
+        code_tm: req.body.code_tm,
         code_en: req.body.code_en,
         code_ru: req.body.code_ru,
         checked: req.body.checked

@@ -37,8 +37,8 @@ router.post("/create", isAdmin, imageUpload.upload.single("popup_img"), async (r
     }).toFile(compresedImage)
 
     await Popup.create({
-        title: req.body.title,
-        description: req.body.description,
+        title_tm: req.body.title_tm,
+        description_tm: req.body.description_tm,
         title_en: req.body.title_en,
         description_en: req.body.description_en,
         title_ru: req.body.title_ru,
@@ -69,8 +69,8 @@ router.post("/edit/:popupId", isAdmin, imageUpload.upload.single("popup_img"), a
         }).toFile(compresedImage)
     }
     await Popup.update({
-        title: req.body.title,
-        description: req.body.description,
+        title_tm: req.body.title_tm,
+        description_tm: req.body.description_tm,
         title_en: req.body.title_en,
         description_en: req.body.description_en,
         title_ru: req.body.title_ru,
