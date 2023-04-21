@@ -30,7 +30,7 @@ router.get("/", isAdmin, async (req, res) => {
 })
 
 router.post("/create", isAdmin, imageUpload.upload.single("tarif_img"), async (req, res) => {
-    let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'tarif', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
+    let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'tarif', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title_tm).name + path.extname(req.file.originalname));
     await sharp(req.file.path).jpeg({
         quality: 30,
         chromaSubsampling: '4:4:4'
@@ -66,7 +66,7 @@ router.post("/edit/:tarifId", isAdmin, imageUpload.upload.single("tarif_img"), a
         fs.unlink("/public/img/tarif/" + img, err => { console.log(err); })
         fs.unlink("/public/compress/tarif/" + img, err => { console.log(err); })
 
-        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'tarif', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
+        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'tarif', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title_tm).name + path.extname(req.file.originalname));
         await sharp(req.file.path).jpeg({
             quality: 30,
             chromaSubsampling: '4:4:4'
@@ -133,7 +133,7 @@ router.delete("/delete/:tarifId", isAdmin, async (req, res) => {
 // });
 
 // router.post("/worker/create", isTariff, imageUpload.upload.single("tarif_img"), async (req, res) => {
-//     let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'tarif', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
+//     let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'tarif', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title_tm).name + path.extname(req.file.originalname));
 //     await sharp(req.file.path).jpeg({
 //         quality: 30,
 //         chromaSubsampling: '4:4:4'
@@ -176,7 +176,7 @@ router.delete("/delete/:tarifId", isAdmin, async (req, res) => {
 //             console.log(err);
 //         })
 
-//         let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'tarif', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
+//         let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'tarif', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title_tm).name + path.extname(req.file.originalname));
 //         await sharp(req.file.path).jpeg({
 //             quality: 30,
 //             chromaSubsampling: '4:4:4'

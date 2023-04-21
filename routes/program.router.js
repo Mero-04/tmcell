@@ -33,7 +33,7 @@ router.get("/", isAdmin, async (req, res) => {
 })
 
 router.post("/create", isAdmin, imageUpload.upload.single("program_img"), async (req, res) => {
-    let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'program', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
+    let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'program', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title_tm).name + path.extname(req.file.originalname));
     await sharp(req.file.path).jpeg({
         quality: 30,
         chromaSubsampling: '4:4:4'
@@ -73,7 +73,7 @@ router.post("/edit/:programId", isAdmin, imageUpload.upload.single("program_img"
         fs.unlink("/public/img/program/" + current.img, err => { console.log(err); })
         fs.unlink("/public/compress/program/" + current.img, err => { console.log(err); })
 
-        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'program', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
+        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'program', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title_tm).name + path.extname(req.file.originalname));
         await sharp(req.file.path).jpeg({
             quality: 30,
             chromaSubsampling: '4:4:4'
@@ -144,7 +144,7 @@ router.delete("/delete/:programId", isAdmin, async (req, res) => {
 // });
 
 // router.post("/worker/create", isProgram, imageUpload.upload.single("program_img"), async (req, res) => {
-//     let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'program', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
+//     let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'program', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title_tm).name + path.extname(req.file.originalname));
 //     await sharp(req.file.path).jpeg({
 //         quality: 30,
 //         chromaSubsampling: '4:4:4'
@@ -188,7 +188,7 @@ router.delete("/delete/:programId", isAdmin, async (req, res) => {
 //             console.log(err);
 //         })
 
-//         let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'program', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
+//         let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'program', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title_tm).name + path.extname(req.file.originalname));
 //         await sharp(req.file.path).jpeg({
 //             quality: 30,
 //             chromaSubsampling: '4:4:4'

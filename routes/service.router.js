@@ -30,7 +30,7 @@ router.get("/", isAdmin, async (req, res) => {
 
 router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
     if (req.files.service_img && req.files.service_icon) {
-        let compresedImage = path.join(__dirname, "../", "public", "compress", "service", path.parse(req.files.service_img[0].fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.files.service_img[0].originalname));
+        let compresedImage = path.join(__dirname, "../", "public", "compress", "service", path.parse(req.files.service_img[0].fieldname).name + "_" + path.parse(req.body.title_tm).name + path.extname(req.files.service_img[0].originalname));
         await sharp(req.files.service_img[0].path).jpeg({
             quality: 30,
             chromaSubsampling: "4:4:4",
@@ -54,7 +54,7 @@ router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
 
     } else if (req.files.service_img) {
 
-        let compresedImage = path.join(__dirname, "../", "public", "compress", "service", path.parse(req.files.service_img[0].fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.files.service_img[0].originalname));
+        let compresedImage = path.join(__dirname, "../", "public", "compress", "service", path.parse(req.files.service_img[0].fieldname).name + "_" + path.parse(req.body.title_tm).name + path.extname(req.files.service_img[0].originalname));
         await sharp(req.files.service_img[0].path).jpeg({
             quality: 30,
             chromaSubsampling: "4:4:4",
@@ -129,7 +129,7 @@ router.post("/edit/:serviceId", isAdmin, multiUpload.upload, async (req, res) =>
         fs.unlink("/public/compress/service_icon/" + current.service_icon, err => { console.log(err); })
         img = req.files.service_img[0].filename;
         icon = req.files.service_icon[0].filename;
-        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'service', path.parse(req.files.service_img[0].fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.files.service_icon[0].originalname));
+        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'service', path.parse(req.files.service_img[0].fieldname).name + "_" + path.parse(req.body.title_tm).name + path.extname(req.files.service_icon[0].originalname));
         await sharp(req.file.path).jpeg({
             quality: 30,
             chromaSubsampling: '4:4:4'
@@ -137,7 +137,7 @@ router.post("/edit/:serviceId", isAdmin, multiUpload.upload, async (req, res) =>
     } else if (req.files.service_img) {
         fs.unlink("/public/img/service/" + current.service_img, err => { console.log(err); })
         img = req.files.service_img[0].filename;
-        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'service', path.parse(req.files.service_img[0].fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.files.service_icon[0].originalname));
+        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'service', path.parse(req.files.service_img[0].fieldname).name + "_" + path.parse(req.body.title_tm).name + path.extname(req.files.service_icon[0].originalname));
         await sharp(req.file.path).jpeg({
             quality: 30,
             chromaSubsampling: '4:4:4'
@@ -209,7 +209,7 @@ router.delete("/delete/:serviceId", isAdmin, async (req, res) => {
 // })
 
 // router.post("/worker/create", isService, multiUpload.upload, async (req, res) => {
-//     let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'service', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
+//     let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'service', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title_tm).name + path.extname(req.file.originalname));
 //     await sharp(req.file.path).jpeg({
 //         quality: 30,
 //         chromaSubsampling: '4:4:4'
@@ -252,7 +252,7 @@ router.delete("/delete/:serviceId", isAdmin, async (req, res) => {
 //             console.log(err);
 //         })
 
-//         let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'service', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title).name + path.extname(req.file.originalname));
+//         let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'service', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title_tm).name + path.extname(req.file.originalname));
 //         await sharp(req.file.path).jpeg({
 //             quality: 30,
 //             chromaSubsampling: '4:4:4'
