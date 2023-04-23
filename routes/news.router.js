@@ -70,7 +70,7 @@ router.post("/create", isAdmin, imageUpload.upload.single("news_img"), async (re
 router.get("/edit/:newsId", isAdmin, async (req, res) => {
     await News.findOne({
         where: { id: req.params.newsId },
-        include: { model: Category, attributes: ['id', 'name'] }
+        include: { model: Category, attributes: ['id', 'name_tm'] }
     }).then((news) => {
         res.json({
             news: news

@@ -134,7 +134,25 @@ router.post("/edit/:serviceId", isAdmin, multiUpload.upload, async (req, res) =>
             quality: 30,
             chromaSubsampling: '4:4:4'
         }).toFile(compresedImage)
+        await Service.update({
+            title_tm: req.body.title_tm,
+            short_desc_tm: req.body.short_desc_tm,
+            description_tm: req.body.description_tm,
+            title_en: req.body.title_en,
+            short_desc_en: req.body.short_desc_en,
+            description_en: req.body.description_en,
+            title_ru: req.body.title_ru,
+            short_desc_ru: req.body.short_desc_ru,
+            description_ru: req.body.description_ru,
+            checked: req.body.checked,
+            service_img: img,
+            service_icon: icon
+        }, { where: { id: req.params.serviceId } }).then(() => {
+            res.json({ success: "Ustunlikli uytgedildi" })
+        }).catch((error) => { res.json({ error: error }) })
+
     } else if (req.files.service_img) {
+
         fs.unlink("/public/img/service/" + current.service_img, err => { console.log(err); })
         img = req.files.service_img[0].filename;
         let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'service', path.parse(req.files.service_img[0].fieldname).name + "_" + path.parse(req.body.title_tm).name + path.extname(req.files.service_icon[0].originalname));
@@ -142,27 +160,60 @@ router.post("/edit/:serviceId", isAdmin, multiUpload.upload, async (req, res) =>
             quality: 30,
             chromaSubsampling: '4:4:4'
         }).toFile(compresedImage)
+        await Service.update({
+            title_tm: req.body.title_tm,
+            short_desc_tm: req.body.short_desc_tm,
+            description_tm: req.body.description_tm,
+            title_en: req.body.title_en,
+            short_desc_en: req.body.short_desc_en,
+            description_en: req.body.description_en,
+            title_ru: req.body.title_ru,
+            short_desc_ru: req.body.short_desc_ru,
+            description_ru: req.body.description_ru,
+            checked: req.body.checked,
+            service_img: img
+        }, { where: { id: req.params.serviceId } }).then(() => {
+            res.json({ success: "Ustunlikli uytgedildi" })
+        }).catch((error) => { res.json({ error: error }) })
+
     } else if (req.files.service_icon) {
         fs.unlink("/public/compress/service_icon/" + current.service_icon, err => { console.log(err); })
         icon = req.files.service_icon[0].filename;
-    }
 
-    await Service.update({
-        title_tm: req.body.title_tm,
-        short_desc_tm: req.body.short_desc_tm,
-        description_tm: req.body.description_tm,
-        title_en: req.body.title_en,
-        short_desc_en: req.body.short_desc_en,
-        description_en: req.body.description_en,
-        title_ru: req.body.title_ru,
-        short_desc_ru: req.body.short_desc_ru,
-        description_ru: req.body.description_ru,
-        checked: req.body.checked,
-        service_img: img,
-        service_icon: icon
-    }, { where: { id: req.params.serviceId } }).then(() => {
-        res.json({ success: "Ustunlikli uytgedildi" })
-    })
+        await Service.update({
+            title_tm: req.body.title_tm,
+            short_desc_tm: req.body.short_desc_tm,
+            description_tm: req.body.description_tm,
+            title_en: req.body.title_en,
+            short_desc_en: req.body.short_desc_en,
+            description_en: req.body.description_en,
+            title_ru: req.body.title_ru,
+            short_desc_ru: req.body.short_desc_ru,
+            description_ru: req.body.description_ru,
+            checked: req.body.checked,
+            service_icon: icon
+        }, { where: { id: req.params.serviceId } }).then(() => {
+            res.json({ success: "Ustunlikli uytgedildi" })
+        }).catch((error) => { res.json({ error: error }) })
+
+    } else {
+        await Service.update({
+            title_tm: req.body.title_tm,
+            short_desc_tm: req.body.short_desc_tm,
+            description_tm: req.body.description_tm,
+            title_en: req.body.title_en,
+            short_desc_en: req.body.short_desc_en,
+            description_en: req.body.description_en,
+            title_ru: req.body.title_ru,
+            short_desc_ru: req.body.short_desc_ru,
+            description_ru: req.body.description_ru,
+            checked: req.body.checked,
+            service_img: img,
+            service_icon: icon
+        }, { where: { id: req.params.serviceId } }).then(() => {
+            res.json({ success: "Ustunlikli uytgedildi" })
+        }).catch((error) => { res.json({ error: error }) })
+    }
 });
 
 router.delete("/delete/:serviceId", isAdmin, async (req, res) => {

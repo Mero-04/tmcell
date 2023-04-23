@@ -12,7 +12,7 @@ router.get("/", isAdmin, async (req, res) => {
     await Address.findAndCountAll({
         limit,
         offset,
-        include: { model: Region, attributes: ['id', 'name'] }
+        include: { model: Region, attributes: ['id', 'name_tm'] }
     }).then((addresses) => {
         res.json({
             addresses: addresses.rows,
@@ -32,31 +32,26 @@ router.get("/create", isAdmin, async (req, res) => {
 });
 
 router.post("/create", isAdmin, async (req, res) => {
-    if (!req.body.title) {
-        res.json({ error: "error" })
-    } else {
-        await Address.create({
-            title_tm: req.body.title_tm,
-            title_en: req.body.title_en,
-            title_ru: req.body.title_ru,
-            phone_num: req.body.phone_num,
-            latitude: req.body.latitude,
-            longitude: req.body.longitude,
-            open_time: req.body.open_time,
-            close_time: req.body.close_time,
-            regionId: req.body.regionId,
-            checked: "1"
-        }).then(() => {
-            res.json({ success: "Salgy ustinlikli gosuldy" })
-        }).catch((error) => { res.json({ error: error }) })
-    }
-
+    await Address.create({
+        title_tm: req.body.title_tm,
+        title_en: req.body.title_en,
+        title_ru: req.body.title_ru,
+        phone_num: req.body.phone_num,
+        latitude: req.body.latitude,
+        longitude: req.body.longitude,
+        open_time: req.body.open_time,
+        close_time: req.body.close_time,
+        regionId: req.body.regionId,
+        checked: "1"
+    }).then(() => {
+        res.json({ success: "Salgy ustinlikli gosuldy" })
+    }).catch((error) => { res.json({ error: error }) })
 });
 
 router.get("/edit/:addressId", isAdmin, async (req, res) => {
     await Address.findOne({
         where: { id: req.params.addressId },
-        include: { model: Region, attributes: ['id', 'name'] }
+        include: { model: Region, attributes: ['id', 'name_tm'] }
     }).then((address) => { res.json({ address: address }) })
 });
 
