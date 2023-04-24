@@ -4,7 +4,7 @@ const router = express.Router();
 const { Welayat, Region } = require("../models/model");
 
 router.get("/", isAdmin, async (req, res) => {
-    await Welayat.findAll({ model: Region, attributes: ['id', 'name','name_en', "name_ru"] }).then((welayat) => {
+    await Welayat.findAll({ model: Region, attributes: ['id', 'name_tm','name_en', "name_ru"] }).then((welayat) => {
         res.json({ welayat: welayat })
     })
 })

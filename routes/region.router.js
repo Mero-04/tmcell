@@ -4,7 +4,7 @@ const router = express.Router();
 const { Region, Welayat } = require("../models/model");
 
 router.get("/", isAdmin, async (req, res) => {
-    await Region.findAll({ include: { model: Welayat, attributes: ['id', 'name','name_en','name_ru'] } }).then((region) => { res.json({ region: region }) })
+    await Region.findAll({ include: { model: Welayat, attributes: ['id', 'name_tm','name_en','name_ru'] } }).then((region) => { res.json({ region: region }) })
 })
 
 router.get("/create", isAdmin, async (req, res) => {

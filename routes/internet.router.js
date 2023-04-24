@@ -47,8 +47,7 @@ router.post("/create", isAdmin, imageUpload.upload.single("internet_icon"), asyn
         checked: "1"
     }).then(() => {
         res.json({ success: "Internet nyrhnamasy ustinlikli gosuldy" })
-            .catch((error) => { res.json({ error: error }) })
-    })
+    }).catch((error) => { res.json({ error: error }) })
 });
 
 router.get("/edit/:internetId", isAdmin, async (req, res) => {
