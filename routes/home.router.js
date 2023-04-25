@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router()
 const { Tarif, Address, Region, Category, Internet, Service, Korporatiw, News, Program, Banner, Sponsor, Welayat, Faq, USSD } = require("../models/model")
 const { Op } = require("sequelize");
+const Sequelize = require('../data/db');
 router.get("/tarif", async (req, res) => {
     await Tarif.findAll({ where: { checked: "1", status: "1" } }).then((tarifs) => { res.json({ tarifs: tarifs }) })
 });
@@ -65,7 +66,17 @@ router.get("/address", async (req, res) => {
 
 
 router.get("/category", async (req, res) => {
-    await Category.findAll().then((category) => { res.json({ category: category }) })
+    Category.findAll({
+        attributes: {
+            include: [[Sequelize.fn("COUNT", Sequelize.col("news.id")), "NewsCount"]]
+        },
+        include: [{
+            model: News, attributes: []
+        }],
+        group: ['category.id']
+    }).then((category) => {
+        res.json({ category: category })
+    })
 });
 
 
@@ -104,6 +115,20 @@ router.get("/news", async (req, res) => {
     })
 })
 
+router.get("/news/most", async (req, res) => {
+    await News.findAll({
+        limit: 3,
+        include: { model: Category },
+        order: [
+            ['viewed', 'DESC']
+        ]
+    }).then((news) => {
+        if (news) {
+            res.json({ news: news })
+        } else { res.json({ error: "Tazelik tapylmady!" }) }
+    })
+})
+
 router.get("/news/:newsId", async (req, res) => {
     await News.findAll({
         include: { model: Category },
@@ -129,6 +154,8 @@ router.get("/news/date/:date", async (req, res) => {
         } else { res.json({ error: "Tazelik tapylmady!" }) }
     })
 })
+
+
 
 
 router.get("/program", async (req, res) => {
