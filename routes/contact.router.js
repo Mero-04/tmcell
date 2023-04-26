@@ -29,8 +29,8 @@ router.post("/create", async (req, res) => {
         email: req.body.email,
         subject: req.body.subject,
         comment: req.body.comment
-    }).then(() => { res.json({ success: "Teswir ustunlikli ugrdyldy" }) })
-        .catch((error) => { res.json({ error: error }) })
+    }).then(() => { res.json({ success: "Hatyňyz üstünlikli ugradyldy" }) })
+        .catch((error) => { res.status(500).json({ error: error }) })
 });
 
 router.get("/edit/:contactId", isAdmin, async (req, res) => {
@@ -46,7 +46,7 @@ router.post("/edit/:contactId", isAdmin, async (req, res) => {
             subject: req.body.subject,
             comment: req.body.comment
         },
-        { where: { id: req.params.contactId } }).then(() => { res.json({ success: "ustunlikli uytgedildi" }); })
+        { where: { id: req.params.contactId } }).then(() => { res.json({ success: "Üstünlikli üýtgedildi" }); })
         .catch((error) => { res.json({ error: error }) })
 });
 
@@ -54,8 +54,8 @@ router.delete("/delete/:contactId", isAdmin, async (req, res) => {
     await Contact.findOne({ where: { id: req.params.contactId } }).then((contact) => {
         if (contact) {
             contact.destroy();
-            return res.json({ success: "Teswir ustunlikli pozuldy" })
-        } else { res.json({ error: "Teswir tapylmady" }) }
+            return res.json({ success: "Teswir üstünlikli pozuldy" })
+        } else { res.json({ error: "Hatyňyz tapylmady" }) }
     }).catch((error) => { res.status(500).json({ error }) })
 });
 

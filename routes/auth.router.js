@@ -16,7 +16,9 @@ router.post("/rootman", async (req, res) => {
                 if (!passwordIsValid) {
                     res.json({ error: "Ulanyjynyň nomeri ýa-da açar sözi nädogry" })
                 } else {
-                    res.json({ token: sign({ id: admin.id, role: admin.role }, "importantsecret") });
+                    res.json({ token: sign({ id: admin.id, role: admin.role }, process.env.JWT_key,{
+                        expiresIn: '24h'
+                    }) });
                 }
             }
         })
@@ -33,7 +35,9 @@ router.post("/login", async (req, res) => {
                 if (!passwordIsValid) {
                     res.json({ error: "Ulanyjynyň nomeri ýa-da açar sözi nädogry" })
                 } else {
-                    res.json({ token: sign({ id: worker.id, role: worker.role }, "importantsecret") });
+                    res.json({ token: sign({ id: worker.id, role: worker.role }, process.env.JWT_key, {
+                        expiresIn: '24h'
+                    }) });
                 }
             }
         })
@@ -42,4 +46,6 @@ router.post("/login", async (req, res) => {
 router.get("/current_user", isAdmin, async (req, res) => {
     res.json(req.user)
 })
+
+
 module.exports = router;

@@ -4,7 +4,7 @@ const isAdmin = (req, res, next) => {
   const accessToken = req.header("accessToken");
   if (!accessToken) return res.json({ error: "Login etmediniz?" });
   try {
-    const validToken = verify(accessToken, "importantsecret");
+    const validToken = verify(accessToken, process.env.JWT_key);
     req.user = validToken
     if (validToken) {
       if (req.user.role !== "Admin") {
@@ -18,29 +18,11 @@ const isAdmin = (req, res, next) => {
   }
 };
 
-const isTariff = (req, res, next) => {
-  const accessToken = req.header("accessToken");
-  if (!accessToken) return res.json({ error: "Login etmediniz?" });
-  try {
-    const validToken = verify(accessToken, "importantsecret");
-    req.user = validToken;
-    console.log(req.user)
-    if (validToken) {
-      if (req.user.role !== "Nyrhnama") {
-        return res.status(403).json({ error: "Sizin hic hili hukugynyz yok!!" });
-      }
-      return next();
-    }
-  } catch (err) {
-    return res.json({ error: err });
-  }
-};
-
 const isNews = (req, res, next) => {
   const accessToken = req.header("accessToken");
   if (!accessToken) return res.json({ error: "Login etmediniz?" });
   try {
-    const validToken = verify(accessToken, "importantsecret");
+    const validToken = verify(accessToken, process.env.JWT_key);
     req.user = validToken;
     if (validToken) {
       if (req.user.role !== "Tazelik") {
@@ -53,72 +35,4 @@ const isNews = (req, res, next) => {
   }
 };
 
-const isInternet = (req, res, next) => {
-  const accessToken = req.header("accessToken");
-  if (!accessToken) return res.json({ error: "Login etmediniz?" });
-  try {
-    const validToken = verify(accessToken, "importantsecret");
-    req.user = validToken;
-    if (validToken) {
-      if (req.user.role !== "Internet") {
-        return res.status(403).json({ error: "Sizin hic hili hukugynyz yok!!" });
-      }
-      return next();
-    }
-  } catch (err) {
-    return res.json({ error: err });
-  }
-};
-
-const isService = (req, res, next) => {
-  const accessToken = req.header("accessToken");
-  if (!accessToken) return res.json({ error: "Login etmediniz?" });
-  try {
-    const validToken = verify(accessToken, "importantsecret");
-    req.user = validToken;
-    if (validToken) {
-      if (req.user.role !== "Hyzmat") {
-        return res.status(403).json({ error: "Sizin hic hili hukugynyz yok!!" });
-      }
-      return next();
-    }
-  } catch (err) {
-    return res.json({ error: err });
-  }
-};
-
-const isAddress = (req, res, next) => {
-  const accessToken = req.header("accessToken");
-  if (!accessToken) return res.json({ error: "Login etmediniz?" });
-  try {
-    const validToken = verify(accessToken, "importantsecret");
-    req.user = validToken;
-    if (validToken) {
-      if (req.user.role !== "Address") {
-        return res.status(403).json({ error: "Sizin hic hili hukugynyz yok!!" });
-      }
-      return next();
-    }
-  } catch (err) {
-    return res.json({ error: err });
-  }
-};
-
-const isProgram = (req, res, next) => {
-  const accessToken = req.header("accessToken");
-  if (!accessToken) return res.json({ error: "Login etmediniz?" });
-  try {
-    const validToken = verify(accessToken, "importantsecret");
-    req.user = validToken;
-    if (validToken) {
-      if (req.user.role !== "Program") {
-        return res.status(403).json({ error: "Sizin hic hili hukugynyz yok!!" });
-      }
-      return next();
-    }
-  } catch (err) {
-    return res.json({ error: err });
-  }
-};
-
-module.exports = { isAdmin, isTariff, isNews, isInternet, isService, isAddress, isProgram };
+module.exports = { isAdmin, isNews };

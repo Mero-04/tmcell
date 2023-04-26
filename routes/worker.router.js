@@ -34,8 +34,8 @@ router.post("/create", isAdmin, async (req, res) => {
         phone_num: req.body.phone_num,
         password: hash,
         role: req.body.role
-    }).then(() => { res.json({ success: "Isgar ustinlikli gosuldy" }) })
-        .catch((error) => { res.json({ error: error }) })
+    }).then(() => { res.json({ success: "Isgar üstünlikli goşuldy" }) })
+        .catch((error) => { res.status(500).json({ error: error }) })
 });
 
 router.get("/edit/:workerId", isAdmin, async (req, res) => {
@@ -56,15 +56,15 @@ router.post("/edit/:workerId", isAdmin, async (req, res) => {
         role: req.body.role,
         checked: req.body.checked
     }, { where: { id: req.params.workerId } }).then(() => {
-        res.json({ success: "Ustunlikli uytgedildi" })
-    }).catch((error) => { res.json({ error: error }) })
+        res.json({ success: "Üstünlikli üytgedildi" })
+    }).catch((error) => { res.status(500).json({ error: error }) })
 });
 
 router.delete("/delete/:workerId", isAdmin, async (req, res) => {
     await Worker.findOne({ id: req.params.workerId }).then((worker) => {
         if (worker) {
             worker.destroy()
-            res.json({ success: "Ustunlikli pozuldy" })
+            res.json({ success: "Üstünlikli pozuldy" })
         } res.json({ error: "Tapylmady" })
     })
 });

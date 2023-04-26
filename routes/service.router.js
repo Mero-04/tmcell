@@ -49,8 +49,8 @@ router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
             service_img: req.files.service_img[0].filename,
             service_icon: req.files.service_icon[0].filename,
             checked: "1",
-        }).then(() => { res.json({ success: "Hyzmat ustinlikli gosuldy" }) })
-            .catch((error) => { res.json({ error: error }) })
+        }).then(() => { res.json({ success: "Hyzmat üstünlikli goşuldy" }) })
+            .catch((error) => { res.status(500).json({ error: error }) })
 
     } else if (req.files.service_img) {
 
@@ -73,8 +73,8 @@ router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
             service_img: req.files.service_img[0].filename,
             checked: "1",
         }).then(() => {
-            res.json({ success: "Hyzmat ustinlikli gosuldy" })
-        }).catch((error) => { res.json({ error: error }) })
+            res.json({ success: "Hyzmat üstünlikli goşuldy" })
+        }).catch((error) => { res.status(500).json({ error: error }) })
 
     } else if (req.files.service_icon) {
 
@@ -91,8 +91,8 @@ router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
             service_icon: req.files.service_icon[0].filename,
             checked: "1",
         }).then(() => {
-            res.json({ success: "Hyzmat ustinlikli gosuldy" });
-        }).catch((error) => { res.json({ error: error }) })
+            res.json({ success: "Hyzmat üstünlikli goşuldy" });
+        }).catch((error) => { res.status(500).json({ error: error }) })
     } else {
         await Service.create({
             title_tm: req.body.title_tm,
@@ -106,8 +106,8 @@ router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
             description_ru: req.body.description_ru,
             checked: "1",
         }).then(() => {
-            res.json({ success: "Hyzmat ustinlikli gosuldy" });
-        }).catch((error) => { res.json({ error: error }) })
+            res.json({ success: "Hyzmat üstünlikli goşuldy" });
+        }).catch((error) => { res.status(500).json({ error: error }) })
     }
 
 });
@@ -148,8 +148,8 @@ router.post("/edit/:serviceId", isAdmin, multiUpload.upload, async (req, res) =>
             service_img: img,
             service_icon: icon
         }, { where: { id: req.params.serviceId } }).then(() => {
-            res.json({ success: "Ustunlikli uytgedildi" })
-        }).catch((error) => { res.json({ error: error }) })
+            res.json({ success: "Üstünlikli üytgedildi" })
+        }).catch((error) => { res.status(500).json({ error: error }) })
 
     } else if (req.files.service_img) {
 
@@ -173,8 +173,8 @@ router.post("/edit/:serviceId", isAdmin, multiUpload.upload, async (req, res) =>
             checked: req.body.checked,
             service_img: img
         }, { where: { id: req.params.serviceId } }).then(() => {
-            res.json({ success: "Ustunlikli uytgedildi" })
-        }).catch((error) => { res.json({ error: error }) })
+            res.json({ success: "Üstünlikli üýtgedildi" })
+        }).catch((error) => { res.status(500).json({ error: error }) })
 
     } else if (req.files.service_icon) {
         fs.unlink("/public/compress/service_icon/" + current.service_icon, err => { console.log(err); })
@@ -193,8 +193,8 @@ router.post("/edit/:serviceId", isAdmin, multiUpload.upload, async (req, res) =>
             checked: req.body.checked,
             service_icon: icon
         }, { where: { id: req.params.serviceId } }).then(() => {
-            res.json({ success: "Ustunlikli uytgedildi" })
-        }).catch((error) => { res.json({ error: error }) })
+            res.json({ success: "Üstünlikli üýtgedildi" })
+        }).catch((error) => { res.status(500).json({ error: error }) })
 
     } else {
         await Service.update({
@@ -211,8 +211,8 @@ router.post("/edit/:serviceId", isAdmin, multiUpload.upload, async (req, res) =>
             service_img: img,
             service_icon: icon
         }, { where: { id: req.params.serviceId } }).then(() => {
-            res.json({ success: "Ustunlikli uytgedildi" })
-        }).catch((error) => { res.json({ error: error }) })
+            res.json({ success: "Üstünlikli üýtgedildi" })
+        }).catch((error) => { res.status(500).json({ error: error }) })
     }
 });
 
@@ -223,139 +223,12 @@ router.delete("/delete/:serviceId", isAdmin, async (req, res) => {
             fs.unlink("./public/img/service/" + service.service_img, err => { })
             fs.unlink("./public/compress/service/" + service.service_img, err => { })
             service.destroy()
-            return res.json({ success: "Ustunlikli pozuldy" })
+            return res.json({ success: "Üstünlikli pozuldy" })
         } else {
             res.json({ error: "Tapylmady" })
         }
     })
 });
-
-
-
-//workerADMIN start
-// router.get("/worker", isService, async (req, res) => {
-//     const page = req.query.page ? parseInt(req.query.page) : 1;
-//     const size = 10;
-//     const offset = (page - 1) * size;
-//     const limit = page * size;
-//     var before = offset > 0 ? page - 1 : 1;
-//     var next = page + 1;
-//     await Service.findAndCountAll({
-//         limit,
-//         offset,
-//         where: req.user.role == "Hyzmat" ? { workerId: req.user.id } : null
-//     })
-//         .then((services) => {
-//             res.json({
-//                 services: services.rows,
-//                 pagination: {
-//                     before: before,
-//                     next: next,
-//                     page: page,
-//                     total: services.count,
-//                     pages: Math.ceil(services.count / size)
-//                 }
-//             })
-//         })
-// })
-
-// router.post("/worker/create", isService, multiUpload.upload, async (req, res) => {
-//     let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'service', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title_tm).name + path.extname(req.file.originalname));
-//     await sharp(req.file.path).jpeg({
-//         quality: 30,
-//         chromaSubsampling: '4:4:4'
-//     }).toFile(compresedImage)
-
-//     await Service.create({
-//         title: req.body.title,
-//         description: req.body.description,
-//         service_img: req.file.filename,
-//         icon: req.body.icon,
-//         workerId: req.user.id
-//     }).then(() => {
-//         res.json({
-//             success: "Hyzmat ustinlikli gosuldy"
-//         })
-//     })
-// });
-
-// router.get("/worker/edit/:serviceId", isService, async (req, res) => {
-//     await Service.findOne({
-//         where: {
-//             id: req.params.serviceId,
-//             workerId: req.user.id
-//         }
-//     }).then((service) => {
-//         res.json({
-//             service: service
-//         })
-//     })
-// });
-
-// router.post("/worker/edit/:serviceId", isService, multiUpload.upload, async (req, res) => {
-//     let img = req.body.service_img;
-//     if (req.file) {
-//         img = req.file.filename;
-//         fs.unlink("/public/img/service/" + img, err => {
-//             console.log(err);
-//         })
-//         fs.unlink("/public/compress/service/" + img, err => {
-//             console.log(err);
-//         })
-
-//         let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'service', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title_tm).name + path.extname(req.file.originalname));
-//         await sharp(req.file.path).jpeg({
-//             quality: 30,
-//             chromaSubsampling: '4:4:4'
-//         }).toFile(compresedImage)
-//     }
-
-//     await Service.update({
-//         title: req.body.title,
-//         description: req.body.description,
-//         icon: req.body.icon,
-//         service_img: img,
-//         workerId: req.user.id
-//     },
-//         {
-//             where: {
-//                 id: req.params.serviceId,
-//                 workerId: req.user.id
-//             }
-//         })
-//         .then(() => {
-//             res.json({
-//                 success: "Ustunlikli uytgedildi"
-//             })
-//         })
-// });
-
-// router.delete("/worker/delete/:serviceId", isService, async (req, res) => {
-//     await Service.findOne({
-//         where: {
-//             id: req.params.serviceId,
-//             workerId: req.user.id
-//         }
-//     })
-//         .then((service) => {
-//             if (service) {
-//                 fs.unlink("./public/img/service/" + service.service_img, err => { })
-//                 fs.unlink("./public/compress/service/" + service.service_img, err => { })
-//                 service.destroy()
-//                 return res.json({
-//                     success: "Ustunlikli pozuldy"
-//                 })
-//             } else {
-//                 res.json({
-//                     error: "Tapylmady"
-//                 })
-//             }
-//         })
-// });
-
-//workerADMIN end
-
-
 
 
 module.exports = router;

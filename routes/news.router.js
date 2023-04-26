@@ -60,10 +60,10 @@ router.post("/create", isAdmin, imageUpload.upload.single("news_img"), async (re
         created_at: moment().format('YYYY-MM-DD')
     }).then(() => {
         res.json({
-            success: "Tazelik ustinlikli gosuldy"
+            success: "Täzelik üstünlikli goşuldy"
         })
     }).catch((error) => {
-        res.json({ error: error })
+        res.status(500).json({ error: error })
     })
 });
 
@@ -106,10 +106,10 @@ router.post("/edit/:newsId", isAdmin, imageUpload.upload.single("news_img"), asy
         categoryId: req.body.categoryId
     }, { where: { id: req.params.newsId } }).then(() => {
         res.json({
-            success: "Ustunlikli uytgedildi"
+            success: "Üstünlikli üýtgedildi"
         })
     }).catch((error) => {
-        res.json({ error: error })
+        res.status(500).json({ error: error })
     })
 });
 
@@ -131,7 +131,7 @@ router.delete("/delete/:newsId", isAdmin, async (req, res) => {
 });
 
 
-//workerAdmin start
+
 router.get("/worker/", isNews, async (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const limit = 20;
@@ -141,7 +141,7 @@ router.get("/worker/", isNews, async (req, res) => {
     await News.findAndCountAll({
         limit,
         offset,
-        include: { model: Category, attributes: ['id', 'name'] },
+        include: { model: Category, attributes: ['id', 'name_tm'] },
         where: req.user.role == "Tazelik" ? { workerId: req.user.id } : null
     }).then((news) => {
         res.json({
@@ -178,7 +178,7 @@ router.post("/worker/create", isNews, imageUpload.upload.single("news_img"), asy
         news_img: req.file.filename,
         categoryId: req.body.categoryId,
         workerId: req.user.id
-    }).then(() => { res.json({ success: "Tazelik ustinlikli gosuldy" }) })
+    }).then(() => { res.json({ success: "Täzelik üstinlikli goşuldy" }) })
 });
 
 router.get("/worker/edit/:newsId", isNews, async (req, res) => {
@@ -214,7 +214,7 @@ router.post("/worker/edit/:newsId", isNews, imageUpload.upload.single("news_img"
             id: req.params.newsId,
             workerId: req.user.id
         }
-    }).then(() => { res.json({ success: "Ustunlikli uytgedildi" }) })
+    }).then(() => { res.json({ success: "Üstünlikli üýtgedildi" }) })
 });
 
 router.delete("/worker/delete/:newsId", isNews, async (req, res) => {
@@ -223,11 +223,10 @@ router.delete("/worker/delete/:newsId", isNews, async (req, res) => {
             fs.unlink("./public/img/news/" + news.news_img, err => { })
             fs.unlink("./public/compress/news/" + news.news_img, err => { })
             news.destroy()
-            return res.json({ success: "Ustunlikli pozuldy" })
+            return res.json({ success: "Üstünlikli pozuldy" })
         } else { res.json({ error: "Tapylmady" }) }
     })
 });
-
 
 
 

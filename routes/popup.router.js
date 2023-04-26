@@ -46,8 +46,8 @@ router.post("/create", isAdmin, imageUpload.upload.single("popup_img"), async (r
         link: req.body.link,
         popup_img: req.file.filename,
         checked: "1"
-    }).then(() => { res.json({ success: "Ustinlikli gosuldy" }) })
-        .catch((error) => { res.json({ error: error }) })
+    }).then(() => { res.json({ success: "Popup üstünlikli goşuldy" }) })
+        .catch((error) => { res.status(500).json({ error: error }) })
 });
 
 router.get("/edit/:popupId", isAdmin, async (req, res) => {
@@ -79,8 +79,8 @@ router.post("/edit/:popupId", isAdmin, imageUpload.upload.single("popup_img"), a
         popup_img: img,
         checked: req.body.checked,
     }, { where: { id: req.params.popupId } })
-        .then(() => { res.json({ success: "Ustunlikli uytgedildi" }) })
-        .catch((error) => { res.json({ error: error }) })
+        .then(() => { res.json({ success: "Üstünlikli üýtgedildi" }) })
+        .catch((error) => { res.status(500).json({ error: error }) })
 });
 
 router.delete("/delete/:popupId", isAdmin, async (req, res) => {
@@ -89,7 +89,7 @@ router.delete("/delete/:popupId", isAdmin, async (req, res) => {
             fs.unlink("./public/img/popup/" + popup.popup_img, err => { })
             fs.unlink("./public/compress/popup/" + popup.popup_img, err => { })
             popup.destroy()
-            return res.json({ success: "Ustunlikli pozuldy" })
+            return res.json({ success: "Üstünlikli pozuldy" })
         } else { res.json({ error: "Tapylmady" }) }
     })
 });

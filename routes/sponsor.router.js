@@ -43,8 +43,8 @@ router.post("/create", isAdmin, imageUpload.upload.single("sponsor_img"), async 
         link: req.body.link,
         sponsor_img: req.file.filename,
         checked: "1"
-    }).then(() => { res.json({ success: "Ustinlikli gosuldy" }) })
-        .catch((error) => { res.json({ error: error }) })
+    }).then(() => { res.json({ success: "Hyzmatdaş üstünlikli goşuldy" }) })
+        .catch((error) => { res.status(500).json({ error: error }) })
 });
 
 router.get("/edit/:sponsorId", isAdmin, async (req, res) => {
@@ -71,8 +71,8 @@ router.post("/edit/:sponsorId", isAdmin, imageUpload.upload.single("sponsor_img"
         sponsor_img: img,
         checked: req.body.checked,
     }, { where: { id: req.params.sponsorId } })
-        .then(() => { res.json({ success: "Ustunlikli uytgedildi" }) })
-        .catch((error) => { res.json({ error: error }) })
+        .then(() => { res.json({ success: "Üstünlikli üýtgedildi" }) })
+        .catch((error) => { res.status(500).json({ error: error }) })
 });
 
 router.delete("/delete/:sponsorId", isAdmin, async (req, res) => {
@@ -81,12 +81,10 @@ router.delete("/delete/:sponsorId", isAdmin, async (req, res) => {
             fs.unlink("./public/img/sponsor/" + sponsor.sponsor_img, err => { })
             fs.unlink("./public/compress/sponsor/" + sponsor.sponsor_img, err => { })
             sponsor.destroy()
-            return res.json({ success: "Ustunlikli pozuldy" })
+            return res.json({ success: "Üstünlikli pozuldy" })
         } else { res.json({ error: "Tapylmady" }) }
     })
 });
-
-
 
 
 module.exports = router;

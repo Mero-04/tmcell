@@ -18,8 +18,8 @@ router.post("/create", isAdmin, async (req, res) => {
         code_ru: req.body.code_ru,
         checked: "1"
     }).then(() => {
-        res.json({ success: "USSD kod ustinlikli gosuldy" })
-    }).catch((error) => { res.json({ error: error }) })
+        res.json({ success: "USSD kod üstünlikli goşuldy" })
+    }).catch((error) => { res.status(500).json({ error: error }) })
 });
 
 router.get("/edit/:ussdId", isAdmin, async (req, res) => {
@@ -38,15 +38,15 @@ router.post("/edit/:ussdId", isAdmin, async (req, res) => {
         code_ru: req.body.code_ru,
         checked: req.body.checked
     }, { where: { id: req.params.ussdId } })
-        .then(() => { res.json({ success: "Ustunlikli uytgedildi" }) })
-        .catch((error) => { res.json({ error: error }) })
+        .then(() => { res.json({ success: "Üstünlikli üýtgedildi" }) })
+        .catch((error) => { res.status(500).json({ error: error }) })
 });
 
 router.delete("/delete/:ussdId", isAdmin, async (req, res) => {
     await USSD.findOne({ where: { id: req.params.ussdId } }).then((ussd) => {
         if (ussd) {
             ussd.destroy()
-            return res.json({ success: "Ustunlikli pozuldy" })
+            return res.json({ success: "Üstünlikli pozuldy" })
         } else { res.json({ error: "Tapylmady" }) }
     })
 });

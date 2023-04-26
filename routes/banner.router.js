@@ -18,8 +18,8 @@ router.post("/create", isAdmin, bannerUpload.upload.single("banner_img"), async 
     await Banner.create({
         link: req.body.link,
         banner_img: req.file.filename
-    }).then(() => { res.json({ success: "Banner ustinlikli gosuldy" }) })
-        .catch((error) => { res.json({ error: error }) })
+    }).then(() => { res.json({ success: "Banner üstünlikli goşuldy" }) })
+        .catch((error) => { res.status(500).json({ error: error }) })
 });
 
 router.get("/edit/:bannerId", isAdmin, async (req, res) => {
@@ -36,8 +36,8 @@ router.post("/edit/:bannerId", isAdmin, bannerUpload.upload.single("banner_img")
         link: req.body.link,
         banner_img: img
     }, { where: { id: req.params.bannerId } })
-        .then(() => { res.json({ success: "Ustunlikli uytgedildi" }) })
-        .catch((error) => { res.json({ error: error }) })
+        .then(() => { res.json({ success: "Üstünlikli üýtgedildi" }) })
+        .catch((error) => { res.status(500).json({ error: error }) })
 });
 
 router.delete("/delete/:bannerId", isAdmin, async (req, res) => {
@@ -45,12 +45,10 @@ router.delete("/delete/:bannerId", isAdmin, async (req, res) => {
         if (banner) {
             fs.unlink("./public/img/banner/" + banner.banner_img, err => { })
             banner.destroy()
-            return res.json({ success: "Ustunlikli pozuldy" })
+            return res.json({ success: "Üstünlikli pozuldy" })
         } else { res.json({ error: "Tapylmady" }) }
     })
 });
-
-
 
 
 module.exports = router;
