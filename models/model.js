@@ -263,6 +263,11 @@ const Service = sequelize.define("service", {
             notEmpty: { msg: "Hyzmatyň iconyny giriziň!" }
         }
     },
+    connect_USSD: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Hyzmatyn USSD kodyny giriziň!" }
+        }
+    },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
 
@@ -407,6 +412,11 @@ const Tarif = sequelize.define("tarif", {
             notEmpty: { msg: "Nyrhnamanyň periodyny giriziň!" }
         }
     },
+    connect_USSD: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Nyrhnamanyn USSD kodyny giriziň!" }
+        }
+    },
     status: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "1" },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
@@ -471,6 +481,11 @@ const Korporatiw = sequelize.define("korporatiw", {
     korporatiw_icon: {
         type: DataTypes.STRING, allowNull: false, validate: {
             notEmpty: { msg: "Hyzmatyň suratyny giriziň!" }
+        }
+    },
+    connect_USSD: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Korporatiw nyrhnamanyn USSD kodyny giriziň!" }
         }
     },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }

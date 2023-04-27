@@ -43,6 +43,7 @@ router.post("/create", isAdmin, imageUpload.upload.single("korporatiw_icon"), as
         description_ru: req.body.description_ru,
         price: req.body.price,
         korporatiw_icon: req.file.filename,
+        connect_USSD: req.body.connect_USSD,
         checked: "1"
     }).then(() => { res.json({ success: "Korporatiw nyrhnama üstünlikli goşuldy" }) })
         .catch((error) => { res.status(500).json({ error: error }) })
@@ -72,7 +73,8 @@ router.post("/edit/:korporatiwId", isAdmin, imageUpload.upload.single("korporati
         description_ru: req.body.description_ru,
         price: req.body.price,
         checked: req.body.checked,
-        korporatiw_icon: img
+        korporatiw_icon: img,
+        connect_USSD: req.body.connect_USSD
     }, { where: { id: req.params.korporatiwId } }).then(() => {
         res.json({ success: "Üstünlikli üýtgedildi" })
     }).catch((error) => { res.status(500).json({ error: error }) })

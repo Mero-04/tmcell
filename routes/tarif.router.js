@@ -48,6 +48,7 @@ router.post("/create", isAdmin, imageUpload.upload.single("tarif_img"), async (r
         description_ru: req.body.description_ru,
         price: req.body.price,
         period: req.body.period,
+        connect_USSD: req.body.connect_USSD,
         tarif_img: req.file.filename,
         checked: "1"
     }).then(() => {
@@ -86,6 +87,7 @@ router.post("/edit/:tarifId", isAdmin, imageUpload.upload.single("tarif_img"), a
         price: req.body.price,
         period: req.body.period,
         status: req.body.status,
+        connect_USSD: req.body.connect_USSD,
         checked: req.body.checked,
         tarif_img: img
     }, { where: { id: req.params.tarifId } }).then(() => {

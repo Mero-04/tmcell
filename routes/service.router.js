@@ -46,6 +46,7 @@ router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
             title_ru: req.body.title_ru,
             short_desc_ru: req.body.short_desc_ru,
             description_ru: req.body.description_ru,
+            connect_USSD: req.body.connect_USSD,
             service_img: req.files.service_img[0].filename,
             service_icon: req.files.service_icon[0].filename,
             checked: "1",
@@ -70,6 +71,7 @@ router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
             title_ru: req.body.title_ru,
             short_desc_ru: req.body.short_desc_ru,
             description_ru: req.body.description_ru,
+            connect_USSD: req.body.connect_USSD,
             service_img: req.files.service_img[0].filename,
             checked: "1",
         }).then(() => {
@@ -88,6 +90,7 @@ router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
             title_ru: req.body.title_ru,
             short_desc_ru: req.body.short_desc_ru,
             description_ru: req.body.description_ru,
+            connect_USSD: req.body.connect_USSD,
             service_icon: req.files.service_icon[0].filename,
             checked: "1",
         }).then(() => {
@@ -104,6 +107,7 @@ router.post("/create", isAdmin, multiUpload.upload, async (req, res) => {
             title_ru: req.body.title_ru,
             short_desc_ru: req.body.short_desc_ru,
             description_ru: req.body.description_ru,
+            connect_USSD: req.body.connect_USSD,
             checked: "1",
         }).then(() => {
             res.json({ success: "Hyzmat üstünlikli goşuldy" });
@@ -146,6 +150,7 @@ router.post("/edit/:serviceId", isAdmin, multiUpload.upload, async (req, res) =>
             description_ru: req.body.description_ru,
             checked: req.body.checked,
             service_img: img,
+            connect_USSD: req.body.connect_USSD,
             service_icon: icon
         }, { where: { id: req.params.serviceId } }).then(() => {
             res.json({ success: "Üstünlikli üytgedildi" })
@@ -171,6 +176,7 @@ router.post("/edit/:serviceId", isAdmin, multiUpload.upload, async (req, res) =>
             short_desc_ru: req.body.short_desc_ru,
             description_ru: req.body.description_ru,
             checked: req.body.checked,
+            connect_USSD: req.body.connect_USSD,
             service_img: img
         }, { where: { id: req.params.serviceId } }).then(() => {
             res.json({ success: "Üstünlikli üýtgedildi" })
@@ -191,6 +197,7 @@ router.post("/edit/:serviceId", isAdmin, multiUpload.upload, async (req, res) =>
             short_desc_ru: req.body.short_desc_ru,
             description_ru: req.body.description_ru,
             checked: req.body.checked,
+            connect_USSD: req.body.connect_USSD,
             service_icon: icon
         }, { where: { id: req.params.serviceId } }).then(() => {
             res.json({ success: "Üstünlikli üýtgedildi" })
@@ -208,6 +215,7 @@ router.post("/edit/:serviceId", isAdmin, multiUpload.upload, async (req, res) =>
             short_desc_ru: req.body.short_desc_ru,
             description_ru: req.body.description_ru,
             checked: req.body.checked,
+            connect_USSD: req.body.connect_USSD,
             service_img: img,
             service_icon: icon
         }, { where: { id: req.params.serviceId } }).then(() => {
