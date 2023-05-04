@@ -1,13 +1,14 @@
 const express = require('express');
 const { isAdmin, isTariff } = require('../middlewares/authMiddleware');
 const router = express.Router();
-const { Tarif } = require("../models/model");
+const { Tarif, Email } = require("../models/model");
 const imageUpload = require("../helpers/image-upload")
 const multer = require("multer");
 const upload = multer({ dest: "./public/img" });
 const fs = require('fs')
 const sharp = require("sharp");
 const path = require("path")
+const emailService = require("../helpers/send-mail");
 
 router.get("/", isAdmin, async (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 1;
@@ -30,12 +31,15 @@ router.get("/", isAdmin, async (req, res) => {
 })
 
 router.post("/create", isAdmin, imageUpload.upload.single("tarif_img"), async (req, res) => {
+    const title = req.body.title_tm;
+    const description = req.body.description_tm;
+
     let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'tarif', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title_tm).name + path.extname(req.file.originalname));
     await sharp(req.file.path).jpeg({
         quality: 30,
         chromaSubsampling: '4:4:4'
     }).toFile(compresedImage)
-
+    
     await Tarif.create({
         title_tm: req.body.title_tm,
         short_desc_tm: req.body.short_desc_tm,
@@ -51,6 +55,17 @@ router.post("/create", isAdmin, imageUpload.upload.single("tarif_img"), async (r
         connect_USSD: req.body.connect_USSD,
         tarif_img: req.file.filename,
         checked: "1"
+    }).then(async() => {
+        await Email.findAll().then((emails) => {
+            var array = [];
+            emails.forEach((email) => {array.push(email.dataValues.email)});
+            emailService.sendMail({
+                from: process.env.EMAIL_USER,
+                to: array,
+                subject: title,
+                html: description,
+            });
+        });
     }).then(() => {
         res.json({ success: "Nyrhnama üstünlikli goşuldy" })
     }).catch((error) => { res.status(500).json({ error: error }) })

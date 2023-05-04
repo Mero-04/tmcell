@@ -768,6 +768,16 @@ const USSD = sequelize.define("ussd", {
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
 
+const Email = sequelize.define("email", {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: true
+    },
+    email: { type: DataTypes.STRING, allowNull: false, unique: { args: true, msg: "Bu email bilen on yazylypsynyz!" } }
+});
+
 Admin.findOrCreate({ where: { email: "admin@gmail.com", password: "$2b$10$.2s8SLEln9Dnql5sPuvtfec93qtcKyvMAqDY8zeLg8IcndoHNtXWS", role: "Admin" } })
 
 Worker.hasMany(Internet, { onDelete: "cascade", onUpdate: "cascade" })
@@ -815,5 +825,6 @@ module.exports = {
     Sponsor,
     Popup,
     Faq,
-    USSD
+    USSD,
+    Email
 };
