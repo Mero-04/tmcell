@@ -2,6 +2,7 @@ const express = require('express');
 const { isAdmin } = require('../middlewares/authMiddleware');
 const router = express.Router();
 const { Email } = require("../models/model");
+const emailService = require("../helpers/send-mail");
 
 router.get("/", isAdmin, async (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 1;
@@ -9,7 +10,7 @@ router.get("/", isAdmin, async (req, res) => {
     const offset = (page - 1) * limit;
     var before = offset > 0 ? page - 1 : 1;
     var next = page + 1;
-    await Email.findAndCountAll({ limit, offset }).then((emails) => { 
+    await Email.findAndCountAll({ limit, offset }).then((emails) => {
         res.json({
             emails: emails.rows,
             pagination: {
@@ -22,14 +23,22 @@ router.get("/", isAdmin, async (req, res) => {
         })
     })
 })
-
 router.post("/create", async (req, res) => {
+    const email = req.body.email;
     await Email.create({
-        email: req.body.email
+        email: email
+    }).then(async () => {
+        emailService.sendMail({
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: "Altyn Asyr ýapyk görnüşli paýdarlar jemgyýeti",
+            html: '<b>Salam, siz</b> <a href="https://tmcell.tm">Tmcell.tm</a><b> sahypasyna abuna ýazyldyňyz! Siz abuna ýazylmak bilen Altyn Asyr ýapyk görnüşli paýdarlar jemgyýetiniň hödürleýän täze hyzmatlary bilen tanyşyp bilersiniz.</b>',
+        })
     }).then(() => {
         res.json({ success: "E-poctanyz üstünlikli ugradyldy!" })
     }).catch((error) => { res.status(500).json({ error: error }) })
-});
+})
+
 
 router.get("/edit/:emailId", isAdmin, async (req, res) => {
     await Email.findOne({ where: { id: req.params.emailId } }).then((email) => {

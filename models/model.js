@@ -552,7 +552,12 @@ const Contact = sequelize.define("contact", {
         type: DataTypes.STRING, allowNull: false, validate: {
             notEmpty: { msg: "Teswiriňizi giriziň!", msg_ru: "Поле комментария не может быть пустым!", msg_en: "Comment field cannot be empty!" }
         }
-    }
+    },
+    phone_num: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Nomeriňizi giriziň!", msg_ru: "Поле для номера телефона не может быть пустым!", msg_en: "Phone number cannot be empty!" }
+        }
+    },
 
 });
 

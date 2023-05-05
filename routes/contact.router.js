@@ -28,7 +28,8 @@ router.post("/create", async (req, res) => {
         name: req.body.name,
         email: req.body.email,
         subject: req.body.subject,
-        comment: req.body.comment
+        comment: req.body.comment,
+        phone_num: req.body.phone_num
     }).then(() => { res.json({ success: "Hatyňyz üstünlikli ugradyldy" }) })
         .catch((error) => { res.status(500).json({ error: error }) })
 });
@@ -44,7 +45,8 @@ router.post("/edit/:contactId", isAdmin, async (req, res) => {
             name: req.body.name,
             email: req.body.email,
             subject: req.body.subject,
-            comment: req.body.comment
+            comment: req.body.comment,
+            phone_num: req.body.phone_num
         },
         { where: { id: req.params.contactId } }).then(() => { res.json({ success: "Üstünlikli üýtgedildi" }); })
         .catch((error) => { res.json({ error: error }) })
