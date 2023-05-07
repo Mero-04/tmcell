@@ -162,7 +162,8 @@ router.get("/worker/create", isNews, async (req, res) => {
 });
 
 router.post("/worker/create", isNews, imageUpload.upload.single("news_img"), async (req, res) => {
-    let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'news', path.parse(req.file.fieldname).name + "_" + Date.now() + path.extname(req.file.originalname));
+    let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'news', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title_tm).name + path.extname(req.file.originalname));
+
     await sharp(req.file.path).jpeg({
         quality: 30,
         chromaSubsampling: '4:4:4'
@@ -193,7 +194,7 @@ router.post("/worker/edit/:newsId", isNews, imageUpload.upload.single("news_img"
         fs.unlink("/public/img/news/" + img, err => { console.log(err); })
         fs.unlink("/public/compress/news/" + img, err => { console.log(err); })
         img = req.file.filename;
-        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'news', path.parse(req.file.fieldname).name + "_" + Date.now() + path.extname(req.file.originalname));
+        let compresedImage = path.join(__dirname, '../', 'public', 'compress', 'news', path.parse(req.file.fieldname).name + "_" + path.parse(req.body.title_tm).name + path.extname(req.file.originalname));
         await sharp(req.file.path).jpeg({
             quality: 30,
             chromaSubsampling: '4:4:4'
