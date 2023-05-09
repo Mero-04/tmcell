@@ -783,6 +783,21 @@ const Email = sequelize.define("email", {
     email: { type: DataTypes.STRING, allowNull: false, unique: { args: true, msg: "Bu email bilen on yazylypsynyz!" } }
 });
 
+const Galery = sequelize.define("galery", {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: true
+    },
+    galery_img: {
+        type: DataTypes.STRING, allowNull: false, validate: {
+            notEmpty: { msg: "Surat giriziň!" }
+        }
+    },
+    checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
+});
+
 Admin.findOrCreate({ where: { email: "admin@gmail.com", password: "$2b$10$.2s8SLEln9Dnql5sPuvtfec93qtcKyvMAqDY8zeLg8IcndoHNtXWS", role: "Admin" } })
 
 Worker.hasMany(Internet, { onDelete: "cascade", onUpdate: "cascade" })
@@ -831,5 +846,6 @@ module.exports = {
     Popup,
     Faq,
     USSD,
-    Email
+    Email,
+    Galery
 };

@@ -1,13 +1,14 @@
 const express = require('express');
-const { isAdmin, isInternet } = require('../middlewares/authMiddleware');
+const { isAdmin } = require('../middlewares/authMiddleware');
 const router = express.Router();
-const { Internet } = require("../models/model");
+const { Internet, Email } = require("../models/model");
 const imageUpload = require("../helpers/image-upload")
 const multer = require("multer");
 const upload = multer({ dest: "./public/img" });
 const fs = require('fs')
 const sharp = require("sharp");
 const path = require("path")
+const emailService = require("../helpers/send-mail");
 
 router.get("/", isAdmin, async (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 1;
@@ -30,6 +31,8 @@ router.get("/", isAdmin, async (req, res) => {
 })
 
 router.post("/create", isAdmin, imageUpload.upload.single("internet_icon"), async (req, res) => {
+    const title = req.body.title_tm;
+    const description = req.body.description_tm;
     await Internet.create({
         title_tm: req.body.title_tm,
         short_desc_tm: req.body.short_desc_tm,
@@ -45,6 +48,17 @@ router.post("/create", isAdmin, imageUpload.upload.single("internet_icon"), asyn
         connect_USSD: req.body.connect_USSD,
         internet_icon: req.file.filename,
         checked: "1"
+    }).then(async () => {
+        await Email.findAll().then((emails) => {
+            var array = [];
+            emails.forEach((email) => { array.push(email.dataValues.email) });
+            emailService.sendMail({
+                from: process.env.EMAIL_USER,
+                to: array,
+                subject: title,
+                html: description,
+            });
+        });
     }).then(() => {
         res.json({ success: "Internet nyrhnamasy üstünlikli goşuldy" })
     }).catch((error) => { res.status(500).json({ error: error }) })

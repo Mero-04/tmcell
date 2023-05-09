@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const { Tarif, Address, Region, Category, Internet, Service, Korporatiw, News, Program, Banner, Sponsor, Welayat, Faq, USSD } = require("../models/model")
+const { Tarif, Address, Region, Category, Internet, Service, Korporatiw, News, Program, Banner, Sponsor, Welayat, Faq, USSD,Galery } = require("../models/model")
 const { Op } = require("sequelize");
 const Sequelize = require('../data/db');
 router.get("/tarif", async (req, res) => {
@@ -197,6 +197,12 @@ router.get("/faq", async (req, res) => {
 router.get("/ussd", async (req, res) => {
     await USSD.findAll({ where: { checked: "1" } }).then((ussd) => {
         res.json({ ussd: ussd })
+    })
+});
+
+router.get("/galery", async (req, res) => {
+    await Galery.findAll({ where: { checked: "1" } }).then((image) => {
+        res.json({ image: image })
     })
 });
 

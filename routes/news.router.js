@@ -9,6 +9,7 @@ const fs = require('fs')
 const sharp = require("sharp");
 const path = require("path")
 const moment = require("moment")
+const emailService = require("../helpers/send-mail");
 
 router.get("/", isAdmin, async (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 1;
@@ -178,7 +179,16 @@ router.post("/worker/create", isNews, imageUpload.upload.single("news_img"), asy
         description_ru: req.body.description_ru,
         news_img: req.file.filename,
         categoryId: req.body.categoryId,
-        workerId: req.user.id
+        workerId: req.user.id,
+        created_at: moment().format('YYYY-MM-DD')
+    }).then(async () => {
+        var maillist = ['mr.akynyaz29@gmail.com', 'yagmyrguly@inbox.ru']
+        await emailService.sendMail({
+            from: process.env.EMAIL_USER,
+            to: maillist,
+            subject: 'Tazelik adminlary tarapyndan täzelik goşuldy!',
+            html: 'Täzeligi tassyklamak üçin <a href="https://tmcell.tm/root_admin_login">Tmcell.tm</a> gök hata basyň</p>',
+        });
     }).then(() => { res.json({ success: "Täzelik üstinlikli goşuldy" }) })
 });
 
