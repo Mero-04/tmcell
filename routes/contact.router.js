@@ -5,7 +5,7 @@ const { Contact } = require("../models/model");
 
 router.get("/", isAdmin, async (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 1;
-    const limit = 20;
+    const limit = req.query.limit ? parseInt(req.query.limit) : 20;
     const offset = (page - 1) * limit;
     var before = offset > 0 ? page - 1 : 1;
     var next = page + 1;
