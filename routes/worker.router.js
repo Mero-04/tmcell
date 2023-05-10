@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const { Worker } = require("../models/model");
 const { isAdmin } = require("../middlewares/authMiddleware");
+const qrcode = require("qrcode");
 
 router.get("/", isAdmin, async (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 1;
@@ -21,6 +22,17 @@ router.get("/", isAdmin, async (req, res) => {
                 pages: Math.ceil(worker.count / limit)
             }
         })
+    })
+});
+
+router.post("/qr", isAdmin, async (req, res) => {
+    const url = req.body.url;
+    if (url === null) {
+        res.json({ error: "URL girizin!" })
+    }
+    qrcode.toDataURL(url, function (err, url) {
+        console.log(url);
+        res.json({ url: url, success: "QR kodynyz doredildi" })
     })
 });
 
