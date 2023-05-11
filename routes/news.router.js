@@ -1,7 +1,7 @@
 const express = require('express');
 const { isAdmin, isNews } = require('../middlewares/authMiddleware');
 const router = express.Router();
-const { News, Category,Worker } = require("../models/model");
+const { News, Category, Worker } = require("../models/model");
 const imageUpload = require("../helpers/image-upload")
 const multer = require("multer");
 const upload = multer({ dest: "./public/img" });
@@ -20,7 +20,10 @@ router.get("/", isAdmin, async (req, res) => {
     await News.findAndCountAll({
         limit,
         offset,
-        include: { model: Category, model: Worker, attributes: ['id', 'name'] }
+        include: [
+            { model: Category },
+            { model: Worker, attributes: ['id', 'name'] }
+        ]
     }).then((news) => {
         res.json({
             news: news.rows,
