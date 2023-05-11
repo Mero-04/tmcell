@@ -31,7 +31,11 @@ const storage = multer.diskStorage({
         }
     },
     filename: function (req, file, cb) {
-        cb(null, path.parse(file.fieldname).name + "_" +  path.parse(req.body.title_tm).name + path.extname(file.originalname));
+        if (file.fieldname ==="news_img"){
+            cb(null, path.parse(file.fieldname).name + "_" + path.parse(file.originalname).name + path.extname(file.originalname));
+        } else {
+            cb(null, path.parse(file.fieldname).name + "_" +  path.parse(req.body.title_tm).name + path.extname(file.originalname));
+        }
     }
 });
 
