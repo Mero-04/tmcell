@@ -198,6 +198,9 @@ const Internet = sequelize.define("internet", {
             notEmpty: { msg: "Internet paketiň iconyny giriziň!" }
         }
     },
+    viewed: {
+        type: DataTypes.INTEGER, allowNull: true, defaultValue: "0"
+    },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
 
@@ -267,6 +270,9 @@ const Service = sequelize.define("service", {
         type: DataTypes.STRING, allowNull: false, validate: {
             notEmpty: { msg: "Hyzmatyn USSD kodyny giriziň!" }
         }
+    },
+    viewed: {
+        type: DataTypes.INTEGER, allowNull: true, defaultValue: "0"
     },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
@@ -417,6 +423,9 @@ const Tarif = sequelize.define("tarif", {
             notEmpty: { msg: "Nyrhnamanyn USSD kodyny giriziň!" }
         }
     },
+    viewed: {
+        type: DataTypes.INTEGER, allowNull: true, defaultValue: "0"
+    },
     status: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "1" },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
@@ -487,6 +496,9 @@ const Korporatiw = sequelize.define("korporatiw", {
         type: DataTypes.STRING, allowNull: false, validate: {
             notEmpty: { msg: "Korporatiw nyrhnamanyn USSD kodyny giriziň!" }
         }
+    },
+    viewed: {
+        type: DataTypes.INTEGER, allowNull: true, defaultValue: "0"
     },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
@@ -618,6 +630,9 @@ const Program = sequelize.define("program", {
     },
     app_store_qr: {
         type: DataTypes.TEXT, allowNull: true
+    },
+    viewed: {
+        type: DataTypes.INTEGER, allowNull: true, defaultValue: "0"
     },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
@@ -797,6 +812,7 @@ const Galery = sequelize.define("galery", {
     },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
+
 
 Admin.findOrCreate({ where: { email: "admin@gmail.com", password: "$2b$10$.2s8SLEln9Dnql5sPuvtfec93qtcKyvMAqDY8zeLg8IcndoHNtXWS", role: "Admin" } })
 

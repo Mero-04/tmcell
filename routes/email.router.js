@@ -3,6 +3,7 @@ const { isAdmin } = require('../middlewares/authMiddleware');
 const router = express.Router();
 const { Email } = require("../models/model");
 const emailService = require("../helpers/send-mail");
+const axios = require("axios")
 
 router.get("/", isAdmin, async (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 1;
@@ -24,19 +25,30 @@ router.get("/", isAdmin, async (req, res) => {
     })
 })
 router.post("/create", async (req, res) => {
+    const token = req.body.token;
     const email = req.body.email;
-    await Email.create({
-        email: email
-    }).then(async () => {
-        emailService.sendMail({
-            from: process.env.EMAIL_USER,
-            to: email,
-            subject: "Altyn Asyr ýapyk görnüşli paýdarlar jemgyýeti",
-            html: '<b>Salam, siz</b> <a href="https://tmcell.tm">Tmcell.tm</a><b> sahypasyna abuna ýazyldyňyz! Siz abuna ýazylmak bilen Altyn Asyr ýapyk görnüşli paýdarlar jemgyýetiniň hödürleýän täze hyzmatlary bilen tanyşyp bilersiniz.</b>',
-        })
-    }).then(() => {
-        res.json({ success: "E-poctanyz üstünlikli ugradyldy!" })
-    }).catch((error) => { res.status(500).json({ error: error }) })
+    try {
+        const response = await axios.post(
+            `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.SECRET_KEY_CAPTCHA}&response=${token}`
+        );
+
+        if (response.data.success) {
+            await Email.create({
+                email: req.body.email
+            }).then(async () => {
+                emailService.sendMail({
+                    from: process.env.EMAIL_USER,
+                    to: email,
+                    subject: "Altyn Asyr ýapyk görnüşli paýdarlar jemgyýeti",
+                    html: '<b>Salam, siz</b> <a href="https://tmcell.tm">Tmcell.tm</a><b> sahypasyna abuna ýazyldyňyz! Siz abuna ýazylmak bilen Altyn Asyr ýapyk görnüşli paýdarlar jemgyýetiniň hödürleýän täze hyzmatlary bilen tanyşyp bilersiniz.</b>',
+                })
+            }).then(() => { res.json({ success: "E-poctanyz üstünlikli ugradyldy!" }) }).catch((error) => { res.status(500).json({ error: error }) })
+        } else {
+            res.json({ error: "Captcha yalňyş!" });
+        }
+    } catch (error) {
+        res.status(500).json({ error: "Näsazlyk yüze çykdy!" });
+    }
 })
 
 

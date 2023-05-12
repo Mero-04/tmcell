@@ -1,8 +1,9 @@
 const express = require("express")
 const router = express.Router()
-const { Tarif, Address, Region, Category, Internet, Service, Korporatiw, News, Program, Banner, Sponsor, Welayat, Faq, USSD,Galery } = require("../models/model")
+const { Tarif, Address, Region, Category, Internet, Service, Korporatiw, News, Program, Banner, Sponsor, Welayat, Faq, USSD, Galery } = require("../models/model")
 const { Op } = require("sequelize");
 const Sequelize = require('../data/db');
+
 router.get("/tarif", async (req, res) => {
     await Tarif.findAll({ where: { checked: "1", status: "1" } }).then((tarifs) => { res.json({ tarifs: tarifs }) })
 });
@@ -14,9 +15,12 @@ router.get("/tarif/old", async (req, res) => {
 router.get("/tarif/:tarifId", async (req, res) => {
     await Tarif.findAll({
         where: { id: req.params.tarifId, checked: "1" }
-    }).then((tarif) => { res.json({ tarif: tarif }) })
+    }).then((tarif) => {
+        Tarif.increment({ viewed: 1 }, { where: { id: req.params.tarifId } }).then(() => {
+            res.json({ tarif: tarif })
+        })
+    })
 });
-
 
 router.get("/korporatiw", async (req, res) => {
     await Korporatiw.findAll({ where: { checked: "1" } }).then((korporatiws) => { res.json({ korporatiws: korporatiws }) })
@@ -25,7 +29,11 @@ router.get("/korporatiw", async (req, res) => {
 router.get("/korporatiw/:korporatiwId", async (req, res) => {
     await Korporatiw.findAll({
         where: { id: req.params.korporatiwId, checked: "1" }
-    }).then((korporatiw) => { res.json({ korporatiw: korporatiw }) })
+    }).then((korporatiw) => {
+        Korporatiw.increment({ viewed: 1 }, { where: { id: req.params.korporatiwId } }).then(() => {
+            res.json({ korporatiw: korporatiw })
+        })
+    })
 });
 
 
@@ -36,7 +44,11 @@ router.get("/internet", async (req, res) => {
 router.get("/internet/:internetId", async (req, res) => {
     await Internet.findAll({
         where: { id: req.params.internetId, checked: "1" }
-    }).then((internet) => { res.json({ internet: internet }) })
+    }).then((internet) => {
+        Internet.increment({ viewed: 1 }, { where: { id: req.params.internetId } }).then(() => {
+            res.json({ internet: internet })
+        })
+    })
 });
 
 
@@ -47,7 +59,11 @@ router.get("/service", async (req, res) => {
 router.get("/service/:serviceId", async (req, res) => {
     await Service.findAll({
         where: { id: req.params.serviceId, checked: "1" }
-    }).then((service) => { res.json({ service: service }) })
+    }).then((service) => {
+        Service.increment({ viewed: 1 }, { where: { id: req.params.serviceId } }).then(() => {
+            res.json({ service: service })
+        })
+    })
 });
 
 
@@ -89,7 +105,10 @@ router.get("/news", async (req, res) => {
     var next = page + 1;
     await News.findAndCountAll({
         offset, limit,
-        include: { model: Category },
+        include: { model: Category, attributes: ['name_tm', "name_ru", "name_en"] },
+        order: [
+            ["id", "DESC"]
+        ],
         where: {
             checked: "1",
             [Op.or]: [
@@ -155,9 +174,6 @@ router.get("/news/date/:date", async (req, res) => {
     })
 })
 
-
-
-
 router.get("/program", async (req, res) => {
     await Program.findAll({ where: { checked: "1" } }).then((programs) => {
         res.json({ programs: programs })
@@ -171,7 +187,9 @@ router.get("/program/:programId", async (req, res) => {
             checked: "1"
         }
     }).then((program) => {
-        res.json({ program: program })
+        Program.increment({ viewed: 1 }, { where: { id: req.params.programId } }).then(() => {
+            res.json({ program: program })
+        })
     })
 });
 

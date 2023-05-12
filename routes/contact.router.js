@@ -2,6 +2,7 @@ const express = require("express");
 const { isAdmin } = require("../middlewares/authMiddleware");
 const router = express.Router();
 const { Contact } = require("../models/model");
+const axios =require("axios")
 
 router.get("/", isAdmin, async (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 1;
@@ -24,14 +25,28 @@ router.get("/", isAdmin, async (req, res) => {
 });
 
 router.post("/create", async (req, res) => {
-    await Contact.create({
-        name: req.body.name,
-        email: req.body.email,
-        subject: req.body.subject,
-        comment: req.body.comment,
-        phone_num: req.body.phone_num
-    }).then(() => { res.json({ success: "Hatyňyz üstünlikli ugradyldy" }) })
-        .catch((error) => { res.status(500).json({ error: error }) })
+    const token = req.body.token;
+    try {
+        const response = await axios.post(
+            `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.SECRET_KEY_CAPTCHA}&response=${token}`
+        );
+
+        if (response.data.success) {
+            await Contact.create({
+                name: req.body.name,
+                email: req.body.email,
+                subject: req.body.subject,
+                comment: req.body.comment,
+                phone_num: req.body.phone_num
+            }).then(() => { res.json({ success: "Hatyňyz üstünlikli ugradyldy" }) })
+                .catch((error) => { res.status(500).json({ error: error }) })
+        } else {
+            res.json({error: "Captcha yalňyş!"});
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({error: "Näsazlyk yüze çykdy!"});
+    }
 });
 
 router.get("/edit/:contactId", isAdmin, async (req, res) => {

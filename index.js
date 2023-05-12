@@ -5,13 +5,16 @@ const port = process.env.PORT;
 const morgan = require('morgan')
 const cors = require("cors");
 const sequelize = require('./data/db');
+const helmet = require("helmet");
 // const apilimiter = require("./middlewares/rateLimit");
 // app.use("/api", apilimiter)
+
 
 app.use(express.json());
 app.use(express.json({ limit: "50mb" }))
 app.use(express.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 }))
 app.use(cors());
+app.use(helmet());
 app.use(morgan('tiny'));
 app.use('/api', express.static('public'))
 
@@ -36,6 +39,7 @@ const FaqRouter = require("./routes/faq.router")
 const USSDRouter = require("./routes/ussd.router")
 const EmailRouter = require("./routes/email.router")
 const GaleryRouter = require("./routes/galery.router")
+const StatisticRouter = require("./routes/statistic.router")
 
 
 app.use("/api/v1/home", HomeRouter);
@@ -59,6 +63,7 @@ app.use("/api/v1/faq", FaqRouter);
 app.use("/api/v1/ussd", USSDRouter);
 app.use("/api/v1/email", EmailRouter);
 app.use("/api/v1/galery", GaleryRouter);
+app.use("/api/v1/statistic", StatisticRouter);
 
 
 app.listen(port, () => {
