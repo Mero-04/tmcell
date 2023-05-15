@@ -50,8 +50,8 @@ router.post("/create", isAdmin, async (req, res) => {
 
 router.get("/edit/:addressId", isAdmin, async (req, res) => {
     await Address.findOne({
-        where: { id: req.params.addressId },
-        include: { model: Region, attributes: ['id', 'name_tm'] }
+        include: { model: Region, attributes: ['id', 'name_tm', 'name_en', 'name_ru'] },
+        where: { id: req.params.addressId }
     }).then((address) => { res.json({ address: address }) })
 });
 

@@ -73,8 +73,8 @@ router.post("/create", isAdmin, imageUpload.upload.single("news_img"), async (re
 
 router.get("/edit/:newsId", isAdmin, async (req, res) => {
     await News.findOne({
-        where: { id: req.params.newsId },
-        include: { model: Category, attributes: ['id', 'name_tm'] }
+        include: { model: Category, attributes: ['id', 'name_tm', 'name_en', "name_ru"] },
+        where: { id: req.params.newsId }
     }).then((news) => {
         res.json({
             news: news
@@ -197,6 +197,7 @@ router.post("/worker/create", isNews, imageUpload.upload.single("news_img"), asy
 
 router.get("/worker/edit/:newsId", isNews, async (req, res) => {
     await News.findOne({
+        include: { model: Category, attributes: ['id', 'name_tm', 'name_en', "name_ru"] },
         where: { id: req.params.newsId, workerId: req.user.id }
     }).then((news) => { res.json({ news: news }) })
 });

@@ -4,7 +4,7 @@ const router = express.Router();
 const { Region, Welayat } = require("../models/model");
 
 router.get("/", isAdmin, async (req, res) => {
-    await Region.findAll({ include: { model: Welayat, attributes: ['id', 'name_tm', 'name_en', 'name_ru'] } }).then((region) => { res.json({ region: region }) })
+    await Region.findAll({ include: { model: Welayat, attributes: ['id', 'name_tm'] } }).then((region) => { res.json({ region: region }) })
 })
 
 router.get("/create", isAdmin, async (req, res) => {
@@ -18,13 +18,18 @@ router.post("/create", isAdmin, async (req, res) => {
         name_ru: req.body.name_ru,
         welayatId: req.body.welayatId
     }).then(() => {
-        res.json({ success: "Etrap üstünlikli goşuldy" })
+       return res.json({ success: "Etrap üstünlikli goşuldy" })
     }).catch((error) => { res.status(500).json({ error: error }) })
 });
 
 router.get("/edit/:regionId", isAdmin, async (req, res) => {
-    await Region.findOne({ where: { id: req.params.regionId } }).then((region) => {
-        res.json({ region: region })
+    await Region.findOne({
+        include: { model: Welayat, attributes: ['id', 'name_tm', 'name_en', 'name_ru'] },
+        where: { id: req.params.regionId }
+    }).then((region) => {
+        return res.json({
+            region: region
+        })
     })
 });
 
