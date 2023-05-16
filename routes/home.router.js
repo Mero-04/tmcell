@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const { Tarif, Address, Region, Category, Internet, Service, Korporatiw, News, Program, Banner, Sponsor, Welayat, Faq, USSD, Galery } = require("../models/model")
+const { Tarif, Address, Region, Category, Internet, Service, Korporatiw, News, Program, Banner, Sponsor, Welayat, Faq, USSD, Galery, Popup } = require("../models/model")
 const { Op } = require("sequelize");
 const Sequelize = require('../data/db');
 
@@ -240,6 +240,10 @@ router.get("/galery", async (req, res) => {
     })
 });
 
-
+router.get("/popup", async (req, res) => {
+    await Popup.findAll({ where: { checked: "1" } }).then((popup) => {
+        return res.json({ popup: popup })
+    })
+});
 
 module.exports = router;
