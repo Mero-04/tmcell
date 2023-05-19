@@ -40,6 +40,7 @@ const USSDRouter = require("./routes/ussd.router")
 const EmailRouter = require("./routes/email.router")
 const GaleryRouter = require("./routes/galery.router")
 const StatisticRouter = require("./routes/statistic.router")
+const RSSRouter = require("./routes/rss.router")
 
 
 app.use("/api/v1/home", HomeRouter);
@@ -64,6 +65,7 @@ app.use("/api/v1/ussd", USSDRouter);
 app.use("/api/v1/email", EmailRouter);
 app.use("/api/v1/galery", GaleryRouter);
 app.use("/api/v1/statistic", StatisticRouter);
+app.use("/api/v1/rss", RSSRouter);
 
 
 app.listen(port, () => {
