@@ -33,11 +33,13 @@ router.get("/", async (req, res) => {
                     'type': 'image/jpeg'
                 }
             });
+            res.set('Content-Type', 'text/xml');
+            res.send(feed.xml({ indent: true }))
         })
 
     })
-    res.set('Content-Type', 'text/xml');
-    res.send(feed.xml({ indent: true }))
+
+
 });
 
 
