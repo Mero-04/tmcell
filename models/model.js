@@ -822,6 +822,9 @@ Internet.belongsTo(Worker)
 Worker.hasMany(News, { onDelete: "cascade", onUpdate: "cascade" })
 News.belongsTo(Worker)
 
+Worker.hasMany(Popup, { onDelete: "cascade", onUpdate: "cascade" })
+Popup.belongsTo(Worker)
+
 Category.hasMany(News, { onDelete: "cascade", onUpdate: "cascade" })
 News.belongsTo(Category)
 

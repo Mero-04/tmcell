@@ -65,7 +65,7 @@ app.use("/api/v1/ussd", USSDRouter);
 app.use("/api/v1/email", EmailRouter);
 app.use("/api/v1/galery", GaleryRouter);
 app.use("/api/v1/statistic", StatisticRouter);
-app.use("/api/v1/rss", RSSRouter);
+app.use("/rss", RSSRouter);
 
 
 app.listen(port, () => {

@@ -20,6 +20,9 @@ router.get("/", isAdmin, async (req, res) => {
     await News.findAndCountAll({
         limit,
         offset,
+        order: [
+            ["id", "DESC"]
+        ],
         include: [
             { model: Category },
             { model: Worker, attributes: ['id', 'name'] }
@@ -145,6 +148,9 @@ router.get("/worker/", isNews, async (req, res) => {
     await News.findAndCountAll({
         limit,
         offset,
+        order: [
+            ["id", "DESC"]
+        ],
         include: { model: Category, attributes: ['id', 'name_tm'] },
         where: req.user.role == "Tazelik" ? { workerId: req.user.id } : null
     }).then((news) => {
