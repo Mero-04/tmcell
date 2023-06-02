@@ -120,6 +120,18 @@ router.post("/edit/:newsId", isAdmin, imageUpload.upload.single("news_img"), asy
     })
 });
 
+router.post("/group/:newsId", isAdmin,  async (req, res) => {
+    await News.update({
+        checked: req.body.checked
+    }, { where: { id: req.params.newsId } }).then(() => {
+        res.json({
+            success: "Täzeligiň statusy üýtgedildi"
+        })
+    }).catch((error) => {
+        res.status(500).json({ error: error })
+    })
+});
+
 router.delete("/delete/:newsId", isAdmin, async (req, res) => {
     await News.findOne({ where: { id: req.params.newsId } }).then((news) => {
         if (news) {
