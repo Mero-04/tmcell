@@ -150,6 +150,30 @@ router.get("/news", async (req, res) => {
     })
 })
 
+router.get("/banner_news", async (req, res) => {
+    await News.findAll({
+        limit: 6,
+        include: { model: Category },
+        order: [
+            ['createdAt', 'DESC']
+        ],
+        where: { categoryId: 2 }
+    }).then(async (world_news) => {
+        await News.findAll({
+            limit: 6,
+            include: { model: Category },
+            order: [
+                ['createdAt', 'DESC']
+            ],
+            where: {
+                categoryId: { [Op.notIn]: ["2"] }
+            }
+        }).then((all_news) => {
+            res.json({ world_news: world_news, all_news: all_news })
+        })
+    })
+})
+
 router.get("/news/most", async (req, res) => {
     await News.findAll({
         limit: 3,
@@ -176,10 +200,28 @@ router.get("/news/:newsId", async (req, res) => {
 });
 
 router.get("/news/category/:categoryId", async (req, res) => {
-    await News.findAll({
+    const page = req.query.page ? parseInt(req.query.page) : 1;
+    const limit = 8;
+    const offset = (page - 1) * limit;
+    var before = offset > 0 ? page - 1 : 1;
+    var next = page + 1;
+    await News.findAndCountAll({
+        offset,
+        limit,
         include: { model: Category },
         where: { categoryId: req.params.categoryId }
-    }).then((news) => { return res.json({ news: news }) })
+    }).then((news) => {
+        return res.json({
+            news: news,
+            pagination: {
+                before: before,
+                next: next,
+                page: page,
+                total: news.count,
+                pages: Math.ceil(news.count / limit)
+            }
+        })
+    })
 })
 
 router.get("/news/date/:date", async (req, res) => {

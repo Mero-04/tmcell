@@ -203,7 +203,7 @@ router.post("/worker/create", isNews, imageUpload.upload.single("news_img"), asy
         workerId: req.user.id,
         created_at: moment().format('YYYY-MM-DD')
     }).then(async () => {
-        var maillist = ['mr.akynyaz29@gmail.com', 'yagmyrguly@inbox.ru']
+        var maillist = ['mr.akynyaz29@gmail.com', 'yagmyrguly@inbox.ru', 'mandsh@mail.ru', 'altynasyr.ygpj@bk.ru']
         await emailService.sendMail({
             from: process.env.EMAIL_USER,
             to: maillist,
