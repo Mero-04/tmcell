@@ -212,7 +212,7 @@ router.get("/news/category/:categoryId", async (req, res) => {
         where: { categoryId: req.params.categoryId }
     }).then((news) => {
         return res.json({
-            news: news,
+            news: news.rows,
             pagination: {
                 before: before,
                 next: next,
