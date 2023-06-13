@@ -120,7 +120,7 @@ router.post("/edit/:newsId", isAdmin, imageUpload.upload.single("news_img"), asy
     })
 });
 
-router.post("/group/:newsId", isAdmin,  async (req, res) => {
+router.post("/group/:newsId", isAdmin, async (req, res) => {
     await News.update({
         checked: req.body.checked
     }, { where: { id: req.params.newsId } }).then(() => {
@@ -203,12 +203,51 @@ router.post("/worker/create", isNews, imageUpload.upload.single("news_img"), asy
         workerId: req.user.id,
         created_at: moment().format('YYYY-MM-DD')
     }).then(async () => {
-        var maillist = ['mr.akynyaz29@gmail.com', 'yagmyrguly@inbox.ru', 'mandsh@mail.ru', 'altynasyr.ygpj@bk.ru']
+        var maillist = ['mr.akynyaz29@gmail.com', 'yagmyrguly@inbox.ru', 'mandsh@mail.ru', 'altynasyr.ygpj@bk.ru', 'news_tmcell@tmcell.tm']
         await emailService.sendMail({
             from: process.env.EMAIL_USER,
             to: maillist,
             subject: 'Tazelik adminlary tarapyndan täzelik goşuldy!',
-            html: 'Täzeligi tassyklamak üçin <a href="https://tmcell.tm/root_admin_login">Tmcell.tm</a> gök hata basyň</p>',
+            html: `<!DOCTYPE html>
+            <html lang="en">
+            <meta http-equiv="Content-Type" content="text/html charset=UTF-8" />
+            <head></head>
+            <body style="padding:40px 0;background-color:#f6f9fc;font-family:Roboto,&quot;Helvetica Neue&quot;,Ubuntu,sans-serif">
+                <table align="center" role="presentation" cellSpacing="0" cellPadding="0" border="0" width="100%"
+                    style="max-width:37.5em;background-color:#ffffff;margin:0 auto;padding:20px 0 48px;margin-bottom:64px">
+                    <tr style="width:100%">
+                        <td>
+                            <table style="padding:0 48px" align="center" border="0" cellPadding="0" cellSpacing="0"
+                                role="presentation" width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td><img alt="TMCELL" src="https://tmcell.tm/static/media/logo.91ef484ec8983a3b9790.png"
+                                                width="200" height="57"
+                                                style="display:block;outline:none;border:none;text-decoration:none;text-align:center" />
+                                            <hr
+                                                style="width:100%;border:none;border-top:1px solid #eaeaea;border-color:#e6ebf1;margin:20px 0" />
+                                            <p style="font-size:16px;line-height:24px;margin:16px 0;color:#48494d;text-align:left">
+                                                Salam!</p>
+                                            <p style="font-size:16px;line-height:24px;margin:16px 0;color:#48494d;text-align:left">
+                                                Täzelik adminleri tarapyndan täzelik goşuldy. Täzeligi tassyklamak üçin gök düwmä basyň:</p>
+            
+                                                <a href="https://tmcell.tm/root_admin_login" target="_blank"
+                                                    style="background-color:#0063b9;border-radius:5px;color:#fff;font-size:16px;font-weight:bold;text-decoration:none;text-align:center;display:inline-block;width:100%;p-x:10px;p-y:10px;line-height:100%;max-width:100%;padding:10px 10px"><span><!--[if mso]><i style="letter-spacing: 10px;mso-font-width:-100%;mso-text-raise:15" hidden>&nbsp;</i><![endif]--></span><span
+                                                        style="background-color:#0063b9;border-radius:5px;color:#fff;font-size:16px;font-weight:bold;text-decoration:none;text-align:center;display:inline-block;width:100%;p-x:10px;p-y:10px;max-width:100%;line-height:120%;text-transform:none;mso-padding-alt:0px;mso-text-raise:7.5px">Tassyklamak</span><span><!--[if mso]><i style="letter-spacing: 10px;mso-font-width:-100%" hidden>&nbsp;</i><![endif]--></span></a>
+                                            </p>
+                                            <hr
+                                                style="width:100%;border:none;border-top:1px solid #eaeaea;border-color:#e6ebf1;margin:20px 0" />
+                                            <p style="font-size:12px;line-height:16px;margin:16px 0;color:#8898aa">TMCELL © 217
+                                                Oguzhan köçesi, Aşgabat şäheri, 744000</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </body>
+            </html>`,
         });
     }).then(() => { res.json({ success: "Täzelik üstinlikli goşuldy" }) })
 });

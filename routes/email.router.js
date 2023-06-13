@@ -40,7 +40,55 @@ router.post("/create", async (req, res) => {
                     from: process.env.EMAIL_USER,
                     to: email,
                     subject: "Altyn Asyr ýapyk görnüşli paýdarlar jemgyýeti",
-                    html: '<b>Salam, siz</b> <a href="https://tmcell.tm">Tmcell.tm</a><b> sahypasyna abuna ýazyldyňyz! Siz abuna ýazylmak bilen Altyn Asyr ýapyk görnüşli paýdarlar jemgyýetiniň hödürleýän täze hyzmatlary bilen tanyşyp bilersiniz.</b>',
+                    html: `<!DOCTYPE html>
+                    <html lang="en">
+                    <meta http-equiv="Content-Type" content="text/html charset=UTF-8" />
+                    
+                    <head></head>
+                    
+                    <body style="background-color:#f6f9fc;font-family:Roboto,&quot;Helvetica Neue&quot;,Ubuntu,sans-serif">
+                        <table align="center" role="presentation" cellSpacing="0" cellPadding="0" border="0" width="100%"
+                            style="max-width:37.5em;background-color:#ffffff;margin:0 auto;padding:20px 0 48px;margin-bottom:64px">
+                            <tr style="width:100%">
+                                <td>
+                                    <table style="padding:0 48px" align="center" border="0" cellPadding="0" cellSpacing="0"
+                                        role="presentation" width="100%">
+                                        <tbody>
+                                            <tr>
+                                                <td><img alt="TMCELL" src="https://tmcell.tm/static/media/logo.91ef484ec8983a3b9790.png"
+                                                        width="200" height="57"
+                                                        style="display:block;outline:none;border:none;text-decoration:none;text-align:center" />
+                                                    <hr
+                                                        style="width:100%;border:none;border-top:1px solid #eaeaea;border-color:#e6ebf1;margin:20px 0" />
+                                                    <p style="font-size:16px;line-height:24px;margin:16px 0;color:#48494d;text-align:left">
+                                                        Salam!</p>
+                                                    <p style="font-size:16px;line-height:24px;margin:16px 0;color:#48494d;text-align:left">
+                                                        &quot;Altyn Asyr&quot; Ýapyk görnüşli paýdarlar jemgyýetine hoş geldiňiz! Siz abuna
+                                                        ýazylmak bilen kärhananyň täze <a target="_blank"
+                                                            style="color:#556cd6;text-decoration:none"
+                                                            href="https://tmcell.tm/nyrhnamalar">nyrhnamalary,</a>
+                                                        <a target="_blank" style="color:#556cd6;text-decoration:none"
+                                                            href="https://tmcell.tm/hyzmatlar">hyzmatlary</a>
+                                                        we
+                                                        <a target="_blank" style="color:#556cd6;text-decoration:none"
+                                                            href="https://tmcell.tm/internet">internet bukjalary</a> barada ilkinji bolup
+                                                        habarly bolarsyňyz.
+                                                    </p>
+                                                    <p style="font-size:16px;line-height:24px;margin:16px 0;color:#48494d;text-align:left">
+                                                        Biz bilen galýanyňyz üçin sag boluň!</p>
+                                                    <hr
+                                                        style="width:100%;border:none;border-top:1px solid #eaeaea;border-color:#e6ebf1;margin:20px 0" />
+                                                    <p style="font-size:12px;line-height:16px;margin:16px 0;color:#8898aa">TMCELL © 217 Oguzhan köçesi, Aşgabat şäheri, 744000</p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </body>
+                    
+                    </html>`,
                 })
             }).then(() => { res.json({ success: "E-poctanyz üstünlikli ugradyldy!" }) }).catch((error) => { res.status(500).json({ error: error }) })
         } else {

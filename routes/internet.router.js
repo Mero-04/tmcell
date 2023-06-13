@@ -56,58 +56,51 @@ router.post("/create", isAdmin, imageUpload.upload.single("internet_icon"), asyn
                 from: process.env.EMAIL_USER,
                 to: [],
                 bcc: array,
-                subject: title,
-                html: `<style type="text/css">
-                .how-work li:after {
-                    content: "";
-                    position: absolute;
-                    top: 50%;
-                    left: -21px;
-                    width: 2px;
-                    height: 70%;
-                    background-color: #7e7e7e;
-                    transform: translateY(-50%);
-                }
-                .how-work li:first-child::after {
-                    content: none;
-                }
-            </style>
-            <div style="text-align: center !important; margin: 0 auto; width: 650px; font-family: 'Arial', sans-serif; display: block">
-                <a href="https://tmcell.tm" style="text-decoration: none">
-                    <img src="https://tmcell.tm/static/media/logo.91ef484ec8983a3b9790.png" class="main-logo" alt="logo" style="width: 250px; margin: 30px 0 20px" />
-                </a>
-                <div style="box-shadow: 0px 7px 29px 0px rgba(100, 100, 111, 0.2); -webkit-box-shadow: 0px 7px 29px 0px rgba(100, 100, 111, 0.2)">
-                    <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-radius: 50px; background-color: white; width: 100%; padding: 30px 30px 50px">
-                        <tbody>
-                            <tr>
-                                <td class="welcome-details" style="display: block; text-align: center !important">
-                                    <h1>${title}</h1>
-                                    <p style="font-weight: normal; font-size: 14px; color: #232323; line-height: 1.6; letter-spacing: 0.05em; margin: 0; text-align: justify" dangerouslySetInnerHTML={{ __html: ${description}}}></p>
-                                    <a href="https://it.net.tm/tmcell/internet/${internet.id}" target="_blank" style="text-decoration: none; width: 100px; height: 22px; color: #fff; border-radius: 5px; padding: 10px 25px; font-family: 'Lato', sans-serif; font-weight: 500; cursor: pointer; position: relative; display: inline-block; box-shadow: 7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1); outline: none; background: #0063b9; margin-top: 20px; border: none">Giňişleýin</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="text-align: center; padding: 40px 30px">
-                    <tbody>
-                        <tr>
+                subject: `Täze internet bukja: ${title}`,
+                html: `<!DOCTYPE html>
+                <html lang="en">
+                <meta http-equiv="Content-Type" content="text/html charset=UTF-8" />
+                <head></head>
+                <body style="padding:40px 0;background-color:#f6f9fc;font-family:Roboto,&quot;Helvetica Neue&quot;,Ubuntu,sans-serif">
+                    <table align="center" role="presentation" cellSpacing="0" cellPadding="0" border="0" width="100%"
+                        style="max-width:37.5em;background-color:#ffffff;margin:0 auto;padding:20px 0 48px;margin-bottom:64px">
+                        <tr style="width:100%">
                             <td>
-                                <ul class="how-work" style="margin: 0; padding: 0">
-                                    <li style="margin: 0 20px; color: #232323; position: relative; margin-left: 0; display: inline-block; text-decoration: unset"><a href="https://tmcell.tm/about" target="_blank" style="text-decoration: none">Biz barada</a></li>
-                                    <li style="margin: 0 20px; color: #232323; position: relative; display: inline-block; text-decoration: unset"><a href="https://tmcell.tm/nyrhnamalar" target="_blank" style="text-decoration: none">Nyrhnamalar</a></li>
-                                    <li style="margin: 0 20px; color: #232323; position: relative; display: inline-block; text-decoration: unset"><a href="https://tmcell.tm/hyzmatlar" target="_blank" style="text-decoration: none">Hyzmatlar</a></li>
-                                    <li style="margin: 0 20px; color: #232323; position: relative; margin-right: 0; display: inline-block; text-decoration: unset"><a href="https://tmcell.tm/habarlasmak" target="_blank" style="text-decoration: none">Habarlaşmak</a></li>
-                                </ul>
-                                <p style="margin: 10px auto 0; font-size: 14px; width: 80%; color: #7e7e7e">
-                                    Siz <a style="color: #0063b9; text-decoration: underline; font-weight: 700" href="https://tmcell.tm" target="_blank">tmcell.tm</a> web sahypasynda abuna ýazyldyňyz. <br />
-                                    Abunany ýatyrmak üçin <a style="color: #0063b9; text-decoration: underline; font-weight: 700" href="javascript:void(0)">şu salga basyň.</a>
-                                </p>
+                                <table style="padding:0 48px" align="center" border="0" cellPadding="0" cellSpacing="0"
+                                    role="presentation" width="100%">
+                                    <tbody>
+                                        <tr>
+                                            <td><img alt="TMCELL" src="https://tmcell.tm/static/media/logo.91ef484ec8983a3b9790.png"
+                                                    width="200" height="57"
+                                                    style="display:block;outline:none;border:none;text-decoration:none;text-align:center" />
+                                                <hr
+                                                    style="width:100%;border:none;border-top:1px solid #eaeaea;border-color:#e6ebf1;margin:20px 0" />
+                                                <h2 style="line-height:24px;margin:16px 0;color:#48494d;text-align:center">
+                                                    Täze internet bukja: ${title}</h2>
+                                                <p style="font-size:16px;line-height:24px;margin:16px 0;color:#48494d;text-align:left">
+                                                    Salam!</p>
+                                                <p style="font-size:16px;line-height:24px;margin:16px 0;color:#48494d;text-align:left">
+                                                ${description}</p>
+                                                <p style="font-size:16px;line-height:24px;margin:16px 0;color:#48494d;text-align:left">
+                                                    Giňişleýin tanyşmak üçin aşakdaky düwmä basyň:</p>
+                                                <a href="https://tmcell.tm/internet/${internet.id}" target="_blank"
+                                                    style="background-color:#0063b9;border-radius:5px;color:#fff;font-size:16px;font-weight:bold;text-decoration:none;text-align:center;display:inline-block;width:100%;p-x:10px;p-y:10px;line-height:100%;max-width:100%;padding:10px 10px"><span><!--[if mso]><i style="letter-spacing: 10px;mso-font-width:-100%;mso-text-raise:15" hidden>&nbsp;</i><![endif]--></span><span
+                                                        style="background-color:#0063b9;border-radius:5px;color:#fff;font-size:16px;font-weight:bold;text-decoration:none;text-align:center;display:inline-block;width:100%;p-x:10px;p-y:10px;max-width:100%;line-height:120%;text-transform:none;mso-padding-alt:0px;mso-text-raise:7.5px">Ginişleýin</span><span><!--[if mso]><i style="letter-spacing: 10px;mso-font-width:-100%" hidden>&nbsp;</i><![endif]--></span></a>
+                                                </p>
+                                                <hr
+                                                    style="width:100%;border:none;border-top:1px solid #eaeaea;border-color:#e6ebf1;margin:20px 0" />
+                                                <p style="font-size:12px;line-height:16px;margin:16px 0;color:#8898aa">TMCELL © 217
+                                                    Oguzhan köçesi, Aşgabat şäheri, 744000</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </td>
                         </tr>
-                    </tbody>
-                </table>
-            </div>`,
+                    </table>
+                </body>
+                
+                </html>`,
             });
         });
     }).then(() => {
