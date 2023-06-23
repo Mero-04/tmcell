@@ -156,21 +156,9 @@ router.get("/banner_news", async (req, res) => {
         include: { model: Category },
         order: [
             ['createdAt', 'DESC']
-        ],
-        where: { categoryId: 2 }
-    }).then(async (world_news) => {
-        await News.findAll({
-            limit: 6,
-            include: { model: Category },
-            order: [
-                ['createdAt', 'DESC']
-            ],
-            where: {
-                categoryId: { [Op.notIn]: ["2"] }
-            }
-        }).then((all_news) => {
-            res.json({ world_news: world_news, all_news: all_news })
-        })
+        ]
+    }).then((all_news) => {
+        return res.json({ all_news: all_news })
     })
 })
 
