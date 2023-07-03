@@ -201,6 +201,7 @@ const Internet = sequelize.define("internet", {
     viewed: {
         type: DataTypes.INTEGER, allowNull: true, defaultValue: "0"
     },
+    note: { type: DataTypes.STRING, allowNull: true, },
     checked: { type: DataTypes.TINYINT, allowNull: false, defaultValue: "0" }
 });
 
