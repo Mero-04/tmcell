@@ -47,6 +47,8 @@ router.post("/create", isAdmin, imageUpload.upload.single("internet_icon"), asyn
         price: req.body.price,
         connect_USSD: req.body.connect_USSD,
         note: req.body.note,
+        note_en: req.body.note_en,
+        note_ru: req.body.note_ru,
         internet_icon: req.file.filename,
         checked: "1"
     }).then(async (internet) => {
@@ -134,6 +136,8 @@ router.post("/edit/:internetId", isAdmin, imageUpload.upload.single("internet_ic
         checked: req.body.checked,
         internet_icon: img,
         note: req.body.note,
+        note_en: req.body.note_en,
+        note_ru: req.body.note_ru,
         connect_USSD: req.body.connect_USSD
     }, { where: { id: req.params.internetId } }).then(() => {
         res.json({ success: "Üstünlikli üýtgedildi" })
