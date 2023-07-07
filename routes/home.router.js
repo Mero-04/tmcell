@@ -156,7 +156,8 @@ router.get("/banner_news", async (req, res) => {
         include: { model: Category },
         order: [
             ['createdAt', 'DESC']
-        ]
+        ],
+        checked: "1"
     }).then((all_news) => {
         return res.json({ all_news: all_news })
     })
