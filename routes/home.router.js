@@ -157,7 +157,7 @@ router.get("/banner_news", async (req, res) => {
         order: [
             ['createdAt', 'DESC']
         ],
-        checked: "1"
+        where: { checked: "1" }
     }).then((all_news) => {
         return res.json({ all_news: all_news })
     })
